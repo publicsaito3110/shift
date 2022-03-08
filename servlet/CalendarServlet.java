@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.ScheduleBean;
 import bl.ScheduleBl;
-import common.CommonUtil;
 
 /**
  * Servlet implementation class CalendarServlet
@@ -28,9 +27,13 @@ public class CalendarServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		//文字コードをUTF-8で設定
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("UTF-8");
+
 
 		//---開発用 変数取得 (例:2022-11)----
-		int settingYear = 2022 ;   //好きな変数(年)を入れてください
+		int settingYear = 2022 ;    //好きな変数(年)を入れてください
 		int settingMonth = 11 ;     //好きな変数(月)を入れてください
 		//-----------------------------------
 
@@ -44,7 +47,7 @@ public class CalendarServlet extends HttpServlet {
 
 
 		// 曜日を取得（月：1, 火：2.....日:7）
-		int firstWeek = localDate.getDayOfWeek().getValue();            //第1週
+		int firstWeek = localDate.getDayOfWeek().getValue();   //第1週
 
 
 		//日付けを格納するArrayListを取得
@@ -61,42 +64,29 @@ public class CalendarServlet extends HttpServlet {
 		ScheduleBl bl = new ScheduleBl();
 		List<ScheduleBean> dbList = bl.selectScheduleMonthDB();
 
-		String checkDay = "";       //実際の日付とdbListの日付を揃えてを比較するため
-		int yousositei = 0;     //dbListの要素を指定するため
+		String checkDay = "";       //実際の日付とdbListの日付を揃えてを比較するためための変数
+		int yousositei = 0;        //dbListの要素を指定するための変数
 
 
-		// 日付を設定
+		// カレンダーの日付を設定
 		for(int i = 1; i <= lastDay; i++) {
 
 			ScheduleBean bean = new ScheduleBean();
-			bean.setDay(String.valueOf(i));
+			String StrDay = String.valueOf(i);                          //strDayにi(日付)をStringで格納
+			bean.setDay(StrDay);
 
-
-			checkDay = CommonUtil.formatZero(String.valueOf(i));
+			checkDay = StrDay.length() == 2 ? StrDay : "0" + StrDay;     // iが2桁以外のとき"0"をつける(DBではdayは2桁で格納されているため)
 
 			//dbList(DAOの戻り値)のday と 日付 が同じだったときdbListの値をsetする
 			if( (dbList.get(yousositei).getDay()).equals(checkDay) ) {
 
-				//dbListの要素を指定 + dbListのmemoをbeanへ引き渡す
-				//(dbListのmemoがnullのときは "" をsetして[午前,午後,夜間]画面のみを表示させる)
-
-				/*if(dbList.get(yousositei).getMemo1() == null) {
-					bean.setMemo1("");
-				}*/
-				bean.setMemo1( dbList.get(yousositei).getMemo1() );
-
-				/*if(dbList.get(yousositei).getMemo2() == null) {
-					bean.setMemo2("");
-				}*/
-				bean.setMemo2( dbList.get(yousositei).getMemo2() );
-
-				/*if(dbList.get(yousositei).getMemo3() == null) {
-					bean.setMemo3("");
-				}*/
-				bean.setMemo3( dbList.get(yousositei).getMemo3() );
+				bean.setMemo1(dbList.get(yousositei).getMemo1());
+				bean.setMemo2(dbList.get(yousositei).getMemo2());
+				bean.setMemo3(dbList.get(yousositei).getMemo3());
 
 				yousositei++;
 			}
+
 			dayList.add(bean);
 
 		}

@@ -11,7 +11,7 @@ import java.util.List;
 import bean.ScheduleBean;
 import common.DbConst;
 
-public class SeachScheduleDao {
+public class ScheduleSeachDao {
 
 
 		//-------1ヵ月分のスケジュールを取得するメソッド---------------------------------------------------

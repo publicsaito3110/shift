@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.ScheduleBean;
-import dao.ModifyScheduleDao;
-import dao.SeachScheduleDao;
+import dao.ScheduleModifyDao;
+import dao.ScheduleSeachDao;
 
 public class ScheduleBl {
 
@@ -15,7 +15,7 @@ public class ScheduleBl {
 
 		//DAOの戻り値をscheduleListで受け取る
 		List<ScheduleBean> scheduleList = new ArrayList<>();
-		SeachScheduleDao dao = new SeachScheduleDao();
+		ScheduleSeachDao dao = new ScheduleSeachDao();
 		scheduleList = dao.selectScheduleMonthDB();
 
 		return scheduleList;
@@ -26,7 +26,7 @@ public class ScheduleBl {
 
 		//DAOの戻り値をscheduleListで受け取る
 			List<ScheduleBean> scheduleList = new ArrayList<>();
-			SeachScheduleDao dao = new SeachScheduleDao();
+			ScheduleSeachDao dao = new ScheduleSeachDao();
 			scheduleList = dao.selectScheduleDayDB(ymd);
 
 			return scheduleList;
@@ -36,7 +36,7 @@ public class ScheduleBl {
 	public boolean modifyScheduleDay(List<ScheduleBean> bean) {
 
 		//DAOの戻り値を modifyResult で受け取る
-		ModifyScheduleDao dao = new ModifyScheduleDao();
+		ScheduleModifyDao dao = new ScheduleModifyDao();
 		boolean modifyResult = dao.modifyScheduleDB(bean);
 
 		return modifyResult;

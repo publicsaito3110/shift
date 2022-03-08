@@ -6,16 +6,29 @@ public class CommonUtil {
 		// インスタンス化できないように設定
 	}
 
-	public static String formatZero(String val) {
 
-		String checkDay = "";
+	public static String ymdFormatEight(String year, String month, String day) {
 
-		if (val.length() == 2) {
-			checkDay = (val);
-		} else {
-			checkDay = ("0" + val);
+		if (day.length() != 2) {
+			day = "0" + day;
 		}
 
-		return checkDay;
+		String ymd = year + month + day;
+
+		return ymd;
+	}
+
+
+	public static String changeNull(String value) {
+
+		String check = "";
+
+		if (value != null && value.equals("") ) {
+			check = null;
+		} else {
+			check = value;
+		}
+
+	return check;
 	}
 }

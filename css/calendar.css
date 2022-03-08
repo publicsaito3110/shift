@@ -1,0 +1,85 @@
+/*カレンダーの設定*/
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.calendar-wrap {
+	width: 500px;
+	background: #eee;
+	color: #333;
+}
+
+a {
+    text-decoration:none;
+}
+
+h1 {
+	line-height: 100px;
+	text-align: center;
+	font-size: 30px;
+}
+
+.calendar {
+	padding: 0px;
+	width: 100%;
+	table-layout: fixed;
+	border: ssssss3px;
+	border-color: #CCC;
+}
+
+th, td {
+	padding-bottom: 50px;
+	background-color: #fff;
+}
+
+th {
+	font-size: 25px;
+	border: none;
+	padding: 10px 0px 5px 0px;
+	height: 37px;
+	vertical-align: baseline;
+	background-color: #f6efdb;
+}
+
+td {
+	padding: 0px 0px 5px 5px;
+	height: 110px;
+	font-weight: bold;
+	vertical-align: top;
+	position:relative;
+}
+
+.memo1{
+	text-align: left;
+	position: absolute;
+	top: 25%;
+	transform: translateY(-50%)
+}
+
+.memo2{
+	text-align: left;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%)
+}
+
+.memo3{
+	text-align: left;
+	position: absolute;
+	top: 75%;
+	transform: translateY(-50%)
+}
+
+.sun {
+	color: orangered;
+}
+
+.sat {
+	color: #0000b6;
+}
+
+.text-balack{
+	color: black;
+}

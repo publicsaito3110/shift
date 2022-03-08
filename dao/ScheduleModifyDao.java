@@ -9,7 +9,7 @@ import java.util.List;
 import bean.ScheduleBean;
 import common.DbConst;
 
-public class ModifyScheduleDao {
+public class ScheduleModifyDao {
 
 	public boolean modifyScheduleDB(List<ScheduleBean> modifyList){
 

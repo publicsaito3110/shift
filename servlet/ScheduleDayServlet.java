@@ -37,14 +37,9 @@ public class ScheduleDayServlet extends HttpServlet {
 		String month = request.getParameter("month");
 		String day = request.getParameter("day");
 
-		String ymd = "";      //DAOに渡すためのymd
+		//dayが2桁でないときdayに"0"をつける
+		String ymd = day.length() == 2 ? year + month + day : year + month + "0" + day;
 
-		//dayが1桁のとき0をつける 例) "1" => "01"
-		if (day.length() == 1) {
-			ymd = year + month + "0" + day;
-		} else {
-			ymd = year + month + day;
-		}
 
 		//BLの戻り値をdbListで受け取る
 		ScheduleBl bl = new ScheduleBl();
@@ -69,7 +64,7 @@ public class ScheduleDayServlet extends HttpServlet {
 		request.setAttribute("memo3", memo3);
 
 		// 画面遷移
-		request.getRequestDispatcher("/WEB-INF/jsp/scheduleDay.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/schedule-day.jsp").forward(request, response);
 
 	}
 
