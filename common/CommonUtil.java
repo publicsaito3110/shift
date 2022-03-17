@@ -7,10 +7,24 @@ public class CommonUtil {
 	}
 
 
-	public static String ymdFormatEight(String year, String month, String day) {
+	public static String dayFormatTwo(String day) {   //day を(String2文字)で返す
 
-		if (day.length() != 2) {
+		if(day.length() != 2) {
 			day = "0" + day;
+		}
+
+		return day;
+	}
+
+
+	public static String ymdFormatEight(String year, String month, String day) {   //year, month, day をymd(String8文字)で返す
+
+		if(day.length() != 2) {
+			day = "0" + day;
+		}
+
+		if(month.length() != 2) {
+			month = "0" + month;
 		}
 
 		String ymd = year + month + day;
@@ -19,40 +33,63 @@ public class CommonUtil {
 	}
 
 
-	public static String changeNull(String value) {
+	public static String changeNull(String value) {           //引数が ""かつ != null のときnullを返すメソッド
 
-		String check = "";
-
-		if (value != null && value.equals("") ) {
-			check = null;
-		} else {
-			check = value;
+		if(value != null && value.equals("")) {
+			value = null;
 		}
 
-	return check;
+		return value;
 	}
 
 
-	//----------バリデーションチェック--------------------------------------------------------
-	public static boolean validIdStatus(String id) {       //idをチェック
+	public static boolean typeSQLCheck(String sqlType) {    //typeSQLが INSERT,UPDATE,DELETE のときtrueを返すメソッド
 
 		boolean result = false;
-		String match = "^[0-9a-zA-Z]$"; //半角英数字ならtrue
 
-		if (id.matches(match) && id.length() == 4) {   //match + 4文字であればtrueを返す
+		if(sqlType == "INSERT" || sqlType == "UPDATE" || sqlType == "DELETE") {
 			result = true;
 		}
 
 		return result;
 	}
 
-	public static boolean validNameStatus(String name) {       //nameをチェック
+	//---------------------------------------------------------
+	//入力値のバリデーションチェック(patternと一致していればtrueを返す)
+	//---------------------------------------------------------
+
+	public static boolean validIdStatus(String id) {                //idをチェック
 
 		boolean result = false;
-		String match = "^[a-zA-Zぁ-んァ-ヶ亜-熙]*$"; //半角英字,全角かなカナ漢字であればtrue
 
-		if (name.matches(match)) {   //match + 20文字未満であればtrueを返す
-			result = true;
+		//半角英数字
+		String   pattern = "^[" + Const.valiAlpha + Const.valiNum + "]+$";
+
+		try {
+			if(id.length() == 4) {                   //idが4文字であればバリデーションチェック
+				result = id.matches(pattern);
+				return result;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public static boolean validNameStatus(String name) {              //nameをチェック
+
+		boolean result = false;
+
+		//半角英字,全角かなカナ漢字,半角スペース
+		String pattern = "^[" + Const.valiAlpha + Const.valiGana + Const.valiKana + Const.valiKanji + Const.valiAllowKigou + Const.valiNum + "]+$";
+
+		try {
+			if(name.length() <= 20) {                    //nameが20文字未満であればバリデーションチェック
+				result = name.matches(pattern);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
 
 		return result;
@@ -61,24 +98,41 @@ public class CommonUtil {
 	public static boolean validNameKanaStatus(String nameKana) {       //nameKanaをチェック
 
 		boolean result = false;
-		String match = "^[ァ-ヶー]$"; //全角カタカナであればtrue
 
-		if (nameKana.matches(match) && nameKana.length() <= 40) {   //match + 40文字未満であればtrueを返す
-			result = true;
-		}else if(nameKana.equals("")) {                            //nameKanaが""であればtrue(任意のため)を返す
-			result = true;
+		//全角カタカナ
+		String pattern = "^[" + Const.valiKana + "]+$";
+
+		try {
+			if(nameKana.isEmpty()) {                      //nameKanaが""であればtrue(任意のため)
+				result = true;
+				return result;
+			}
+
+			if(nameKana.length() <= 40) {          //nameKanaが40文字未満であればバリデーションチェック
+				result = nameKana.matches(pattern);
+				return result;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
 
 		return result;
 	}
 
-	public static boolean validGenderStatus(String gender) {       //genderをチェック
+	public static boolean validGenderStatus(String gender) {            //genderをチェック
 
 		boolean result = false;
-		String match = "1|2"; //1または2 + 1文字ならtrue
 
-		if (gender.matches(match) && gender.length() == 1) {        //match + 1文字であればtrueを返す
-			result = true;
+		//1または2
+		String pattern = Const.valiGender;
+
+		try {
+			if(gender.length() == 1) {                     //genderが1文字であればバリデーションチェック
+				result = gender.matches(pattern);
+				return result;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
 
 		return result;

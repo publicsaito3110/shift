@@ -14,8 +14,10 @@ import common.DbConst;
 public class UserInfoDao {
 
 
-	//-------登録済みのユーザを取得するメソッド---------------------------------------------------
-	public List<UserInfoBean> selectUserInfoDB() {
+	//----------------------------------------------
+	//登録済みのユーザ全員を取得するメソッド
+	//----------------------------------------------
+	public List<UserInfoBean> selectUserInfoAllDB() {
 
 
 		//JDBCの接続に使用するオブジェクトを宣言
@@ -86,8 +88,88 @@ public class UserInfoDao {
 	}
 
 
+	//------------------------------------
+	//1人のユーザを取得するメソッド
+	//------------------------------------
+	public List<UserInfoBean> selectUserInfoPerDB(String id) {
 
-	//----------ユーザを新規登録するメソッド--------------------------------------------------
+
+		//JDBCの接続に使用するオブジェクトを宣言
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		List<UserInfoBean> beanList = new ArrayList<UserInfoBean>();
+
+		try {
+
+			Class.forName(DbConst.DRIVER_NAME);
+
+			//conにDB情報を入れる
+			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+
+			//SQL発行
+			StringBuffer buf = new StringBuffer();
+			buf.append("SELECT ID, NAME, NAME_KANA, GENDER FROM USER WHERE ID = ? ORDER BY ID");
+
+			//SQLをセット
+			ps = con.prepareStatement(buf.toString());
+
+			//   ? にパラメータをセット
+			ps.setString(1, id);
+
+
+			//SQLの結果を取得
+			rs = ps.executeQuery();
+
+			//結果をさらに抽出
+			while (rs.next()) {
+				UserInfoBean bean = new UserInfoBean();
+				//ymdからday部分のみを抽出し、beanにsetする
+				bean.setId(rs.getString("id"));
+				bean.setName(rs.getString("name"));
+				bean.setNameKana(rs.getString("name_kana"));
+				bean.setGender(rs.getString("gender"));
+
+				beanList.add(bean);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			//DBの接続解除
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return beanList;
+	}
+
+
+
+	//----------------------------------
+	//ユーザを新規登録するメソッド
+	//----------------------------------
 	public boolean sighnUpUserDB(List<UserInfoBean> userInfoList){
 
 		//実行結果を取得
@@ -170,4 +252,94 @@ public class UserInfoDao {
 
 		return sighnUpResult;
 	}
+
+	//---------------------------------
+	//ユーザ情報を更新するメソッド
+	//---------------------------------
+	public boolean updateUserDB(List<UserInfoBean> userInfoList){
+
+		//実行結果を取得
+		boolean upDateResult = false;
+
+		//JDBCの接続に使用するオブジェクトを宣言
+		Connection con = null;
+		PreparedStatement ps = null;
+
+
+		try {
+
+			Class.forName(DbConst.DRIVER_NAME);
+
+			//conにDB情報を入れる
+			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+
+			//オートコミットをオフにする（トランザクション開始)
+			con.setAutoCommit(false);
+
+			//SQL発行
+			StringBuffer buf = new StringBuffer();
+			buf.append("UPDATE ");
+			buf.append(" USER ");
+			buf.append(" SET ");
+			buf.append(" NAME = ?, ");
+			buf.append(" NAME_KANA = ?, ");
+			buf.append(" GENDER = ? ");
+			buf.append(" WHERE ID = ? ");
+			buf.append(" ; ");
+
+			//SQLをセット
+			ps = con.prepareStatement(buf.toString());
+
+			//パラメーターをセット
+			ps.setString(1, userInfoList.get(0).getName());
+			ps.setString(2, userInfoList.get(0).getNameKana());
+			ps.setString(3, userInfoList.get(0).getGender());
+			ps.setString(4, userInfoList.get(0).getId());
+
+			//SQLを実行
+			ps.executeUpdate();
+
+			//SQL実行の成功結果を反映
+			upDateResult = true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+
+			//トランザクションの終了
+			if(upDateResult){    //SQLの実行成功時、明示的にコミットを実施
+				try {
+					con.commit();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else{              //SQLの実行失敗時、明示的にロールバックを実施
+				try {
+					con.rollback();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			//DBの接続解除
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return upDateResult;
+	}
+
 }

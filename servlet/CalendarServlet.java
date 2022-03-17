@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.ScheduleBean;
 import bl.ScheduleBl;
+import common.CommonUtil;
 
 /**
  * Servlet implementation class CalendarServlet
@@ -22,9 +23,10 @@ import bl.ScheduleBl;
 public class CalendarServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		//文字コードをUTF-8で設定
@@ -55,7 +57,7 @@ public class CalendarServlet extends HttpServlet {
 
 		//[カレンダー]日曜日～初日の曜日の直前に null を代入し揃える
 		if(firstWeek != 7) {
-			for( int i = 1; i <= firstWeek; i++) {      //曜日の取得 7 1 2 3 4 5 6 なので
+			for(int i = 1; i <= firstWeek; i++) {      //曜日の取得 7 1 2 3 4 5 6 なので
 				dayList.add(null);                      //初日が日曜を除く取得した曜日の回数分代入する
 			}
 		}
@@ -64,21 +66,20 @@ public class CalendarServlet extends HttpServlet {
 		ScheduleBl bl = new ScheduleBl();
 		List<ScheduleBean> dbList = bl.selectScheduleMonthDB();
 
-		String checkDay = "";       //実際の日付とdbListの日付を揃えてを比較するためための変数
-		int yousositei = 0;        //dbListの要素を指定するための変数
 
+		int yousositei = 0;        //dbListの要素を指定するための変数
 
 		// カレンダーの日付を設定
 		for(int i = 1; i <= lastDay; i++) {
 
 			ScheduleBean bean = new ScheduleBean();
-			String StrDay = String.valueOf(i);                          //strDayにi(日付)をStringで格納
-			bean.setDay(StrDay);
+			String strDay = String.valueOf(i);
+			bean.setDay(strDay);
 
-			checkDay = StrDay.length() == 2 ? StrDay : "0" + StrDay;     // iが2桁以外のとき"0"をつける(DBではdayは2桁で格納されているため)
+			String day = CommonUtil.dayFormatTwo(strDay);
 
-			//dbList(DAOの戻り値)のday と 日付 が同じだったときdbListの値をsetする
-			if( (dbList.get(yousositei).getDay()).equals(checkDay) ) {
+			//dbList(DAOの戻り値)のdayと実際の日付(checkDay)が同じだったときdbListの値をsetする
+			if((dbList.get(yousositei).getDay()).equals(day)) {
 
 				bean.setMemo1(dbList.get(yousositei).getMemo1());
 				bean.setMemo2(dbList.get(yousositei).getMemo2());

@@ -11,21 +11,19 @@
 
 	<h3>ログインフォーム</h3>
 
-	<form action="LogInServlet" method="post" >
+	<form action="LoginServlet" method="post" >
 		<p>ユーザーID:
-			<input type ="text" name="USER_ID"></input>
+			<input type ="text" name="userId"></input>
 		</p>
-		<p>ユーザーパスワード:
-			<input type="text" name="USER_PASSWORD"></input>
+		<p>パスワード:
+			<input type="password" name="userPassword"></input>
 		</p>
 		<br>
 		<input type="submit" value="ログイン"></input>
 	</form>
 
-<style>
 
-</style>
-
+	<p>${err}</p>
 
 </body>
 </html>

@@ -11,7 +11,7 @@ public class ScheduleBean {
 	private String typeIUD;
 
 
-	// getter / setter
+	// getter, setter
 	public String getDay() {
 		return day;
 	}

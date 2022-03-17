@@ -4,41 +4,59 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.ScheduleBean;
-import dao.ScheduleModifyDao;
-import dao.ScheduleSeachDao;
+import dao.ScheduleDao;
 
 public class ScheduleBl {
 
 
-	//カレンダーに1ヵ月分のスケジュールを表示するメソッド--------------------------------
-	public List<ScheduleBean> selectScheduleMonthDB(){
+	public List<ScheduleBean> selectScheduleMonthDB(){        //カレンダーに1ヵ月分のスケジュールを表示するメソッド
 
 		//DAOの戻り値をscheduleListで受け取る
 		List<ScheduleBean> scheduleList = new ArrayList<>();
-		ScheduleSeachDao dao = new ScheduleSeachDao();
+		ScheduleDao dao = new ScheduleDao();
 		scheduleList = dao.selectScheduleMonthDB();
 
 		return scheduleList;
 	}
 
-	//指定された日付のスケジュールを取得するメソッド---------------------------------------
-	public List<ScheduleBean> searchScheduleDay(String ymd) {
+
+	public List<ScheduleBean> searchScheduleDay(String ymd) {   //指定された日付のスケジュールを取得するメソッド
 
 		//DAOの戻り値をscheduleListで受け取る
 			List<ScheduleBean> scheduleList = new ArrayList<>();
-			ScheduleSeachDao dao = new ScheduleSeachDao();
+			ScheduleDao dao = new ScheduleDao();
 			scheduleList = dao.selectScheduleDayDB(ymd);
 
 			return scheduleList;
 	}
 
-	//指定された日付のスケジュールを変更するメソッド-----------------------------------------
-	public boolean modifyScheduleDay(List<ScheduleBean> bean) {
+
+	public boolean insertScheduleDB(List<ScheduleBean> beanList) {   //スケジュールをINSERTするメソッド
 
 		//DAOの戻り値を modifyResult で受け取る
-		ScheduleModifyDao dao = new ScheduleModifyDao();
-		boolean modifyResult = dao.modifyScheduleDB(bean);
+		ScheduleDao dao = new ScheduleDao();
+		boolean result = dao.insertScheduleDB(beanList);
 
-		return modifyResult;
+		return result;
+	}
+
+
+	public boolean updateScheduleDB(List<ScheduleBean> beanList) {            //スケジュールをUPDATEするメソッド
+
+		//DAOの戻り値を modifyResult で受け取る
+		ScheduleDao dao = new ScheduleDao();
+		boolean result = dao.updateScheduleDB(beanList);
+
+		return result;
+	}
+
+
+	public boolean deleteScheduleDB(List<ScheduleBean> beanList) {            //スケジュールをDELETEするメソッド
+
+		//DAOの戻り値を modifyResult で受け取る
+		ScheduleDao dao = new ScheduleDao();
+		boolean result = dao.deleteScheduleDB(beanList);
+
+		return result;
 	}
 }

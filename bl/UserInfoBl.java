@@ -8,13 +8,13 @@ import dao.UserInfoDao;
 
 public class UserInfoBl {
 
-	//---------登録しているユーザを表示するメソッド-------------------------------
-	public List<UserInfoBean> userSearchDB(){
+	//---------登録しているユーザ全員を表示するメソッド-------------------------------
+	public List<UserInfoBean> userAllSearchDB(){
 
 		//DAOの戻り値をuserInfoListで受け取る
 		List<UserInfoBean> userInfoList = new ArrayList<>();
 		UserInfoDao dao = new UserInfoDao();
-		userInfoList = dao.selectUserInfoDB();
+		userInfoList = dao.selectUserInfoAllDB();
 
 		return userInfoList;
 	}
@@ -29,5 +29,24 @@ public class UserInfoBl {
 		return sighnUpResult;
 	}
 
+
+	//---------1人のユーザ詳細を取得するメソッド-----------------------------------------
+	public List<UserInfoBean> userPerSeachDB(String id){
+		//DAOの戻り値をuserInfoListで受け取る
+		List<UserInfoBean> userInfoList = new ArrayList<>();
+		UserInfoDao dao = new UserInfoDao();
+		userInfoList = dao.selectUserInfoPerDB(id);
+
+		return userInfoList;
+	}
+
+	//---------1人のユーザ情報を更新メソッド-----------------------------------------
+	public boolean updateUserDB(List<UserInfoBean> userList){
+		//DAOの戻り値をUpdateResultで受け取る
+		UserInfoDao dao = new UserInfoDao();
+		boolean UpdateResult = dao.updateUserDB(userList);
+
+		return UpdateResult;
+	}
 
 }

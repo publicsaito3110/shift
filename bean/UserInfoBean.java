@@ -9,7 +9,7 @@ public class UserInfoBean {
 	private String gender;
 
 
-	//getter/setter
+	//getter, setter
 	public String getId() {
 		return id;
 	}

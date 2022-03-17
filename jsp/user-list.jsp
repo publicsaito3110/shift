@@ -12,12 +12,16 @@
 	<h1>ユーザー一覧</h1>
 
 	<table border="1" cellspacing="0">
+	<thead><tr>
 		<th>ID</th>
 		<th>ユーザー名</th>
 		<th>カナ</th>
 		<th>性別</th>
 		<th>更新</th>
+		</tr>
+	</thead>
 
+	<tbody>
 		<c:forEach var="b" items="${dbList}" varStatus="status">
 			<tr>
 				<td>${b.id}</td>
@@ -33,14 +37,21 @@
     					</c:otherwise>
 					</c:choose>
 				</td>
-				<td>更新ボタン</td>
+				<td>
+					<form action="UserInfoOneServlet" method="post">
+						<button type="submit" name="id" value="${b.id}">更新する</button>
+					</form>
+				</td>
 			</tr>
 		</c:forEach>
+	</tbody>
 	</table>
 	<br>
-	<a href="UserSighnUpServlet">新規登録</a>
+	<a href="UserSignUpServlet">新規登録</a>
 
 </body>
+<style>
 
+</style>
 
 </html>

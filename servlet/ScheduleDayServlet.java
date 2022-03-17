@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.ScheduleBean;
 import bl.ScheduleBl;
+import common.CommonUtil;
 
 /**
  * Servlet implementation class CalendarServlet
@@ -31,6 +32,8 @@ public class ScheduleDayServlet extends HttpServlet {
 		String memo2 = null;
 		String memo3 = null;
 
+		boolean afterFormFlag = false;    //Form後かどうかの判定
+
 
 		//スケジュールの修正 calendar.jspから受け取る
 		String year = request.getParameter("year");
@@ -38,7 +41,7 @@ public class ScheduleDayServlet extends HttpServlet {
 		String day = request.getParameter("day");
 
 		//dayが2桁でないときdayに"0"をつける
-		String ymd = day.length() == 2 ? year + month + day : year + month + "0" + day;
+		String ymd = CommonUtil.ymdFormatEight(year, month, day);
 
 
 		//BLの戻り値をdbListで受け取る
@@ -62,6 +65,7 @@ public class ScheduleDayServlet extends HttpServlet {
 		request.setAttribute("memo1", memo1);
 		request.setAttribute("memo2", memo2);
 		request.setAttribute("memo3", memo3);
+		request.setAttribute("afterFormFlag", afterFormFlag);
 
 		// 画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/schedule-day.jsp").forward(request, response);
