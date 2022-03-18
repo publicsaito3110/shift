@@ -58,12 +58,23 @@ public class UserSignUpServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String nameKana = request.getParameter("nameKana");
 		String gender = request.getParameter("gender");
+		String password = request.getParameter("password");
+		String address = request.getParameter("address");
+		String tel = request.getParameter("tel");
+		String email = request.getParameter("email");
+		String note = request.getParameter("note");
 
-		//バリデーションチェックのエラーテキスト
+		//バリデーションチェックのエラーテキスト(バリデーションエラー時に追加する)
 		String erId = "";
 		String erName = "";
 		String erNameKana = "";
 		String erGender = "";
+		String erPassword = "";
+		String erAddress = "";
+		String erTel = "";
+		String erEmail = "";
+		String erNote = "";
+
 
 
 		//--------------------------
@@ -73,8 +84,13 @@ public class UserSignUpServlet extends HttpServlet {
 		boolean vali2 = CommonUtil.validNameStatus(name);
 		boolean vali3 = CommonUtil.validNameKanaStatus(nameKana);
 		boolean vali4 = CommonUtil.validGenderStatus(gender);
+		boolean vali5 = CommonUtil.validPasswordStatus(password);
+		boolean vali6 = CommonUtil.validAddressrStatus(address);
+		boolean vali7 = CommonUtil.validTelStatus(tel);
+		boolean vali8 = CommonUtil.validEmailStatus(email);
+		boolean vali9 = CommonUtil.validNoteStatus(email);
 
-		if(!vali1 || !vali2 || !vali3 || !vali4) {         //バリデーションチェックが1つでもアウトのとき
+		if(!vali1 || !vali2 || !vali3 || !vali4 || !vali5 || !vali6 || !vali7 || !vali8 || !vali9) {         //バリデーションチェックが1つでもアウトのとき
 
 			//バリデーションチェックがエラーのときエラ－テキストをセットする
 			if(!vali1) {     //idがアウトのとき
@@ -89,16 +105,41 @@ public class UserSignUpServlet extends HttpServlet {
 			if(!vali4) {     //genderがアウトのとき
 				erGender = Const.erGender;
 			}
+			if(!vali5) {     //passwordがアウトのとき
+				erPassword = Const.erPassword;
+			}
+			if(!vali6) {     //addressがアウトのとき
+				erAddress = Const.erAddress;
+			}
+			if(!vali7) {     //telがアウトのとき
+				erTel = Const.erTel;
+			}
+			if(!vali8) {     //emailがアウトのとき
+				erEmail = Const.erEmail;
+			}
+			if(!vali9) {     //emailがアウトのとき
+				erNote = Const.erNote;
+			}
 
 			//エラーの情報と入力された値を返す
 			request.setAttribute("erId", erId);
 			request.setAttribute("erName", erName);
 			request.setAttribute("erNameKana", erNameKana);
 			request.setAttribute("erGender", erGender);
+			request.setAttribute("erPassword", erPassword);
+			request.setAttribute("erAddress", erAddress);
+			request.setAttribute("erTel", erTel);
+			request.setAttribute("erEmail", erEmail);
+			request.setAttribute("erNote", erNote);
 			request.setAttribute("sighnUpResult", sighnUpResult);
 			request.setAttribute("id", id);
 			request.setAttribute("name", name);
 			request.setAttribute("nameKana", nameKana);
+			request.setAttribute("password", password);
+			request.setAttribute("address", address);
+			request.setAttribute("tel", tel);
+			request.setAttribute("email", email);
+			request.setAttribute("note", note);
 			request.setAttribute("resulText", "[エラー] 入力値が不正です");
 
 			//画面遷移
@@ -106,6 +147,9 @@ public class UserSignUpServlet extends HttpServlet {
 			return;
 		}
 
+
+		//エスケープ処理
+		note = CommonUtil.replaceEscapeChar(note);
 
 		//------------
 		//SQLの実行
@@ -118,6 +162,11 @@ public class UserSignUpServlet extends HttpServlet {
 		bean.setName(name);
 		bean.setNameKana(nameKana);
 		bean.setGender(gender);
+		bean.setPassword(password);
+		bean.setAddress(address);
+		bean.setTel(tel);
+		bean.setEmail(email);
+		bean.setNote(note);
 
 		userInfoList.add(bean);
 
@@ -130,6 +179,11 @@ public class UserSignUpServlet extends HttpServlet {
 		request.setAttribute("erName", erName);
 		request.setAttribute("erNameKana", erNameKana);
 		request.setAttribute("erGender", erGender);
+		request.setAttribute("erPassword", erPassword);
+		request.setAttribute("erAddress", erAddress);
+		request.setAttribute("erTel", erTel);
+		request.setAttribute("erEmail", erEmail);
+		request.setAttribute("erNote", erNote);
 		request.setAttribute("sighnUpResult", sighnUpResult);
 
 
@@ -142,6 +196,11 @@ public class UserSignUpServlet extends HttpServlet {
 			request.setAttribute("id", id);
 			request.setAttribute("name", name);
 			request.setAttribute("nameKana", nameKana);
+			request.setAttribute("password", password);
+			request.setAttribute("address", address);
+			request.setAttribute("tel", tel);
+			request.setAttribute("email", email);
+			request.setAttribute("note", note);
 			request.setAttribute("resulText", "[エラー] 新規登録に失敗しました");
 			//画面遷移
 			request.getRequestDispatcher("/WEB-INF/jsp/sign-up.jsp").forward(request, response);
