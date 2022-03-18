@@ -40,6 +40,36 @@
 					<span>${erGender}</span>
 				</td>
 			</tr>
+			<tr>
+				<th>パスワード</th>
+				<td>
+					<input type="password" name="password" value="${password}"><span>${erPassword}</span>
+				</td>
+			</tr>
+			<tr>
+				<th>住所</th>
+				<td>
+					<input type="text" name="address" value="${address}" placeholder="東京都新宿区○○町1-1"><span>${erAddress}</span>
+				</td>
+			</tr>
+			<tr>
+				<th>TEL</th>
+				<td>
+					<input type="tel" name="tel" value="${tel}" placeholder="01234567890"><span>${erTel}</span>
+				</td>
+			</tr>
+			<tr>
+				<th>メール</th>
+				<td>
+					<input type="email" name="email" value="${email}"><span>${erEmail}</span>
+				</td>
+			</tr>
+			<tr>
+				<th>備考</th>
+				<td>
+					<input type="text" name="note" value="${note}"><span>${erNote}</span>
+				</td>
+			</tr>
 		</table>
 		<br>
 		<input type="submit" value="登録">
