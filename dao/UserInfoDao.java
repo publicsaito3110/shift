@@ -194,9 +194,9 @@ public class UserInfoDao {
 			StringBuffer buf = new StringBuffer();
 			buf.append("INSERT INTO ");
 			buf.append(" USER ");
-			buf.append(" (ID, NAME, NAME_KANA, GENDER) ");
+			buf.append(" (ID, NAME, NAME_KANA, GENDER, PASSWORD, ADRESS, TEL, EMAIL, NOTE) ");
 			buf.append(" VALUES ");
-			buf.append(" (?, ?, ?, ?) ; ");
+			buf.append(" (?, ?, ?, ?, ?, ?, ?, ?, ?) ; ");
 
 			//SQLをセット
 			ps = con.prepareStatement(buf.toString());
@@ -206,6 +206,11 @@ public class UserInfoDao {
 			ps.setString(2, userInfoList.get(0).getName());
 			ps.setString(3, userInfoList.get(0).getNameKana());
 			ps.setString(4, userInfoList.get(0).getGender());
+			ps.setString(5, userInfoList.get(0).getPassword());
+			ps.setString(6, userInfoList.get(0).getAddress());
+			ps.setString(7, userInfoList.get(0).getTel());
+			ps.setString(8, userInfoList.get(0).getEmail());
+			ps.setString(9, userInfoList.get(0).getNote());
 
 			//SQLを実行
 			ps.executeUpdate();
