@@ -9,6 +9,11 @@
 </head>
 <body>
 	<jsp:include page="header.jsp" flush="true" />
+
+
+	<div style="float:left"><a href="CalendarServlet?ym=${beforeYm}">前の月へ</a></div>
+	<div style="float:right"><a href="CalendarServlet?ym=${afterYm}">次の月へ</a></div>
+
 	<div class="calendar-wrap_">
 
 		<%-- カレンダー1行目 --%>

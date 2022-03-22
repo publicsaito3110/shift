@@ -8,6 +8,6 @@
 <body>
 	<h1>ログアウトしました</h1>
 
-	<a href = "/WEB-INF/jsp/login.jsp">ログイン画面へ戻る</a>
+	<a href = "LoginServlet">ログイン画面へ戻る</a>
 </body>
 </html>

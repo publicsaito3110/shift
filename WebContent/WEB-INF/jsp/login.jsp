@@ -13,10 +13,10 @@
 
 	<form action="LoginServlet" method="post" >
 		<p>ユーザーID:
-			<input type ="text" name="userId"></input>
+			<input type ="text" name="id"></input>
 		</p>
 		<p>パスワード:
-			<input type="password" name="userPassword"></input>
+			<input type="password" name="password"></input>
 		</p>
 		<br>
 		<input type="submit" value="ログイン"></input>

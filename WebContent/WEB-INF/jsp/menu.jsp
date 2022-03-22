@@ -9,7 +9,9 @@
 <html>
 <body>
 
-	<h1>ようこそXさん</h1>
+
+
+	<h1>ようこそ${name}さん</h1>
 
 	<form action="CalendarServlet" method="post">
 		<input type="submit" value="スケジュール">

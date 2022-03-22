@@ -35,6 +35,9 @@
 				<th>性別</th>
 				<td>
 					  <%--入力値(男か女)によってradioのチェックを分岐 --%>
+							<input type="radio" name="gender" value="1" ${checkdGender1} >男
+							<input type="radio" name="gender" value="2" ${checkdGender2} >女
+
 					<c:choose>
 						<c:when test="${gender == 2}">
 							<input type="radio" name="gender" value="1">男
