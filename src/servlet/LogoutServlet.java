@@ -1,0 +1,46 @@
+package servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Servlet implementation class LogoutServlet
+ */
+@WebServlet("/LogoutServlet")
+public class LogoutServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+    public LogoutServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
+	}
+
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+		//セッションのデータを取得
+		HttpSession session = request.getSession();
+		String sessionName = (String)session.getAttribute("USERINFO") ;
+
+		//セッションがないとき
+		if(sessionName == null) {
+
+		}
+
+		//セッションを破棄
+		session.invalidate();
+
+		request.getRequestDispatcher("/WEB-INF/jsp/logout.jsp").forward(request,response);    //ログアウト画面へ
+	}
+}

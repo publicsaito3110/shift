@@ -14,6 +14,7 @@ import bean.UserInfoBean;
 import bean.ValidationBean;
 import bl.UserInfoBl;
 import common.CommonUtil;
+import common.ValidationUtil;
 
 /**
  * Servlet implementation class UserSignUpServlet
@@ -27,7 +28,7 @@ public class UserSignUpServlet extends HttpServlet {
      */
     public UserSignUpServlet() {
         super();
-        // TODO Auto-generated constructor stub
+        // Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -88,7 +89,7 @@ public class UserSignUpServlet extends HttpServlet {
 		//バリデーションチェック
 		//--------------------------
 		List <ValidationBean> valiList = new ArrayList<>();
-		valiList = CommonUtil.validInputAllStatus(userInfoList);
+		valiList = ValidationUtil.validInputAllStatus(userInfoList);
 
 
 		boolean vali1 = valiList.get(0).isValiId();
@@ -144,9 +145,7 @@ public class UserSignUpServlet extends HttpServlet {
 		}
 
 
-		//----------------
 		//エスケープ処理
-		//----------------
 		note = CommonUtil.replaceEscapeChar(note);
 
 

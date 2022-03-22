@@ -14,6 +14,7 @@ import bean.UserInfoBean;
 import bean.ValidationBean;
 import bl.UserInfoBl;
 import common.CommonUtil;
+import common.ValidationUtil;
 
 /**
  * Servlet implementation class UserInfoChangeServlet
@@ -85,7 +86,7 @@ public class UserInfoChangeServlet extends HttpServlet {
 		//バリデーションチェック
 		//-------------------------
 		List <ValidationBean> valiList = new ArrayList<>();
-		valiList = CommonUtil.validInputAllStatus(userInfoList);
+		valiList = ValidationUtil.validInputAllStatus(userInfoList);
 
 		//バリデーションチェックの結果を抽出
 		boolean vali1 = valiList.get(0).isValiId();

@@ -46,7 +46,7 @@ public class UserInfoOneServlet extends HttpServlet {
 		//BLの戻り値をdbListで受け取る
 		List<UserInfoBean> dbList = new ArrayList<>();
 		UserInfoBl bl = new UserInfoBl();
-		dbList = bl.userOneSeachDB(id);
+		dbList = bl.selectUserOneDB(id);
 
 
 		// 引き渡す値を設定

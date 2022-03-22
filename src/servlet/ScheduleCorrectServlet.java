@@ -54,7 +54,7 @@ public class ScheduleCorrectServlet extends HttpServlet {
 		String day = request.getParameter("day");
 
 		//dayが2桁でないときdayに"0"をつける
-		String ymd = CommonUtil.ymdFormatEight(year, month, day);
+		String ymd = CommonUtil.ymdFormatEightByString(year, month, day);
 
 		String afterMemo1 = request.getParameter("afterMemo1");
 		String afterMemo2 = request.getParameter("afterMemo2");
@@ -86,7 +86,7 @@ public class ScheduleCorrectServlet extends HttpServlet {
 		beforeMemo3 = CommonUtil.changeNull(beforeMemo3);
 
 		//sqlTypeの値をチェックする
-		boolean vali1 = CommonUtil.typeSQLCheck(sqlType);
+		boolean vali1 = this.typeSQLCheck(sqlType);
 
 		//sqlTypeの値がINSERT,UPDATE,DELETE以外のとき
 		if(!vali1) {
@@ -193,7 +193,8 @@ public class ScheduleCorrectServlet extends HttpServlet {
 		//-----------------
 
 		// schedule-day.jspに返す値の設定
-		if(sqlType.equals("UPDATE") || sqlType.equals("INSERT")) {     //INSERT,UPDATEのとき
+		 //INSERT,UPDATEのとき
+		if(sqlType.equals("UPDATE") || sqlType.equals("INSERT")) {
 			request.setAttribute("memo1", afterMemo1);
 			request.setAttribute("memo2", afterMemo2);
 			request.setAttribute("memo3", afterMemo3);
@@ -211,5 +212,21 @@ public class ScheduleCorrectServlet extends HttpServlet {
 		// 画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/schedule-day.jsp").forward(request, response);
 
+	}
+
+
+
+	/**
+	 * typeSQLが INSERT,UPDATE,DELETE のときtrueを返すメソッド
+	 */
+	public boolean typeSQLCheck(String sqlType) {
+
+		boolean result = false;
+
+		if(sqlType.contentEquals("INSERT") || sqlType.equals("UPDATE") || sqlType.equals("DELETE")) {
+			result = true;
+		}
+
+		return result;
 	}
 }
