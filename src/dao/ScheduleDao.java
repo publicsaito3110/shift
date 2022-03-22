@@ -17,7 +17,7 @@ public class ScheduleDao {
 	/**
 	 *1ヵ月分のスケジュールを取得するメソッド
 	 */
-	public List<ScheduleBean> selectScheduleMonthDB() {
+	public List<ScheduleBean> selectScheduleMonthDB(String ym) {
 
 
 		//JDBCの接続に使用するオブジェクトを宣言
@@ -36,10 +36,13 @@ public class ScheduleDao {
 
 		//SQL発行
 		StringBuffer buf = new StringBuffer();
-		buf.append("SELECT YMD,MEMO1,MEMO2,MEMO3 FROM SCHEDULE ORDER BY YMD");
+		buf.append("SELECT YMD,MEMO1,MEMO2,MEMO3 FROM SCHEDULE WHERE YMD LIKE ? ORDER BY YMD");
 
 		//SQLをセット
 		ps = con.prepareStatement(buf.toString());
+
+		// ? にパラメータをセット
+		ps.setString(1, ym + "%");
 
 		//SQLの結果を取得
 		rs = ps.executeQuery();

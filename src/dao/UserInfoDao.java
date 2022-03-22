@@ -16,6 +16,85 @@ public class UserInfoDao {
 
 
 	/**
+	 *1人のユーザ名を取得するメソッド
+	 */
+	public String selectUserLoginDB(List<UserInfoBean> userList) {
+//		public String selectLogin(List<UserInfoBean> userList) {
+//		public String selectAll(List<UserInfoBean> userList) {
+//		public String selecByName(List<UserInfoBean> userList) {
+
+
+		//JDBCの接続に使用するオブジェクトを宣言
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		//ユーザ名を受け取るための変数(nullを宣言しておく)
+		String name = null;
+
+		try {
+
+			Class.forName(DbConst.DRIVER_NAME);
+
+			//conにDB情報を入れる
+			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+
+			//SQL発行
+			StringBuffer buf = new StringBuffer();
+			buf.append("SELECT NAME ");
+			buf.append(" FROM USER ");
+			buf.append(" WHERE ID = ? AND PASSWORD = ? ");
+			buf.append(" ; ");
+
+			//SQLをセット
+			ps = con.prepareStatement(buf.toString());
+
+			//   ? にパラメータをセット
+			ps.setString(1, userList.get(0).getId());
+			ps.setString(2, userList.get(0).getPassword());
+
+
+			//SQLの結果を取得
+			rs = ps.executeQuery();
+
+			//結果をさらに抽出
+			while (rs.next()) {
+				name = rs.getString("name");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			//DBの接続解除
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return name;
+	}
+
+
+	/**
 	 * 登録済みのユーザ全員を取得するメソッド
 	 */
 	public List<UserInfoBean> selectUserInfoAllDB() {
@@ -177,7 +256,7 @@ public class UserInfoDao {
 	/**
 	 *1人のユーザを取得するメソッド
 	 */
-	public List<UserInfoBean> userOneSeachDB(String id) {
+	public List<UserInfoBean> selectUserOneDB(String id) {
 
 
 		//JDBCの接続に使用するオブジェクトを宣言
