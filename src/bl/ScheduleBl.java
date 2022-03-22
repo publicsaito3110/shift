@@ -11,12 +11,12 @@ public class ScheduleBl {
 	/**
 	 * カレンダーに1ヵ月分のスケジュールを表示するメソッド
 	 */
-	public List<ScheduleBean> selectScheduleMonthDB(){
+	public List<ScheduleBean> selectScheduleMonthDB(String ym){
 
 		//DAOの戻り値をscheduleListで受け取る
 		List<ScheduleBean> scheduleList = new ArrayList<>();
 		ScheduleDao dao = new ScheduleDao();
-		scheduleList = dao.selectScheduleMonthDB();
+		scheduleList = dao.selectScheduleMonthDB(ym);
 
 		return scheduleList;
 	}

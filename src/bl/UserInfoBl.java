@@ -10,6 +10,19 @@ import dao.UserInfoDao;
 public class UserInfoBl {
 
 	/**
+	 * 初回ログイン時、1人のユーザの名前を取得するメソッド
+	 */
+	public String selectUserLoginDB(List<UserInfoBean> userInfoList){
+
+		//DAOの戻り値をnameで受け取る
+		String name = null;
+		UserInfoDao dao = new UserInfoDao();
+		name = dao.selectUserLoginDB(userInfoList);
+
+		return name;
+	}
+
+	/**
 	 * 登録しているユーザ全員を表示する
 	 */
 	public List<UserInfoBean> selectUserInfoAllDB(){
@@ -50,11 +63,11 @@ public class UserInfoBl {
 	/**
 	 * 1人のユーザ詳細を取得するメソッド
 	 */
-	public List<UserInfoBean> userOneSeachDB(String id){
+	public List<UserInfoBean> selectUserOneDB(String id){
 		//DAOの戻り値をuserInfoListで受け取る
 		List<UserInfoBean> userInfoList = new ArrayList<>();
 		UserInfoDao dao = new UserInfoDao();
-		userInfoList = dao.userOneSeachDB(id);
+		userInfoList = dao.selectUserOneDB(id);
 
 		return userInfoList;
 	}
