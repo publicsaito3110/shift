@@ -9,7 +9,7 @@ public class CommonUtil {
 	/**
 	 * year, month(int) をym(String6文字)で返すメソッド
 	 */
-	public static String ymFormatSixByInt(int year, int month) {
+	public static String toStringYmFormatSixByInt(int year, int month) {
 
 		//monthが1桁のとき2桁の文字列に変換する
 		String ym = year + String.format("%02d", month);
@@ -51,7 +51,7 @@ public class CommonUtil {
 	/**
 	 * 引数が""でないかつnull のとき""を返すメソッド
 	 */
-	public static String changeEmpty(String value) {
+	public static String nullChangeEmpty(String value) {
 
 		if(value != "" && value == null) {
 			value = "";
@@ -66,34 +66,31 @@ public class CommonUtil {
 	 */
 	public static String replaceEscapeChar(String input) {
 
-		String pattern1 = Const.valiXSSUrl + ".*";
-		String pattern2 = ".*" + Const.valiXSSScript + ".*";
+		String valiXSSUrl = "http://|https://";
+		String valiXSSScript = "<>&\"'";
+
+		String pattern1 = valiXSSUrl + ".*";
+		String pattern2 = ".*" + valiXSSScript + ".*";
 
 		try {
+			//inputにURLが含まれているとき
 			if (input.matches(pattern1)) {
-
 				input = input.replace("http://", "\\http://");
 				input = input.replace("https://", "\\https://");
 			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
 
-		try {
+			//inputに記号が含まれているとき
 			if (input.matches(pattern2)) {
-
 				input = input.replace("&", "&amp;");
 				input = input.replace("<", "&lt;");
 				input = input.replace(">", "&gt;");
 				input = input.replace("\"", "&quot;");
 				input = input.replace("'", "&apos;");
 			}
+
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-
-
 		return input;
 	}
-
 }

@@ -34,6 +34,7 @@ public class ValidationUtil {
 			bean.setValiId(beanList.get(0).isValiId());
 		}
 
+
 		//userListにnameがあればバリデーションチェック
 		if(userList.get(0).getName() != null) {
 			String name = userList.get(0).getName();
@@ -42,6 +43,7 @@ public class ValidationUtil {
 			bean.setErName(beanList.get(0).getErName());
 			bean.setValiName(beanList.get(0).isValiName());
 		}
+
 
 		//userListにnameKanaがあればバリデーションチェック
 		if(userList.get(0).getNameKana() != null) {
@@ -52,6 +54,7 @@ public class ValidationUtil {
 			bean.setValiNameKana(beanList.get(0).isValiNameKana());
 		}
 
+
 		//userListにgenderがあればバリデーションチェック
 		if(userList.get(0).getGender() != null) {
 			String gender = userList.get(0).getGender();
@@ -60,6 +63,7 @@ public class ValidationUtil {
 			bean.setErGender(beanList.get(0).getErGender());
 			bean.setValiGender(beanList.get(0).isValiGender());
 		}
+
 
 		//userListにpasswordがあればバリデーションチェック
 		if(userList.get(0).getPassword() != null) {
@@ -70,6 +74,7 @@ public class ValidationUtil {
 			bean.setValiPassword(beanList.get(0).isValiPassword());
 		}
 
+
 		//userListにaddressがあればバリデーションチェック
 		if(userList.get(0).getAddress() != null) {
 			String address = userList.get(0).getAddress();
@@ -78,6 +83,7 @@ public class ValidationUtil {
 			bean.setErAddress(beanList.get(0).getErAddress());
 			bean.setValiAddress(beanList.get(0).isValiAddress());
 		}
+
 
 		//userListにtelがあればバリデーションチェック
 		if(userList.get(0).getTel() != null) {
@@ -88,6 +94,7 @@ public class ValidationUtil {
 			bean.setValiTel(beanList.get(0).isValiTel());
 		}
 
+
 		//userListにemailがあればバリデーションチェック
 		if(userList.get(0).getEmail() != null) {
 			String email = userList.get(0).getEmail();
@@ -97,6 +104,7 @@ public class ValidationUtil {
 			bean.setValiEmail(beanList.get(0).isValiEmail());
 		}
 
+
 		//userListにnoteがあればバリデーションチェック
 		if(userList.get(0).getNote() != null) {
 			String note = userList.get(0).getNote();
@@ -105,6 +113,7 @@ public class ValidationUtil {
 			bean.setErNote(beanList.get(0).getErNote());
 			bean.setValiNote(beanList.get(0).isValiNote());
 		}
+
 
 		//userListにdelFlagがあればバリデーションチェック
 		if(userList.get(0).getDelFlag() != null) {
@@ -129,7 +138,7 @@ public class ValidationUtil {
 
 
 	/**
-	 * idをバリデーションチェック
+	 * idをバリデーションチェック(必須入力)
 	 * valiListに結果とエラーテキストをセットし返す
 	 */
 	public static List<ValidationBean> validIdStatus(String id) {
@@ -137,7 +146,7 @@ public class ValidationUtil {
 		//valiListを戻り値として返す
 		List<ValidationBean> valiList = new ArrayList<>();
 
-		boolean vali = false;
+		boolean isVali = false;
 		String er = "";
 
 		//半角英数字
@@ -146,20 +155,20 @@ public class ValidationUtil {
 		try {
 			//idが4文字であればバリデーションチェック
 			if(id.length() == 4) {
-				vali = id.matches(pattern);
+				isVali = id.matches(pattern);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
-		if(!vali) {
+		if(!isVali) {
 			er = Const.erId;
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
 		ValidationBean bean = new ValidationBean();
-		bean.setValiId(vali);
+		bean.setValiId(isVali);
 		bean.setErId(er);
 		valiList.add(bean);
 
@@ -167,7 +176,7 @@ public class ValidationUtil {
 	}
 
 	/**
-	 * nameをバリデーションチェック
+	 * nameをバリデーションチェック(必須入力)
 	 * valiListに結果とエラーテキストをセットし返す
 	 */
 	public static List<ValidationBean> validNameStatus(String name) {
@@ -175,29 +184,29 @@ public class ValidationUtil {
 		//valiListを戻り値として返す
 		List<ValidationBean> valiList = new ArrayList<>();
 
-		boolean vali = false;
+		boolean isVali = false;
 		String er = "";
 
 		//半角英字,全角かなカナ漢字,半角全角スペース,数字
-		String pattern = "^[" + Const.valiAlpha + Const.valiGana + Const.valiKana + Const.valiKanji + Const.valiNum + Const.valiAllowKigou + "]+$";
+		String pattern = "^[" + Const.valiKana + Const.valiAlpha + Const.valiZenkaku + "]+$";
 
 		try {
 			 //nameが20文字未満であればバリデーションチェック
 			if(name.length() <= 20) {
-				vali = name.matches(pattern);
+				isVali = name.matches(pattern);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
-		if(!vali) {
+		if(!isVali) {
 			er = Const.erName;
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
 		ValidationBean bean = new ValidationBean();
-		bean.setValiName(vali);
+		bean.setValiName(isVali);
 		bean.setErName(er);
 		valiList.add(bean);
 
@@ -213,35 +222,35 @@ public class ValidationUtil {
 		//valiListを戻り値として返す
 		List<ValidationBean> valiList = new ArrayList<>();
 
-		boolean vali = false;
+		boolean isVali = false;
 		String er = "";
 
 		//全角カタカナ
 		String pattern = "^[" + Const.valiKana + "]+$";
 
 		try {
-
+			//nameKanaが40文字未満であればバリデーションチェック
 			if(nameKana.length() <= 40) {
-				//nameKanaが40文字未満であればバリデーションチェック
-				vali = nameKana.matches(pattern);
-			}
-
-			//nameKanaが""であればtrue(任意のため)
-			if(nameKana.isEmpty()) {
-				vali = true;
+				isVali = nameKana.matches(pattern);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 
+		//nameKanaが""であればtrue(任意のため)
+		if(nameKana.isEmpty()) {
+			isVali = true;
+		}
+
+
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
-		if(!vali) {
+		if(!isVali) {
 			er = Const.erNameKana;
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
 		ValidationBean bean = new ValidationBean();
-		bean.setValiNameKana(vali);
+		bean.setValiNameKana(isVali);
 		bean.setErNameKana(er);
 		valiList.add(bean);
 
@@ -257,7 +266,7 @@ public class ValidationUtil {
 		//valiListを戻り値として返す
 		List<ValidationBean> valiList = new ArrayList<>();
 
-		boolean vali = false;
+		boolean isVali = false;
 		String er = "";
 
 		//1または2
@@ -266,20 +275,20 @@ public class ValidationUtil {
 		try {
 			//genderが1文字であればバリデーションチェック
 			if(gender.length() == 1) {
-				vali = gender.matches(pattern);
+				isVali = gender.matches(pattern);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
-		if(!vali) {
+		if(!isVali) {
 			er = Const.erGender;
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
 		ValidationBean bean = new ValidationBean();
-		bean.setValiGender(vali);
+		bean.setValiGender(isVali);
 		bean.setErGender(er);
 		valiList.add(bean);
 
@@ -295,7 +304,7 @@ public class ValidationUtil {
 		//valiListを戻り値として返す
 		List<ValidationBean> valiList = new ArrayList<>();
 
-		boolean vali = false;
+		boolean isVali = false;
 		String er = "";
 
 		//半角英数字
@@ -304,20 +313,26 @@ public class ValidationUtil {
 		try {
 			//passwordが8文字未満であればバリデーションチェック
 			if(password.length() <= 8) {
-				vali = password.matches(pattern);
+				isVali = password.matches(pattern);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 
+		//passwordは任意のため、""のときはtrue
+		if(password.isEmpty()) {
+			isVali = true;
+		}
+
+
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
-		if(!vali) {
+		if(!isVali) {
 			er = Const.erPassword;
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
 		ValidationBean bean = new ValidationBean();
-		bean.setValiPassword(vali);
+		bean.setValiPassword(isVali);
 		bean.setErPassword(er);
 		valiList.add(bean);
 
@@ -333,29 +348,35 @@ public class ValidationUtil {
 		//valiListを戻り値として返す
 		List<ValidationBean> valiList = new ArrayList<>();
 
-		boolean vali = false;
+		boolean isVali = false;
 		String er = "";
 
 		//半角英数字,全角かなカナ漢字,半角全角スペース,-
-		String pattern = "^[" + Const.valiAlpha + Const.valiGana + Const.valiKana  + Const.valiAllowKigou + Const.valiNum + Const.valiKanji + Const.valiAllowKigouVer + "]+$";
+		String pattern = "^[" + Const.valiNum + Const.valiAlpha  + Const.valiZenkaku + Const.valiAllowKigouVer + "]+$";
 
 		try {
 			//addressが100文字未満であればバリデーションチェック
 			if(address.length() <= 100) {
-				vali = address.matches(pattern);
+				isVali = address.matches(pattern);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 
+		//addressは任意のため、""のときはtrue
+		if(address.isEmpty()) {
+			isVali = true;
+		}
+
+
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
-		if(!vali) {
+		if(!isVali) {
 			er = Const.erAddress;
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
 		ValidationBean bean = new ValidationBean();
-		bean.setValiAddress(vali);
+		bean.setValiAddress(isVali);
 		bean.setErAddress(er);
 		valiList.add(bean);
 
@@ -371,7 +392,7 @@ public class ValidationUtil {
 		//valiListを戻り値として返す
 		List<ValidationBean> valiList = new ArrayList<>();
 
-		boolean vali = false;
+		boolean isVali = false;
 		String er = "";
 
 		//半角数字,-
@@ -380,20 +401,26 @@ public class ValidationUtil {
 		try {
 			//telが15文字未満であればバリデーションチェック
 			if(tel.length() <= 15) {
-				vali = tel.matches(pattern);
+				isVali = tel.matches(pattern);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 
+		//telは任意のため、""のときはtrue
+		if(tel.isEmpty()) {
+			isVali = true;
+		}
+
+
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
-		if(!vali) {
+		if(!isVali) {
 			er = Const.erTel;
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
 		ValidationBean bean = new ValidationBean();
-		bean.setValiTel(vali);
+		bean.setValiTel(isVali);
 		bean.setErTel(er);
 		valiList.add(bean);
 
@@ -409,7 +436,7 @@ public class ValidationUtil {
 		//valiListを戻り値として返す
 		List<ValidationBean> valiList = new ArrayList<>();
 
-		boolean vali = false;
+		boolean isVali = false;
 		String er = "";
 
 		//英数字記号＠英数字記号
@@ -418,20 +445,26 @@ public class ValidationUtil {
 		try {
 			//emailが20文字未満であればバリデーションチェック
 			if(email.length() <= 20) {
-				vali = email.matches(pattern);
+				isVali = email.matches(pattern);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 
+		//emailは任意のため、""のときはtrue
+		if(email.isEmpty()) {
+			isVali = true;
+		}
+
+
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
-		if(!vali) {
+		if(!isVali) {
 			er = Const.erEmail;
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
 		ValidationBean bean = new ValidationBean();
-		bean.setValiEmail(vali);
+		bean.setValiEmail(isVali);
 		bean.setErEmail(er);
 		valiList.add(bean);
 
@@ -447,22 +480,23 @@ public class ValidationUtil {
 		//valiListを戻り値として返す
 		List<ValidationBean> valiList = new ArrayList<>();
 
-		boolean vali = false;
+		boolean isVali = false;
 		String er = "";
 
 		//noteが400文字未満であればtrue
 		if(note.length() <= 400) {
-			vali = true;
+			isVali = true;
 		}
 
+
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
-		if(!vali) {
+		if(!isVali) {
 			er = Const.erNote;
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
 		ValidationBean bean = new ValidationBean();
-		bean.setValiNote(vali);
+		bean.setValiNote(isVali);
 		bean.setErNote(er);
 		valiList.add(bean);
 
@@ -478,7 +512,7 @@ public class ValidationUtil {
 		//valiListを戻り値として返す
 		List<ValidationBean> valiList = new ArrayList<>();
 
-		boolean vali = false;
+		boolean isVali = false;
 		String er = "";
 
 		// 1
@@ -487,7 +521,7 @@ public class ValidationUtil {
 		try {
 			 //delFlagが1文字であればバリデーションチェック
 			if(delFlag.length() == 1) {
-				vali = delFlag.matches(pattern);
+				isVali = delFlag.matches(pattern);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -495,17 +529,18 @@ public class ValidationUtil {
 
 		//delFlagは任意のため、""のときはtrue
 		if(delFlag.isEmpty()) {
-			vali = true;
+			isVali = true;
 		}
 
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
-		if(!vali) {
+		if(!isVali) {
 			er = Const.erDelFlag;
 		}
 
+
 		//バリデーションチェックの結果とエラーテキストをセット
 		ValidationBean bean = new ValidationBean();
-		bean.setValiDelFlag(vali);
+		bean.setValiDelFlag(isVali);
 		bean.setErDelFlag(er);
 		valiList.add(bean);
 
