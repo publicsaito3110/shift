@@ -48,7 +48,7 @@
 					</c:choose>
 				</td>
 				<td>
-					<form action="UserInfoOneServlet" method="post">
+					<form action="UserOneServlet" method="post">
 						<button type="submit" name="id" value="${b.id}">更新</button>
 					</form>
 				</td>

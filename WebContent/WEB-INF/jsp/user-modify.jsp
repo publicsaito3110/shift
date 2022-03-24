@@ -11,7 +11,7 @@
 
 	<jsp:include page="header.jsp" flush="true" />
 
-	<form action="UserInfoChangeServlet" method="post">
+	<form action="UserModifyServlet" method="post">
 		<table border="1" cellspacing="0">
 			<tr>
 				<th><p>ID</p></th>
@@ -34,35 +34,16 @@
 			<tr>
 				<th>性別</th>
 				<td>
-					  <%--入力値(男か女)によってradioのチェックを分岐 --%>
-							<input type="radio" name="gender" value="1" ${checkdGender1} >男
-							<input type="radio" name="gender" value="2" ${checkdGender2} >女
-
-					<c:choose>
-						<c:when test="${gender == 2}">
-							<input type="radio" name="gender" value="1">男
-							<input type="radio" name="gender" value="2" checked>女
-						</c:when>
-						<c:otherwise>
-							<input type="radio" name="gender" value="1" checked>男
-							<input type="radio" name="gender" value="2">女
-						</c:otherwise>
-					</c:choose>
+					  <%--デフォルトは男性にチェックし、女性のときチェックされる --%>
+					<input type="radio" name="gender" value="1" checked>男
+					<input type="radio" name="gender" value="2" ${checkGender2}>女
 					<span>${erGender}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>退職済み</th>
 				<td>
-					  <%--delFlagの有無でチェック済みかを分岐 --%>
-					<c:choose>
-						<c:when test="${delFlag == 1}">
-							<input type="checkbox" name="delFlag" value="1" checked><span>${erDelFlag}</span>
-						</c:when>
-						<c:otherwise>
-							<input type="checkbox" name="delFlag" value="1"><span>${erDelFlag}</span>
-						</c:otherwise>
-					</c:choose>
+					<input type="checkbox" name="delFlag" value="1" ${checkDelFlag}><span>${erDelFlag}</span>
 				</td>
 			</tr>
 		</table>
