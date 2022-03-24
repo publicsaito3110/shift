@@ -20,16 +20,30 @@ import bl.UserInfoBl;
 public class UserListSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public UserListSearchServlet() {
         super();
-        // TODO Auto-generated constructor stub
+        //  Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+
+
+		//------------
+		//SQLの実行
+		//------------
+
+		//登録している全てのユーザ情報をdbListで受け取る
+		List<UserInfoBean> dbList = new ArrayList<>();
+		UserInfoBl bl = new UserInfoBl();
+		dbList = bl.selectUserInfoAllDB();
+
+
+		// 引き渡す値を設定
+		request.setAttribute("afterFormFlag", false);
+		request.setAttribute("dbList", dbList);
+
+		// 画面遷移
+		request.getRequestDispatcher("/WEB-INF/jsp/user-list.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,8 +52,6 @@ public class UserListSearchServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 
-		//Form後かどうかの判別
-		boolean afterFormFlag = true;
 
 		//sighn-up.jsp からの値を受け取る
 		String keyWord = request.getParameter("keyWord");
@@ -60,10 +72,8 @@ public class UserListSearchServlet extends HttpServlet {
 		//---------------------
 		if(keyWord.isEmpty()) {
 
-			afterFormFlag = false;           //全件表示され、UserListServlet と同様の結果になるため
-
 			// 引き渡す値を設定
-			request.setAttribute("afterFormFlag", afterFormFlag);
+			request.setAttribute("afterFormFlag", false);   //全件表示され、doGetと同様の結果になるため
 			request.setAttribute("keyWord", keyWord);
 			request.setAttribute("dbList", dbList);
 
@@ -73,9 +83,8 @@ public class UserListSearchServlet extends HttpServlet {
 		}
 
 
-
 		// 引き渡す値を設定
-		request.setAttribute("afterFormFlag", afterFormFlag);
+		request.setAttribute("afterFormFlag", true);
 		request.setAttribute("keyWord", keyWord);
 		request.setAttribute("dbList", dbList);
 

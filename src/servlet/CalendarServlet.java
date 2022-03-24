@@ -44,6 +44,8 @@ public class CalendarServlet extends HttpServlet {
 
 		//calendar.jspからym(年月)を指定されたとき
 		if (ym != null) {
+
+			//ymからyear(4文字)month(2文字)を取得
 			year = Integer.parseInt(ym.substring(0, 4));
 			month = Integer.parseInt(ym.substring(4, 6));
 
@@ -59,7 +61,6 @@ public class CalendarServlet extends HttpServlet {
 		//最終日をLocalDateから取得
 		int lastDay = localDate.lengthOfMonth();
 
-
 		// 第1週目の初日の曜日を取得（月：1, 火：2.....日:7）
 		int firstWeek = localDate.getDayOfWeek().getValue();
 
@@ -69,7 +70,7 @@ public class CalendarServlet extends HttpServlet {
 
 		//[カレンダー]日曜日～初日の曜日の直前までnullを代入し揃える
 		if(firstWeek != 7) {
-			for(int i = 1; i <= firstWeek; i++) {      //曜日の取得 7 1 2 3 4 5 6 なので
+			for(int i = 1; i <= firstWeek; i ++) {      //曜日の取得 7 1 2 3 4 5 6 なので
 				dayList.add(null);                     //初日が日曜を除く取得した曜日の回数分代入する
 			}
 		}
@@ -81,7 +82,7 @@ public class CalendarServlet extends HttpServlet {
 		//--------------------------------
 
 		//year,monthをString6桁に変える
-		ym = CommonUtil.ymFormatSixByInt(year, month);
+		ym = CommonUtil.toStringYmFormatSixByInt(year, month);
 
 		//BLの戻り値をdbListで受け取る
 		ScheduleBl bl = new ScheduleBl();
@@ -104,7 +105,6 @@ public class CalendarServlet extends HttpServlet {
 
 			//iが1桁のとき2桁の文字列に変換する
 			String day = String.format("%02d", i);
-
 
 			//指定したカレンダーに登録されたスケジュール(dbList)が1つもないとき
 			if (dbList.size() == 0) {
@@ -130,27 +130,34 @@ public class CalendarServlet extends HttpServlet {
 		//------------------------------------
 		//[カレンダー]最終日の曜日～土曜日まで null を代入し揃える
 		int weekAmari = 7 - (dayList.size() % 7);
-		for (int i = 1; i <= weekAmari; i++) {          //曜日の取得 7 1 2 3 4 5 6 なので
-			dayList.add(null);                          //日付から÷7のあまりの回数分代入する
+
+		// weekAmariが7(最終日が土曜日)以外のとき
+		if(weekAmari != 7) {
+
+			for (int i = 1; i <= weekAmari; i ++) {          //曜日の取得 7 1 2 3 4 5 6 なので
+				dayList.add(null);                          //dayListの要素数÷7のあまりの回数分代入する
+			}
 		}
 
 
 
 		//取得したカレンダーの前月のymをbeforeYmに代入
-		LocalDate localDate2 = localDate.minusMonths(1);
-		year = localDate2.getYear();
-		month = localDate2.getMonthValue();
+		LocalDate localDateBefore = localDate.minusMonths(1);
+		int beforeYear = localDateBefore.getYear();
+		int beforeMonth = localDateBefore.getMonthValue();
 
 		//year,monthをString6桁に変える
-		String beforeYm = CommonUtil.ymFormatSixByInt(year, month);
+		String beforeYm = CommonUtil.toStringYmFormatSixByInt(beforeYear, beforeMonth);
+
 
 		//取得したカレンダーの翌月のymをafterYmに代入
-		LocalDate localDate3 = localDate.plusMonths(1);
-		year = localDate3.getYear();
-		month = localDate3.getMonthValue();
+		LocalDate localDateAfter = localDate.plusMonths(1);
+		int afterYear = localDateAfter.getYear();
+		int afterMonth = localDateAfter.getMonthValue();
 
 		//year,monthをString6桁に変える
-		String afterYm = CommonUtil.ymFormatSixByInt(year, month);
+		String afterYm = CommonUtil.toStringYmFormatSixByInt(afterYear, afterMonth);
+
 
 
 		// 引き渡す値を設定

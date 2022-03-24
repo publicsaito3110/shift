@@ -53,8 +53,6 @@ public class ScheduleCorrectServlet extends HttpServlet {
 		String month = request.getParameter("month");
 		String day = request.getParameter("day");
 
-		//dayが2桁でないときdayに"0"をつける
-		String ymd = CommonUtil.ymdFormatEightByString(year, month, day);
 
 		String afterMemo1 = request.getParameter("afterMemo1");
 		String afterMemo2 = request.getParameter("afterMemo2");
@@ -86,23 +84,28 @@ public class ScheduleCorrectServlet extends HttpServlet {
 		beforeMemo3 = CommonUtil.changeNull(beforeMemo3);
 
 		//sqlTypeの値をチェックする
-		boolean vali1 = this.typeSQLCheck(sqlType);
+		boolean isVali1 = this.isSqlTypeIUD(sqlType);
 
 		//sqlTypeの値がINSERT,UPDATE,DELETE以外のとき
-		if(!vali1) {
+		if(!isVali1) {
+
 			// schedule-day.jspに返す値
 			request.setAttribute("memo1", beforeMemo1);
 			request.setAttribute("memo2", beforeMemo2);
 			request.setAttribute("memo3", beforeMemo3);
 			request.setAttribute("resultText", "[エラー] 不正な入力値を検知しました");
 			request.setAttribute("result", false);
+
 			// 画面遷移
 			request.getRequestDispatcher("/WEB-INF/jsp/schedule-day.jsp").forward(request, response);
 			return;
 		}
 
-		//afterMemoが全て""で削除ボタン以外が押されたとき
-		if(afterMemo1.isEmpty() && afterMemo2.isEmpty() && afterMemo3.isEmpty() && sqlType != "DELETE") {
+		//afterMemoの値とsqlTypeの組み合わせをチェックする
+		boolean isVali2 = this.isNotEmptyAllOrDelete(afterMemo1, afterMemo2, afterMemo3, sqlType);
+
+		//afterMemoが全て""かつ削除ボタン以外が押されたとき
+		if(!isVali2) {
 
 			// schedule-day.jspに返す値
 			request.setAttribute("memo1", beforeMemo1);
@@ -110,6 +113,7 @@ public class ScheduleCorrectServlet extends HttpServlet {
 			request.setAttribute("memo3", beforeMemo3);
 			request.setAttribute("resultText", "[エラー] 修正後のシフトを入力してください");
 			request.setAttribute("result", false);
+
 			// 画面遷移
 			request.getRequestDispatcher("/WEB-INF/jsp/schedule-day.jsp").forward(request, response);
 			return;
@@ -122,9 +126,17 @@ public class ScheduleCorrectServlet extends HttpServlet {
 		afterMemo2 = CommonUtil.changeNull(afterMemo2);
 		afterMemo3 = CommonUtil.changeNull(afterMemo3);
 
+		//aftermemoをエスケープする
+		afterMemo1 = CommonUtil.replaceEscapeChar(afterMemo1);
+		afterMemo2 = CommonUtil.replaceEscapeChar(afterMemo2);
+		afterMemo3 = CommonUtil.replaceEscapeChar(afterMemo3);
+
 		//受け取った値をArrayListに格納
 		List<ScheduleBean> beanList = new ArrayList<>();
 		ScheduleBean bean = new ScheduleBean();
+
+		//dayが2桁でないときdayに"0"をつける
+		String ymd = CommonUtil.ymdFormatEightByString(year, month, day);
 
 		bean.setYmd(ymd);
 		bean.setMemo1(afterMemo1);
@@ -137,24 +149,24 @@ public class ScheduleCorrectServlet extends HttpServlet {
 		//-------------------------ー------------
 		//UPDATE,DELETE,INSERTを判別し、SQL実行
 		//---------------------------------------
-		boolean recordResult = false;   //結果をbooleanで受け取る
+		boolean isRecordResult = false;   //結果をbooleanで受け取る
 		ScheduleBl bl = new ScheduleBl(); //BLをインスタンス化
 
 		switch(sqlType){
 
 		case "UPDATE":    //修正ボタンが押されたとき
 
-			recordResult = bl.updateScheduleDB(beanList);
+			isRecordResult = bl.updateScheduleDB(beanList);
 			break;
 
 		case "DELETE":    //削除ボタンが押されたとき
 
-			recordResult = bl.deleteScheduleDB(beanList);
+			isRecordResult = bl.deleteScheduleDB(beanList);
 			break;
 
 		case "INSERT":    //登録ボタンが押されたとき
 
-			recordResult = bl.insertScheduleDB(beanList);
+			isRecordResult = bl.insertScheduleDB(beanList);
 			break;
 
 		default:    //不正な値を受け取ったとき
@@ -165,6 +177,7 @@ public class ScheduleCorrectServlet extends HttpServlet {
 			request.setAttribute("memo3", beforeMemo3);
 			request.setAttribute("resultText", "[エラー] 不正な入力値を検知しました");
 			request.setAttribute("result", false);
+
 			// 画面遷移
 			request.getRequestDispatcher("/WEB-INF/jsp/schedule-day.jsp").forward(request, response);
 			return;
@@ -175,7 +188,7 @@ public class ScheduleCorrectServlet extends HttpServlet {
 		//-----------------
 		//DBの更新が失敗
 		//-----------------
-		if(recordResult == false) {
+		if(!isRecordResult) {
 
 			// schedule-day.jspに返す値
 			request.setAttribute("memo1", beforeMemo1);
@@ -183,6 +196,7 @@ public class ScheduleCorrectServlet extends HttpServlet {
 			request.setAttribute("memo3", beforeMemo3);
 			request.setAttribute("resultText", "[エラー] 修正に失敗しました");
 			request.setAttribute("result", false);
+
 			// 画面遷移
 			request.getRequestDispatcher("/WEB-INF/jsp/schedule-day.jsp").forward(request, response);
 			return;
@@ -194,7 +208,7 @@ public class ScheduleCorrectServlet extends HttpServlet {
 
 		// schedule-day.jspに返す値の設定
 		 //INSERT,UPDATEのとき
-		if(sqlType.equals("UPDATE") || sqlType.equals("INSERT")) {
+		if(sqlType == "UPDATE" || sqlType =="INSERT") {
 			request.setAttribute("memo1", afterMemo1);
 			request.setAttribute("memo2", afterMemo2);
 			request.setAttribute("memo3", afterMemo3);
@@ -217,16 +231,29 @@ public class ScheduleCorrectServlet extends HttpServlet {
 
 
 	/**
-	 * typeSQLが INSERT,UPDATE,DELETE のときtrueを返すメソッド
+	 * sqlTypeが INSERT,UPDATE,DELETE のときtrueを返すメソッド
 	 */
-	public boolean typeSQLCheck(String sqlType) {
+	public boolean isSqlTypeIUD(String sqlType) {
 
-		boolean result = false;
-
-		if(sqlType.contentEquals("INSERT") || sqlType.equals("UPDATE") || sqlType.equals("DELETE")) {
-			result = true;
+		//sqlTypeがINSERT, UPDATE, DELETEでないとき
+		if(sqlType != "INSERT" || sqlType != "UPDATE" || sqlType !="DELETE") {
+			return false;
 		}
 
-		return result;
+		return true;
+	}
+
+
+	/**
+	 * sqlTypeがDELETE以外でmemoが全て""でないときtrueを返すメソッド
+	 */
+	public boolean isNotEmptyAllOrDelete(String memo1, String memo2, String memo3,String sqlType) {
+
+		//memoが全て空文字かつsqlTypeがDELETEでないとき
+		if(memo1.isEmpty() && memo2.isEmpty() && memo3.isEmpty() && sqlType != "DELETE") {
+			return false;
+		}
+
+		return true;
 	}
 }

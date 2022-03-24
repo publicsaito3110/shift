@@ -33,11 +33,11 @@ public class UserSignUpServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		//Form後かどうかの判別
-		boolean afterFormFlag = false;
-		request.setAttribute("afterFormFlag", afterFormFlag);
-		request.getRequestDispatcher("/WEB-INF/jsp/sign-up.jsp").forward(request, response);
+		//返す値を設定
+		request.setAttribute("afterFormFlag", false);
 
+		//画面遷移
+		request.getRequestDispatcher("/WEB-INF/jsp/user-add.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,14 +47,8 @@ public class UserSignUpServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 
-		//Form後かどうかの判別
-		boolean afterFormFlag = true;
-
-
-		//------------------------
 		//共通で返す値を設定
-		//------------------------
-		request.setAttribute("afterFormFlag", afterFormFlag);
+		request.setAttribute("afterFormFlag", true);
 		request.setAttribute("popTitle", "ユーザー新規登録結果");
 
 
@@ -88,21 +82,23 @@ public class UserSignUpServlet extends HttpServlet {
 		//--------------------------
 		//バリデーションチェック
 		//--------------------------
+
+		//userInfoListを引き渡し、結果とエラーテキストを受け取る
 		List <ValidationBean> valiList = new ArrayList<>();
 		valiList = ValidationUtil.validInputAllStatus(userInfoList);
 
+		//バリデーションチェックの結果を抽出
+		boolean isVali1 = valiList.get(0).isValiId();
+		boolean isVali2 = valiList.get(0).isValiName();
+		boolean isVali3 = valiList.get(0).isValiNameKana();
+		boolean isVali4 = valiList.get(0).isValiGender();
+		boolean isVali5 = valiList.get(0).isValiPassword();
+		boolean isVali6 = valiList.get(0).isValiAddress();
+		boolean isVali7 = valiList.get(0).isValiTel();
+		boolean isVali8 = valiList.get(0).isValiEmail();
+		boolean isVali9 = valiList.get(0).isValiNote();
 
-		boolean vali1 = valiList.get(0).isValiId();
-		boolean vali2 = valiList.get(0).isValiName();
-		boolean vali3 = valiList.get(0).isValiNameKana();
-		boolean vali4 = valiList.get(0).isValiGender();
-		boolean vali5 = valiList.get(0).isValiPassword();
-		boolean vali6 = valiList.get(0).isValiAddress();
-		boolean vali7 = valiList.get(0).isValiTel();
-		boolean vali8 = valiList.get(0).isValiEmail();
-		boolean vali9 = valiList.get(0).isValiNote();
-
-		//エラーテキストを抽出
+		//バリデーションチェックのエラーテキストを抽出
 		String erId = valiList.get(0).getErId();
 		String erName = valiList.get(0).getErName();
 		String erNameKana = valiList.get(0).getErNameKana();
@@ -125,7 +121,7 @@ public class UserSignUpServlet extends HttpServlet {
 		request.setAttribute("erNote", erNote);
 
 		//バリデーションチェックが1つでもアウトのとき
-		if(!vali1 || !vali2 || !vali3 || !vali4 || !vali5 || !vali6 || !vali7 || !vali8 || !vali9) {
+		if(!isVali1 || !isVali2 || !isVali3 || !isVali4 || !isVali5 || !isVali6 || !isVali7 || !isVali8 || !isVali9) {
 
 			//エラーの情報と入力された値を返す
 			request.setAttribute("id", id);
@@ -140,7 +136,7 @@ public class UserSignUpServlet extends HttpServlet {
 			request.setAttribute("resultText", "[エラー] 入力値が不正です");
 
 			//画面遷移
-			request.getRequestDispatcher("/WEB-INF/jsp/sign-up.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/jsp/user-add.jsp").forward(request, response);
 			return;
 		}
 
@@ -171,16 +167,19 @@ public class UserSignUpServlet extends HttpServlet {
 			request.setAttribute("note", note);
 			request.setAttribute("result", false);
 			request.setAttribute("resultText", "[エラー] 新規登録に失敗しました");
+
 			//画面遷移
-			request.getRequestDispatcher("/WEB-INF/jsp/sign-up.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/jsp/user-add.jsp").forward(request, response);
 			return;
 		}
 
 
+
 		request.setAttribute("result", true);
 		request.setAttribute("resultText", "新規登録に成功しました");
+
 		//画面遷移
-		request.getRequestDispatcher("/WEB-INF/jsp/sign-up.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/user-add.jsp").forward(request, response);
 	}
 
 }

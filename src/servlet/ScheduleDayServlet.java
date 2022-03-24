@@ -40,7 +40,7 @@ public class ScheduleDayServlet extends HttpServlet {
 		String month = request.getParameter("month");
 		String day = request.getParameter("day");
 
-		//dayが2桁でないときdayに"0"をつける
+		//month,dayが2桁でないとき"0"をつける
 		String ymd = CommonUtil.ymdFormatEightByString(year, month, day);
 
 
