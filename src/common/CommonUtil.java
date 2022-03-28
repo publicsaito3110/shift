@@ -1,5 +1,10 @@
 package common;
 
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
 public class CommonUtil {
 
 	private CommonUtil() {
@@ -39,7 +44,7 @@ public class CommonUtil {
 	/**
 	 * 引数が ""かつ != null のときnullを返すメソッド
 	 */
-	public static String changeNull(String value) {
+	public static String changeNullByEmpty(String value) {
 
 		if(value != null && value.equals("")) {
 			value = null;
@@ -51,7 +56,7 @@ public class CommonUtil {
 	/**
 	 * 引数が""でないかつnull のとき""を返すメソッド
 	 */
-	public static String nullChangeEmpty(String value) {
+	public static String changeEmptyByNull(String value) {
 
 		if(value != "" && value == null) {
 			value = "";
@@ -59,6 +64,20 @@ public class CommonUtil {
 
 		return value;
 	}
+
+
+	/**
+	 * Listの要素が""またはnullときtrueを返すメソッド
+	 */
+	public static boolean isCheckSizeZeroByList(List value) {
+
+		if(CollectionUtils.isEmpty(value)) {
+			return true;
+		}
+
+		return false;
+	}
+
 
 
 	/**
@@ -71,6 +90,12 @@ public class CommonUtil {
 
 		String pattern1 = valiXSSUrl + ".*";
 		String pattern2 = ".*" + valiXSSScript + ".*";
+
+		//inputが""またはnullのとき
+		if(StringUtils.isEmpty(input)) {
+
+			return input;
+		}
 
 		try {
 			//inputにURLが含まれているとき
