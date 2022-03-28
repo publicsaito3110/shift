@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bean.UserInfoBean;
+import bean.UserBean;
 import bean.ValidationBean;
-import bl.UserInfoBl;
+import bl.UserBl;
 import common.CommonUtil;
 import common.ValidationUtil;
 
@@ -51,7 +51,7 @@ public class UserModifyServlet extends HttpServlet {
 		String delFlag = request.getParameter("delFlag");
 
 		//delFlagがnullのとき""を代入(checkboxの判定がnullで行われるため)
-		delFlag = CommonUtil.nullChangeEmpty(delFlag);
+		delFlag = CommonUtil.changeEmptyByNull(delFlag);
 
 
 		//genderが女性かの判別
@@ -86,8 +86,8 @@ public class UserModifyServlet extends HttpServlet {
 
 
 		//userInfoListに値を詰める
-		List<UserInfoBean> userInfoList = new ArrayList<>();
-		UserInfoBean bean = new UserInfoBean();
+		List<UserBean> userInfoList = new ArrayList<>();
+		UserBean bean = new UserBean();
 
 		bean.setId(id);
 		bean.setName(name);
@@ -148,8 +148,8 @@ public class UserModifyServlet extends HttpServlet {
 		//------------
 
 		//userInfoListをBLに引き渡し、実行結果を受け取る
-		UserInfoBl bl = new UserInfoBl();
-		boolean isUpdResult = bl.updateUserDB(userInfoList);
+		UserBl bl = new UserBl();
+		boolean isUpdResult = bl.updateUser(userInfoList);
 
 
 		//SQLが実行失敗したとき
