@@ -50,14 +50,14 @@
     				</c:choose>
 
 					<%--日付の下にDAOから受け取った戻り値をそれぞれ表示させる --%>
-					<c:if test="${b.memo1 != null}">
-						<div class="memo1 text-balack" style="background-color: yellow;">(午前)${b.memo1}</div>
+					<c:if test="${b.user1 != null || b.memo1 != null}">
+						<div class="memo1 text-balack" style="background-color: yellow;">(午前)${b.user1} ${b.memo1}</div>
 					</c:if>
-					<c:if test="${b.memo2 != null}">
-						<div class="memo2 text-balack" style="background-color: yellow;">(午後)${b.memo2}</div>
+					<c:if test="${b.user2 != null || b.memo2 != null}">
+						<div class="memo2 text-balack" style="background-color: yellow;">(午後)${b.user2} ${b.memo2}</div>
 					</c:if>
-					<c:if test="${b.memo3 != null}">
-						<div class="memo3 text-balack" style="background-color: yellow;">(夜間)${b.memo3}</div>
+					<c:if test="${b.user3 != null || b.memo3 != null}">
+						<div class="memo3 text-balack" style="background-color: yellow;">(夜間)${b.user3} ${b.memo3}</div>
 					</c:if>
 
 					</a>

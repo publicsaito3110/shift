@@ -1,5 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE HTML>
 <html>
@@ -12,7 +12,7 @@
 
 	<h1>ユーザー登録</h1>
 
-	<form action="UserSignUpServlet" method="post">
+	<form action="UserAddServlet" method="post">
 		<table border="1" cellspacing="0">
 			<tr>
 				<th><span>ID</span> <span class="text-red">※</span></th>
