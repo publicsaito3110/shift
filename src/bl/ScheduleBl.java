@@ -11,12 +11,12 @@ public class ScheduleBl {
 	/**
 	 * カレンダーに1ヵ月分のスケジュールを表示するメソッド
 	 */
-	public List<ScheduleBean> selectScheduleMonthDB(String ym){
+	public List<ScheduleBean> selectScheduleMonth(String ym){
 
 		//DAOの戻り値をscheduleListで受け取る
 		List<ScheduleBean> scheduleList = new ArrayList<>();
 		ScheduleDao dao = new ScheduleDao();
-		scheduleList = dao.selectScheduleMonthDB(ym);
+		scheduleList = dao.selectScheduleMonth(ym);
 
 		return scheduleList;
 	}
@@ -25,51 +25,51 @@ public class ScheduleBl {
 	/**
 	 * 指定された日付のスケジュールを取得するメソッド
 	 */
-	public List<ScheduleBean> searchScheduleDay(String ymd) {
+	public List<ScheduleBean> selectScheduleDay(String ymd) {
 
 		//DAOの戻り値をscheduleListで受け取る
 			List<ScheduleBean> scheduleList = new ArrayList<>();
 			ScheduleDao dao = new ScheduleDao();
-			scheduleList = dao.selectScheduleDayDB(ymd);
+			scheduleList = dao.selectScheduleDay(ymd);
 
 			return scheduleList;
 	}
 
 
 	/**
-	 * スケジュールをINSERTするメソッド
+	 * 指定した日付のスケジュールを新規登録するメソッド
 	 */
-	public boolean insertScheduleDB(List<ScheduleBean> beanList) {
+	public boolean insertScheduleDay(List<ScheduleBean> beanList) {
 
 		//DAOの戻り値を modifyResult で受け取る
 		ScheduleDao dao = new ScheduleDao();
-		boolean result = dao.insertScheduleDB(beanList);
+		boolean result = dao.insertScheduleDay(beanList);
 
 		return result;
 	}
 
 
 	/**
-	 * スケジュールをUPDATEするメソッド
+	 * 指定した日付のスケジュールを更新するメソッド
 	 */
-	public boolean updateScheduleDB(List<ScheduleBean> beanList) {
+	public boolean updateScheduleDay(List<ScheduleBean> beanList) {
 
 		//DAOの戻り値を modifyResult で受け取る
 		ScheduleDao dao = new ScheduleDao();
-		boolean result = dao.updateScheduleDB(beanList);
+		boolean result = dao.updateScheduleDay(beanList);
 
 		return result;
 	}
 
 
 	/**
-	 * スケジュールをDELETEするメソッド
+	 * 指定した日付のスケジュールを削除するメソッド
 	 */
-	public boolean deleteScheduleDB(List<ScheduleBean> beanList) {
+	public boolean deleteScheduleDay(List<ScheduleBean> beanList) {
 
 		//DAOの戻り値を modifyResult で受け取る
 		ScheduleDao dao = new ScheduleDao();
-		boolean result = dao.deleteScheduleDB(beanList);
+		boolean result = dao.deleteScheduleDay(beanList);
 
 		return result;
 	}
