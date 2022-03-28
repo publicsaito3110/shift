@@ -17,7 +17,7 @@ public class ScheduleDao {
 	/**
 	 *1ヵ月分のスケジュールを取得するメソッド
 	 */
-	public List<ScheduleBean> selectScheduleMonthDB(String ym) {
+	public List<ScheduleBean> selectScheduleMonth(String ym) {
 
 
 		//JDBCの接続に使用するオブジェクトを宣言
@@ -25,7 +25,7 @@ public class ScheduleDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		List<ScheduleBean> beanList = new ArrayList<ScheduleBean>();
+		List<ScheduleBean> beanList = new ArrayList<>();
 
 	try {
 
@@ -36,7 +36,9 @@ public class ScheduleDao {
 
 		//SQL発行
 		StringBuffer buf = new StringBuffer();
-		buf.append("SELECT YMD,MEMO1,MEMO2,MEMO3 FROM SCHEDULE WHERE YMD LIKE ? ORDER BY YMD");
+		buf.append("SELECT YMD, USER1, MEMO1, USER2, MEMO2, USER3, MEMO3 ");
+		buf.append(" FROM SCHEDULE ");
+		buf.append(" WHERE YMD LIKE ? ORDER BY YMD");
 
 		//SQLをセット
 		ps = con.prepareStatement(buf.toString());
@@ -50,13 +52,17 @@ public class ScheduleDao {
 		//結果をさらに抽出
 		while (rs.next()) {
 			ScheduleBean bean = new ScheduleBean();
+
 			//ymdからday部分のみを抽出し、beanにsetする
 			String ymd =  rs.getString("ymd");
 			String day = ymd.substring(6);
+
 			bean.setDay(day);
-			bean.setYmd(rs.getString("ymd"));
+			bean.setUser1(rs.getString("user1"));
 			bean.setMemo1(rs.getString("memo1"));
+			bean.setUser2(rs.getString("user2"));
 			bean.setMemo2(rs.getString("memo2"));
+			bean.setUser3(rs.getString("user3"));
 			bean.setMemo3(rs.getString("memo3"));
 			beanList.add(bean);
 		}
@@ -99,7 +105,7 @@ public class ScheduleDao {
 	/**
 	 *1日分のスケジュールを取得するメソッド
 	 */
-	public List<ScheduleBean> selectScheduleDayDB(String ymd) {
+	public List<ScheduleBean> selectScheduleDay(String ymd) {
 
 
 		//JDBCの接続に使用するオブジェクトを宣言
@@ -118,8 +124,9 @@ public class ScheduleDao {
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
-			buf.append("SELECT MEMO1,MEMO2,MEMO3 FROM SCHEDULE WHERE ");
-			buf.append(" YMD =  ?  ");
+			buf.append("SELECT USER1, MEMO1, USER2, MEMO2, USER3, MEMO3 ");
+			buf.append(" FROM SCHEDULE ");
+			buf.append(" WHERE YMD =  ?  ");
 			buf.append(" ; ");
 
 			//SQLをセット
@@ -135,9 +142,11 @@ public class ScheduleDao {
 			while (rs.next()) {
 				ScheduleBean bean = new ScheduleBean();
 
-				//memoの部分のみを抽出し、beanにsetする
+				bean.setUser1(rs.getString("user1"));
 				bean.setMemo1(rs.getString("memo1"));
+				bean.setUser2(rs.getString("user2"));
 				bean.setMemo2(rs.getString("memo2"));
+				bean.setUser3(rs.getString("user3"));
 				bean.setMemo3(rs.getString("memo3"));
 				beanList.add(bean);
 			}
@@ -179,7 +188,7 @@ public class ScheduleDao {
 	/**
 	 * スケジュールを新規で追加する(INSERT)
 	 */
-	public boolean insertScheduleDB(List<ScheduleBean> beanList){
+	public boolean insertScheduleDay(List<ScheduleBean> beanList){
 
 		//実行結果を取得
 		boolean result = false;
@@ -204,18 +213,22 @@ public class ScheduleDao {
 
 			buf.append("INSERT INTO ");
 			buf.append(" SCHEDULE ");
-			buf.append(" (YMD,MEMO1,MEMO2,MEMO3) ");
+			buf.append(" (YMD, USER1, MEMO1, USER2, MEMO2, USER3, MEMO3) ");
 			buf.append(" VALUES ");
-			buf.append(" (?, ?, ?, ?) ");
+			buf.append(" (?, ?, ?, ?, ?, ?, ?) ");
+			buf.append(" ; ");
 
 			//SQLをセット
 			ps = con.prepareStatement(buf.toString());
 
 			// ?にパラメーターをセット
 			ps.setString(1, beanList.get(0).getYmd());
-			ps.setString(2, beanList.get(0).getMemo1());
-			ps.setString(3, beanList.get(0).getMemo2());
-			ps.setString(4, beanList.get(0).getMemo3());
+			ps.setString(2, beanList.get(0).getUser1());
+			ps.setString(3, beanList.get(0).getMemo1());
+			ps.setString(4, beanList.get(0).getUser2());
+			ps.setString(5, beanList.get(0).getMemo2());
+			ps.setString(6, beanList.get(0).getUser3());
+			ps.setString(7, beanList.get(0).getMemo3());
 
 			//SQLを実行
 			ps.executeUpdate();
@@ -267,7 +280,7 @@ public class ScheduleDao {
 	/**
 	 *スケジュールを更新する(UPDATE)
 	 */
-	public boolean updateScheduleDB(List<ScheduleBean> beanList){
+	public boolean updateScheduleDay(List<ScheduleBean> beanList){
 
 		//実行結果を取得
 		boolean result = false;
@@ -293,8 +306,11 @@ public class ScheduleDao {
 			buf.append("UPDATE ");
 			buf.append(" SCHEDULE ");
 			buf.append(" SET ");
+			buf.append(" USER1 = ?,");
 			buf.append(" MEMO1 = ?,");
+			buf.append(" USER2 = ?,");
 			buf.append(" MEMO2 = ?,");
+			buf.append(" USER3 = ?,");
 			buf.append(" MEMO3 = ? ");
 			buf.append(" WHERE YMD = ? ");
 			buf.append(" ; ");
@@ -303,10 +319,13 @@ public class ScheduleDao {
 			ps = con.prepareStatement(buf.toString());
 
 			// ? にパラメータをセット
-			ps.setString(1, beanList.get(0).getMemo1());
-			ps.setString(2, beanList.get(0).getMemo2());
-			ps.setString(3, beanList.get(0).getMemo3());
-			ps.setString(4, beanList.get(0).getYmd());
+			ps.setString(1, beanList.get(0).getUser1());
+			ps.setString(2, beanList.get(0).getMemo1());
+			ps.setString(3, beanList.get(0).getUser2());
+			ps.setString(4, beanList.get(0).getMemo2());
+			ps.setString(5, beanList.get(0).getUser3());
+			ps.setString(6, beanList.get(0).getMemo3());
+			ps.setString(7, beanList.get(0).getYmd());
 
 			//SQLを実行
 			ps.executeUpdate();
@@ -358,7 +377,7 @@ public class ScheduleDao {
 	/**
 	 *スケジュールを更新する(DELETE)
 	 */
-	public boolean deleteScheduleDB(List<ScheduleBean> beanList){
+	public boolean deleteScheduleDay(List<ScheduleBean> beanList){
 
 		//実行結果を取得
 		boolean result = false;
@@ -389,7 +408,7 @@ public class ScheduleDao {
 			//SQLをセット
 			ps = con.prepareStatement(buf.toString());
 
-			//INSERT, UPDATE, DELETE を判別して ? にパラメータをセット
+			// ? にパラメータをセット
 			ps.setString(1, beanList.get(0).getYmd());
 
 			//SQLを実行
