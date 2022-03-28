@@ -4,9 +4,14 @@ public class ScheduleBean {
 	//フィールドを定義
 	private String day ;
 	private String ymd ;
+
+	private String user1 ;
+	private String user2 ;
+	private String user3 ;
 	private String memo1 ;
 	private String memo2 ;
 	private String memo3 ;
+
 
 	private String typeIUD;
 
@@ -23,6 +28,24 @@ public class ScheduleBean {
 	}
 	public void setYmd(String ymd) {
 		this.ymd = ymd;
+	}
+	public String getUser1() {
+		return user1;
+	}
+	public void setUser1(String user1) {
+		this.user1 = user1;
+	}
+	public String getUser2() {
+		return user2;
+	}
+	public void setUser2(String user2) {
+		this.user2 = user2;
+	}
+	public String getUser3() {
+		return user3;
+	}
+	public void setUser3(String user3) {
+		this.user3 = user3;
 	}
 	public String getMemo1() {
 		return memo1;
@@ -42,7 +65,6 @@ public class ScheduleBean {
 	public void setMemo3(String memo3) {
 		this.memo3 = memo3;
 	}
-
 	public String getTypeIUD() {
 		return typeIUD;
 	}
