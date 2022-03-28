@@ -86,7 +86,7 @@ public class CalendarServlet extends HttpServlet {
 
 		//BLの戻り値をdbListで受け取る
 		ScheduleBl bl = new ScheduleBl();
-		List<ScheduleBean> dbList = bl.selectScheduleMonthDB(ym);
+		List<ScheduleBean> dbList = bl.selectScheduleMonth(ym);
 
 
 
@@ -97,6 +97,10 @@ public class CalendarServlet extends HttpServlet {
 		//dbListの要素を指定するための変数
 		int youso = 0;
 
+		//dbListの要素があるかどうかの判定
+		boolean isSizeZeroDL = CommonUtil.isCheckSizeZeroByList(dbList);
+		int dbListSize = dbList.size();
+
 		//日付と登録されたスケジュールをdayListに格納
 		for(int i = 1; i <= lastDay; i++) {
 
@@ -106,8 +110,15 @@ public class CalendarServlet extends HttpServlet {
 			//iが1桁のとき2桁の文字列に変換する
 			String day = String.format("%02d", i);
 
+
 			//指定したカレンダーに登録されたスケジュール(dbList)が1つもないとき
-			if (dbList.size() == 0) {
+			if (isSizeZeroDL) {
+				dayList.add(bean);
+				continue;
+			}
+
+			//yousoがdbListの要素数を超えたとき
+			if (dbListSize <= youso) {
 				dayList.add(bean);
 				continue;
 			}
@@ -115,12 +126,20 @@ public class CalendarServlet extends HttpServlet {
 			//DAOの戻り値のdayと実際の日付(day)が同じだったときdbListの値をsetする
 			if((dbList.get(youso).getDay()).equals(day)) {
 
+				bean.setUser1(dbList.get(youso).getUser1());
+				bean.setUser2(dbList.get(youso).getUser2());
+				bean.setUser3(dbList.get(youso).getUser3());
+
 				bean.setMemo1(dbList.get(youso).getMemo1());
 				bean.setMemo2(dbList.get(youso).getMemo2());
 				bean.setMemo3(dbList.get(youso).getMemo3());
 
 				youso++;
+
+				dayList.add(bean);
+				continue;
 			}
+
 			dayList.add(bean);
 		}
 
@@ -128,6 +147,7 @@ public class CalendarServlet extends HttpServlet {
 		//------------------------------------
 		// 最終週の終了日～土曜日までを設定
 		//------------------------------------
+
 		//[カレンダー]最終日の曜日～土曜日まで null を代入し揃える
 		int weekAmari = 7 - (dayList.size() % 7);
 
@@ -140,6 +160,10 @@ public class CalendarServlet extends HttpServlet {
 		}
 
 
+
+		//----------------------
+		//前月, 翌月のymを設定
+		//----------------------
 
 		//取得したカレンダーの前月のymをbeforeYmに代入
 		LocalDate localDateBefore = localDate.minusMonths(1);
