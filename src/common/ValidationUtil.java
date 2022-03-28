@@ -3,7 +3,7 @@ package common;
 import java.util.ArrayList;
 import java.util.List;
 
-import bean.UserInfoBean;
+import bean.UserBean;
 import bean.ValidationBean;
 
 public class ValidationUtil {
@@ -17,7 +17,7 @@ public class ValidationUtil {
 	 * userListの要素を判別し、バリデーションチェックに引き渡す
 	 * バリデーションチェックの結果とエラーを返すメソッド
 	 */
-	public static List<ValidationBean> validInputAllStatus(List<UserInfoBean> userList) {
+	public static List<ValidationBean> validInputAllStatus(List<UserBean> userList) {
 
 		//バリデーションチェックの戻り値を受け取る
 		List<ValidationBean> beanList = new ArrayList<>();
@@ -27,6 +27,7 @@ public class ValidationUtil {
 
 		//userListにidがあればバリデーションチェック
 		if(userList.get(0).getId() != null) {
+
 			String id = userList.get(0).getId();
 			beanList = ValidationUtil.validIdStatus(id);
 
@@ -37,6 +38,7 @@ public class ValidationUtil {
 
 		//userListにnameがあればバリデーションチェック
 		if(userList.get(0).getName() != null) {
+
 			String name = userList.get(0).getName();
 			beanList = ValidationUtil.validNameStatus(name);
 
@@ -47,6 +49,7 @@ public class ValidationUtil {
 
 		//userListにnameKanaがあればバリデーションチェック
 		if(userList.get(0).getNameKana() != null) {
+
 			String nameKana = userList.get(0).getNameKana();
 			beanList = ValidationUtil.validNameKanaStatus(nameKana);
 
@@ -57,6 +60,7 @@ public class ValidationUtil {
 
 		//userListにgenderがあればバリデーションチェック
 		if(userList.get(0).getGender() != null) {
+
 			String gender = userList.get(0).getGender();
 			beanList = ValidationUtil.validGenderStatus(gender);
 
@@ -67,6 +71,7 @@ public class ValidationUtil {
 
 		//userListにpasswordがあればバリデーションチェック
 		if(userList.get(0).getPassword() != null) {
+
 			String password = userList.get(0).getPassword();
 			beanList = ValidationUtil.validPasswordStatus(password);
 
@@ -77,6 +82,7 @@ public class ValidationUtil {
 
 		//userListにaddressがあればバリデーションチェック
 		if(userList.get(0).getAddress() != null) {
+
 			String address = userList.get(0).getAddress();
 			beanList = ValidationUtil.validAddressrStatus(address);
 
@@ -87,6 +93,7 @@ public class ValidationUtil {
 
 		//userListにtelがあればバリデーションチェック
 		if(userList.get(0).getTel() != null) {
+
 			String tel = userList.get(0).getTel();
 			beanList = ValidationUtil.validTelStatus(tel);
 
@@ -97,6 +104,7 @@ public class ValidationUtil {
 
 		//userListにemailがあればバリデーションチェック
 		if(userList.get(0).getEmail() != null) {
+
 			String email = userList.get(0).getEmail();
 			beanList = ValidationUtil.validEmailStatus(email);
 
@@ -107,6 +115,7 @@ public class ValidationUtil {
 
 		//userListにnoteがあればバリデーションチェック
 		if(userList.get(0).getNote() != null) {
+
 			String note = userList.get(0).getNote();
 			beanList = ValidationUtil.validNoteStatus(note);
 
@@ -117,6 +126,7 @@ public class ValidationUtil {
 
 		//userListにdelFlagがあればバリデーションチェック
 		if(userList.get(0).getDelFlag() != null) {
+
 			String delFlag = userList.get(0).getDelFlag();
 			beanList = ValidationUtil.validDelFlagStatus(delFlag);
 
@@ -163,7 +173,7 @@ public class ValidationUtil {
 
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
 		if(!isVali) {
-			er = Const.erId;
+			er = "半角英数字(4文字)で入力してください";
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
@@ -201,7 +211,7 @@ public class ValidationUtil {
 
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
 		if(!isVali) {
-			er = Const.erName;
+			er = "全角または半角英数字(20文字以内)で入力してください";
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
@@ -245,7 +255,7 @@ public class ValidationUtil {
 
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
 		if(!isVali) {
-			er = Const.erNameKana;
+			er = "全角カタカナ(40文字以内)で入力してください";
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
@@ -283,7 +293,7 @@ public class ValidationUtil {
 
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
 		if(!isVali) {
-			er = Const.erGender;
+			er = "不正な値を検知しました";
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
@@ -327,7 +337,7 @@ public class ValidationUtil {
 
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
 		if(!isVali) {
-			er = Const.erPassword;
+			er = "半角英数字(8文字未満)で入力してください";
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
@@ -371,7 +381,7 @@ public class ValidationUtil {
 
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
 		if(!isVali) {
-			er = Const.erAddress;
+			er = "使用できない文字が含まれています";
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
@@ -415,7 +425,7 @@ public class ValidationUtil {
 
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
 		if(!isVali) {
-			er = Const.erTel;
+			er = "半角数字(15文字以内)で入力してください";
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
@@ -459,7 +469,7 @@ public class ValidationUtil {
 
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
 		if(!isVali) {
-			er = Const.erEmail;
+			er = "使用できない文字が含まれています";
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
@@ -491,7 +501,7 @@ public class ValidationUtil {
 
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
 		if(!isVali) {
-			er = Const.erNote;
+			er = "400文字以内で入力してください";
 		}
 
 		//バリデーションチェックの結果とエラーテキストをセット
@@ -534,7 +544,7 @@ public class ValidationUtil {
 
 		//バリデーションチェックがアウトなら、エラ―テキストを代入
 		if(!isVali) {
-			er = Const.erDelFlag;
+			er = "不正な値を検知しました";
 		}
 
 
