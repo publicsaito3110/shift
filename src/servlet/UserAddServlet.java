@@ -117,6 +117,8 @@ public class UserAddServlet extends HttpServlet {
 		request.setAttribute("erEmail", erEmail);
 		request.setAttribute("erNote", erNote);
 
+
+
 		//バリデーションチェックが1つでもアウトのとき
 		if(!isVali1 || !isVali2 || !isVali3 || !isVali4 || !isVali5 || !isVali6 || !isVali7 || !isVali8 || !isVali9) {
 

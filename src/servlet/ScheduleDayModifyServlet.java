@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -71,7 +70,7 @@ public class ScheduleDayModifyServlet extends HttpServlet {
 
 
 		//指定した日付から値(登録済みのidとユーザ名, スケジュールに登録しているuser,memo)を取得する
-		List<ScheduleDayBean> scheduleDayList = ScheduleDayUtil.toListScheduleDayByYmd(ymd);
+		List<ScheduleDayBean> scheduleDayList = ScheduleDayUtil.toListScheduleDayOptionByYmd(ymd);
 
 		//scheduleDayListからmemoのみを抽出
 		String memo1 = scheduleDayList.get(0).getMemo1();
@@ -167,20 +166,17 @@ public class ScheduleDayModifyServlet extends HttpServlet {
 
 
 
-		//受け取った値をArrayListに格納
-		List<ScheduleBean> scheduleList = new ArrayList<>();
-		ScheduleBean bean = new ScheduleBean();
+		//受け取った値をscheduleBeanに格納
+		ScheduleBean scheduleBean = new ScheduleBean();
 
+		scheduleBean.setYmd(ymd);
+		scheduleBean.setUser1(inputUser1);
+		scheduleBean.setMemo1(inputMemo1);
+		scheduleBean.setUser2(inputUser2);
+		scheduleBean.setMemo2(inputMemo2);
+		scheduleBean.setUser3(inputUser3);
+		scheduleBean.setMemo3(inputMemo3);
 
-		bean.setYmd(ymd);
-		bean.setUser1(inputUser1);
-		bean.setMemo1(inputMemo1);
-		bean.setUser2(inputUser2);
-		bean.setMemo2(inputMemo2);
-		bean.setUser3(inputUser3);
-		bean.setMemo3(inputMemo3);
-
-		scheduleList.add(bean);
 
 
 		//-------------------------ー------------
@@ -196,17 +192,17 @@ public class ScheduleDayModifyServlet extends HttpServlet {
 
 		case "UPDATE":    //修正ボタンが押されたとき
 
-			isRecordResult = bl.updateScheduleDay(scheduleList);
+			isRecordResult = bl.updateScheduleDay(scheduleBean);
 			break;
 
 		case "DELETE":    //削除ボタンが押されたとき
 
-			isRecordResult = bl.deleteScheduleDay(scheduleList);
+			isRecordResult = bl.deleteScheduleDay(scheduleBean);
 			break;
 
 		case "INSERT":    //登録ボタンが押されたとき
 
-			isRecordResult = bl.insertScheduleDay(scheduleList);
+			isRecordResult = bl.insertScheduleDay(scheduleBean);
 			break;
 		}
 
@@ -230,7 +226,7 @@ public class ScheduleDayModifyServlet extends HttpServlet {
 		//-----------------
 
 		//先ほどの日付から値(登録済みのidとユーザ名, 更新したuser,memo)を改めて取得する
-		scheduleDayList = ScheduleDayUtil.toListScheduleDayByYmd(ymd);
+		scheduleDayList = ScheduleDayUtil.toListScheduleDayOptionByYmd(ymd);
 
 		//scheduleDayListからmemo(更新済み)のみを抽出
 		memo1 = scheduleDayList.get(0).getMemo1();

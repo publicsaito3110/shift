@@ -68,7 +68,6 @@ public class ScheduleDao {
 			beanList.add(bean);
 		}
 
-		System.out.print("");
 
 	} catch (Exception e) {
 		e.printStackTrace();
@@ -106,7 +105,7 @@ public class ScheduleDao {
 	/**
 	 *1日分のスケジュールを取得するメソッド
 	 */
-	public List<ScheduleBean> selectScheduleDay(String ymd) {
+	public ScheduleBean selectScheduleDay(String ymd) {
 
 
 		//JDBCの接続に使用するオブジェクトを宣言
@@ -114,7 +113,8 @@ public class ScheduleDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		List<ScheduleBean> beanList = new ArrayList<ScheduleBean>();
+		//受け渡すための変数
+		ScheduleBean scheduleBean = new ScheduleBean();
 
 		try {
 
@@ -141,18 +141,15 @@ public class ScheduleDao {
 
 			//結果をさらに抽出
 			while (rs.next()) {
-				ScheduleBean bean = new ScheduleBean();
 
-				bean.setUser1(rs.getString("user1"));
-				bean.setMemo1(rs.getString("memo1"));
-				bean.setUser2(rs.getString("user2"));
-				bean.setMemo2(rs.getString("memo2"));
-				bean.setUser3(rs.getString("user3"));
-				bean.setMemo3(rs.getString("memo3"));
-				beanList.add(bean);
+				scheduleBean.setUser1(rs.getString("user1"));
+				scheduleBean.setMemo1(rs.getString("memo1"));
+				scheduleBean.setUser2(rs.getString("user2"));
+				scheduleBean.setMemo2(rs.getString("memo2"));
+				scheduleBean.setUser3(rs.getString("user3"));
+				scheduleBean.setMemo3(rs.getString("memo3"));
 			}
 
-			System.out.print("");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -182,17 +179,17 @@ public class ScheduleDao {
 			}
 		}
 
-		return beanList;
+		return scheduleBean;
 	}
 
 
 	/**
 	 * スケジュールを新規で追加する(INSERT)
 	 */
-	public boolean insertScheduleDay(List<ScheduleBean> beanList){
+	public boolean insertScheduleDay(ScheduleBean scheduleBean){
 
 		//実行結果を取得
-		boolean result = false;
+		boolean isResult = false;
 
 		//JDBCの接続に使用するオブジェクトを宣言
 		Connection con = null;
@@ -223,19 +220,19 @@ public class ScheduleDao {
 			ps = con.prepareStatement(buf.toString());
 
 			// ?にパラメーターをセット
-			ps.setString(1, beanList.get(0).getYmd());
-			ps.setString(2, beanList.get(0).getUser1());
-			ps.setString(3, beanList.get(0).getMemo1());
-			ps.setString(4, beanList.get(0).getUser2());
-			ps.setString(5, beanList.get(0).getMemo2());
-			ps.setString(6, beanList.get(0).getUser3());
-			ps.setString(7, beanList.get(0).getMemo3());
+			ps.setString(1, scheduleBean.getYmd());
+			ps.setString(2, scheduleBean.getUser1());
+			ps.setString(3, scheduleBean.getMemo1());
+			ps.setString(4, scheduleBean.getUser2());
+			ps.setString(5, scheduleBean.getMemo2());
+			ps.setString(6, scheduleBean.getUser3());
+			ps.setString(7, scheduleBean.getMemo3());
 
 			//SQLを実行
 			ps.executeUpdate();
 
 			//SQL実行の成功結果を反映
-			result = true;
+			isResult = true;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -243,7 +240,7 @@ public class ScheduleDao {
 		} finally {
 
 			//トランザクションの終了
-			if(result){    //SQLの実行成功時、明示的にコミットを実施
+			if(isResult){    //SQLの実行成功時、明示的にコミットを実施
 				try {
 					con.commit();
 				} catch (SQLException e) {
@@ -274,21 +271,23 @@ public class ScheduleDao {
 			}
 		}
 
-		return result;
+		return isResult;
 	}
 
 
 	/**
 	 *スケジュールを更新する(UPDATE)
 	 */
-	public boolean updateScheduleDay(List<ScheduleBean> beanList){
+	public boolean updateScheduleDay(ScheduleBean scheduleBean){
 
-		//実行結果を取得
-		boolean result = false;
 
 		//JDBCの接続に使用するオブジェクトを宣言
 		Connection con = null;
 		PreparedStatement ps = null;
+
+
+		//実行結果を取得するための変数
+		boolean isResult = false;
 
 
 		try {
@@ -320,19 +319,19 @@ public class ScheduleDao {
 			ps = con.prepareStatement(buf.toString());
 
 			// ? にパラメータをセット
-			ps.setString(1, beanList.get(0).getUser1());
-			ps.setString(2, beanList.get(0).getMemo1());
-			ps.setString(3, beanList.get(0).getUser2());
-			ps.setString(4, beanList.get(0).getMemo2());
-			ps.setString(5, beanList.get(0).getUser3());
-			ps.setString(6, beanList.get(0).getMemo3());
-			ps.setString(7, beanList.get(0).getYmd());
+			ps.setString(1, scheduleBean.getUser1());
+			ps.setString(2, scheduleBean.getMemo1());
+			ps.setString(3, scheduleBean.getUser2());
+			ps.setString(4, scheduleBean.getMemo2());
+			ps.setString(5, scheduleBean.getUser3());
+			ps.setString(6, scheduleBean.getMemo3());
+			ps.setString(7, scheduleBean.getYmd());
 
 			//SQLを実行
 			ps.executeUpdate();
 
 			//SQL実行の成功結果を反映
-			result = true;
+			isResult = true;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -340,7 +339,7 @@ public class ScheduleDao {
 		} finally {
 
 			//トランザクションの終了
-			if(result){    //SQLの実行成功時、明示的にコミットを実施
+			if(isResult){    //SQLの実行成功時、明示的にコミットを実施
 				try {
 					con.commit();
 				} catch (SQLException e) {
@@ -371,21 +370,23 @@ public class ScheduleDao {
 			}
 		}
 
-		return result;
+		return isResult;
 	}
 
 
 	/**
-	 *スケジュールを更新する(DELETE)
+	 *スケジュールを削除する(DELETE)
 	 */
-	public boolean deleteScheduleDay(List<ScheduleBean> beanList){
+	public boolean deleteScheduleDay(ScheduleBean scheduleBean){
 
-		//実行結果を取得
-		boolean result = false;
 
 		//JDBCの接続に使用するオブジェクトを宣言
 		Connection con = null;
 		PreparedStatement ps = null;
+
+
+		//実行結果を取得するための変数
+		boolean isResult = false;
 
 
 		try {
@@ -410,13 +411,13 @@ public class ScheduleDao {
 			ps = con.prepareStatement(buf.toString());
 
 			// ? にパラメータをセット
-			ps.setString(1, beanList.get(0).getYmd());
+			ps.setString(1, scheduleBean.getYmd());
 
 			//SQLを実行
 			ps.executeUpdate();
 
 			//SQL実行の成功結果を反映
-			result = true;
+			isResult = true;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -424,7 +425,7 @@ public class ScheduleDao {
 		} finally {
 
 			//トランザクションの終了
-			if(result){    //SQLの実行成功時、明示的にコミットを実施
+			if(isResult){    //SQLの実行成功時、明示的にコミットを実施
 				try {
 					con.commit();
 				} catch (SQLException e) {
@@ -455,6 +456,6 @@ public class ScheduleDao {
 			}
 		}
 
-		return result;
+		return isResult;
 	}
 }

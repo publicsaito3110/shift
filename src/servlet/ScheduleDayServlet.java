@@ -39,7 +39,7 @@ public class ScheduleDayServlet extends HttpServlet {
 
 
 		//指定した日付から値(登録済みのidとユーザ名, スケジュールに登録しているuser,memo)を取得する
-		List<ScheduleDayBean> scheduleDayList = ScheduleDayUtil.toListScheduleDayByYmd(ymd);
+		List<ScheduleDayBean> scheduleDayList = ScheduleDayUtil.toListScheduleDayOptionByYmd(ymd);
 
 
 		//scheduleDayListからmemoのみを抽出

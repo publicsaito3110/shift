@@ -1,8 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.UserBean;
 import bl.UserBl;
+import common.CommonUtil;
+import common.Const;
 
 /**
  * Servlet implementation class UserOneServlet
@@ -43,35 +43,47 @@ public class UserOneServlet extends HttpServlet {
 		//更新したいユーザのidをuser-list.jspから受け取る
 		String id = request.getParameter("id");
 
-		//BLの戻り値をdbListで受け取る
-		List<UserBean> dbList = new ArrayList<>();
+
+
+		//idと一致するユーザを取得するuserBeanで受け取る
+		UserBean userBean = new UserBean();
 		UserBl bl = new UserBl();
-		dbList = bl.selectUserOne(id);
+
+		userBean = bl.selectUserOneById(id);
 
 
 		//dbListの結果を抽出する
-		id = dbList.get(0).getId();
-		String name = dbList.get(0).getName();
-		String nameKana = dbList.get(0).getNameKana();
-		String gender = dbList.get(0).getGender();
-		String delFlag = dbList.get(0).getDelFlag();
+		id = userBean.getId();
+		String name = userBean.getName();
+		String nameKana = userBean.getNameKana();
+		String gender = userBean.getGender();
+		String delFlag = userBean.getDelFlag();
 
 
 		//genderが女性かの判別
 		String checkGender2 = "";
 
+
 		//genderが女性(2)のとき<radio>をチェックする
-		if(gender == "2") {
-			checkGender2 = "checked";
+		if(gender.equals(Const.GENDER_FEMALE)) {
+
+			checkGender2 = Const.RADIO_CHECKED;
 		}
 
-		//<checkbox>退職フラグ(checkDelFlag)があるかの判定
+
+		//delFlagがあるかの判定
 		String checkDelFlag = "";
 
+		//delFlagがnullのとき空文字を返す
+		delFlag = CommonUtil.changeEmptyByNull(delFlag);
+
+
 		//退職フラグがあるとき
-		if(delFlag == "1") {
-			checkDelFlag = "checked";
+		if(delFlag.equals(Const.DELETE_FLAG)) {
+
+			checkDelFlag = Const.RADIO_CHECKED;
 		}
+
 
 
 

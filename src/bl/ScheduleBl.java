@@ -25,52 +25,52 @@ public class ScheduleBl {
 	/**
 	 * 指定された日付のスケジュールを取得するメソッド
 	 */
-	public List<ScheduleBean> selectScheduleDay(String ymd) {
+	public ScheduleBean selectScheduleDay(String ymd) {
 
-		//DAOの戻り値をscheduleListで受け取る
-			List<ScheduleBean> scheduleList = new ArrayList<>();
+		//DAOの戻り値をscheduleBeanで受け取る
+			ScheduleBean scheduleBean = new ScheduleBean();
 			ScheduleDao dao = new ScheduleDao();
-			scheduleList = dao.selectScheduleDay(ymd);
+			scheduleBean = dao.selectScheduleDay(ymd);
 
-			return scheduleList;
+			return scheduleBean;
 	}
 
 
 	/**
 	 * 指定した日付のスケジュールを新規登録するメソッド
 	 */
-	public boolean insertScheduleDay(List<ScheduleBean> beanList) {
+	public boolean insertScheduleDay(ScheduleBean scheduleBean) {
 
 		//DAOの戻り値を modifyResult で受け取る
 		ScheduleDao dao = new ScheduleDao();
-		boolean result = dao.insertScheduleDay(beanList);
+		boolean isResult = dao.insertScheduleDay(scheduleBean);
 
-		return result;
+		return isResult;
 	}
 
 
 	/**
 	 * 指定した日付のスケジュールを更新するメソッド
 	 */
-	public boolean updateScheduleDay(List<ScheduleBean> beanList) {
+	public boolean updateScheduleDay(ScheduleBean scheduleBean) {
 
 		//DAOの戻り値を modifyResult で受け取る
 		ScheduleDao dao = new ScheduleDao();
-		boolean result = dao.updateScheduleDay(beanList);
+		boolean isResult = dao.updateScheduleDay(scheduleBean);
 
-		return result;
+		return isResult;
 	}
 
 
 	/**
 	 * 指定した日付のスケジュールを削除するメソッド
 	 */
-	public boolean deleteScheduleDay(List<ScheduleBean> beanList) {
+	public boolean deleteScheduleDay(ScheduleBean scheduleBean) {
 
 		//DAOの戻り値を modifyResult で受け取る
 		ScheduleDao dao = new ScheduleDao();
-		boolean result = dao.deleteScheduleDay(beanList);
+		boolean isResult = dao.deleteScheduleDay(scheduleBean);
 
-		return result;
+		return isResult;
 	}
 }

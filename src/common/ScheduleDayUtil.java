@@ -18,7 +18,7 @@ public class ScheduleDayUtil {
 	}
 
 
-	public static List<ScheduleDayBean> toListScheduleDayByYmd(String ymd){
+	public static List<ScheduleDayBean> toListScheduleDayOptionByYmd(String ymd){
 
 
 		//----------------------------------
@@ -35,8 +35,8 @@ public class ScheduleDayUtil {
 
 		//ymdと一致するスケジュールを取得する
 		ScheduleBl bl2 = new ScheduleBl();
-		List<ScheduleBean> scheduleList = new ArrayList<>();
-		scheduleList = bl2.selectScheduleDay(ymd);
+		ScheduleBean scheduleBean = new ScheduleBean();
+		scheduleBean = bl2.selectScheduleDay(ymd);
 
 		//userとmemoをあらかじめ定義する
 		String user1 = null;
@@ -46,19 +46,15 @@ public class ScheduleDayUtil {
 		String memo2 = null;
 		String memo3 = null;
 
-		//scheduleListの要素があるかどうかの判定
-		boolean isCheckSizeZeroSL = CommonUtil.isCheckSizeZeroByList(scheduleList);
 
-		//scheduleListの要素が0でないときスケジュールに登録されているuserとmemoを取得
-		if(!isCheckSizeZeroSL) {
+		//スケジュールに登録されているuserとmemoを取得
+			user1 = scheduleBean.getUser1();
+			user2 = scheduleBean.getUser2();
+			user3 = scheduleBean.getUser3();
+			memo1 = scheduleBean.getMemo1();
+			memo2 = scheduleBean.getMemo2();
+			memo3 = scheduleBean.getMemo3();
 
-			user1 = scheduleList.get(0).getUser1();
-			user2 = scheduleList.get(0).getUser2();
-			user3 = scheduleList.get(0).getUser3();
-			memo1 = scheduleList.get(0).getMemo1();
-			memo2 = scheduleList.get(0).getMemo2();
-			memo3 = scheduleList.get(0).getMemo3();
-		}
 
 
 		//---------------------------------------------
@@ -107,27 +103,25 @@ public class ScheduleDayUtil {
 			String user = userList.get(i).getName();
 			String id = userList.get(i).getId();
 
-			//scheduleListの要素が0でないとき
-			if(!isCheckSizeZeroSL) {
 
-				//登録ユーザ(id)とスケジュールに登録されているユーザid(user1)が一致したときselectedをつける
-				if(id.equals(user1)) {
+			//登録ユーザ(id)とスケジュールに登録されているユーザid(user1)が一致したときselectedをつける
+			if(id.equals(user1)) {
 
-					checkUser1 = Const.OPTION_SELECTED;
-				}
-
-				//登録ユーザ(id)とスケジュールに登録されているユーザid(user1)が一致したときselectedをつける
-				if(id.equals(user2)) {
-
-					checkUser2 = Const.OPTION_SELECTED;
-				}
-
-				//登録ユーザ(id)とスケジュールに登録されているユーザid(user1)が一致したときselectedをつける
-				if(id.equals(user3)) {
-
-					checkUser3 = Const.OPTION_SELECTED;
-				}
+				checkUser1 = Const.OPTION_SELECTED;
 			}
+
+			//登録ユーザ(id)とスケジュールに登録されているユーザid(user1)が一致したときselectedをつける
+			if(id.equals(user2)) {
+
+				checkUser2 = Const.OPTION_SELECTED;
+			}
+
+			//登録ユーザ(id)とスケジュールに登録されているユーザid(user1)が一致したときselectedをつける
+			if(id.equals(user3)) {
+
+				checkUser3 = Const.OPTION_SELECTED;
+			}
+
 			bean.setUser(user);
 			bean.setId(id);
 			bean.setCheckUser1(checkUser1);
@@ -142,7 +136,7 @@ public class ScheduleDayUtil {
 
 
 	/**
-	 *user,memoの値を判別し、sqlTypeを返す
+	 *scheduleDayListからuser,memoの値を判別し、sqlTypeを返す
 	 */
 	public static String checkSqlType(List<ScheduleDayBean> scheduleDayList) {
 
@@ -156,15 +150,19 @@ public class ScheduleDayUtil {
 		boolean isEmptyMemo2 = StringUtils.isEmpty(scheduleDayList.get(0).getMemo2());
 		boolean isEmptyMemo3 = StringUtils.isEmpty(scheduleDayList.get(0).getMemo3());
 
+
+
 		//user,memoが1つでも空文字またはnullでないとき
 		if(!isEmptyUser1 || !isEmptyUser2 || !isEmptyUser3 || !isEmptyMemo1 || !isEmptyMemo2 || !isEmptyMemo3) {
 			return "update";
 		}
 
+
 		//user,memoが全て空文字またはnullでないとき
 		if(isEmptyUser1 && isEmptyUser2 && isEmptyUser3 && isEmptyMemo1 && isEmptyMemo2 && isEmptyMemo3) {
 			return "insert";
 		}
+
 
 		return "er";
 	}

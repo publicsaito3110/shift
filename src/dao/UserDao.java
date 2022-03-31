@@ -349,9 +349,9 @@ public class UserDao {
 
 
 	/**
-	 *1人のユーザを取得するメソッド
+	 *idと一致する1人のユーザを取得するメソッド
 	 */
-	public List<UserBean> selectUserOne(String id) {
+	public UserBean selectUserOneById(String id) {
 
 
 		//JDBCの接続に使用するオブジェクトを宣言
@@ -359,7 +359,8 @@ public class UserDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		List<UserBean> beanList = new ArrayList<UserBean>();
+		//受け渡す値を格納する変数
+		UserBean userBean = new UserBean();
 
 		try {
 
@@ -384,15 +385,12 @@ public class UserDao {
 
 			//結果をさらに抽出
 			while (rs.next()) {
-				UserBean bean = new UserBean();
-				//ymdからday部分のみを抽出し、beanにsetする
-				bean.setId(rs.getString("id"));
-				bean.setName(rs.getString("name"));
-				bean.setNameKana(rs.getString("name_kana"));
-				bean.setGender(rs.getString("gender"));
-				bean.setDelFlag(rs.getString("del_flg"));
 
-				beanList.add(bean);
+				userBean.setId(rs.getString("id"));
+				userBean.setName(rs.getString("name"));
+				userBean.setNameKana(rs.getString("name_kana"));
+				userBean.setGender(rs.getString("gender"));
+				userBean.setDelFlag(rs.getString("del_flg"));
 			}
 
 		} catch (Exception e) {
@@ -423,7 +421,7 @@ public class UserDao {
 			}
 		}
 
-		return beanList;
+		return userBean;
 	}
 
 

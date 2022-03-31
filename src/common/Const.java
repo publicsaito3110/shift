@@ -6,7 +6,14 @@ public class Const {
 		// インスタンス化できないように設定
 	}
 
-	public static String OPTION_SELECTED = "selected";   //半角数字
+	public static String GENDER_MAN = "1";   //性別が男
+	public static String GENDER_FEMALE = "2";   //性別が女
+	public static String DELETE_FLAG = "1";   //deleteFlagがある
+
+
+	public static String OPTION_SELECTED = "selected";   //<option>のセレクト
+	public static String RADIO_CHECKED = "checked";   //<radio>のチェック
+
 
 	public static int OFFSET_FIRST = 0;   //SQL1-5件目を指定
 	public static int MAX_PAGE = 5;      //JSPに1回で表示する最大ページ数

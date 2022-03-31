@@ -28,7 +28,7 @@ public class UserBl {
 	 */
 	public List<UserBean> selectUserIdNameNotDelFlag() {
 
-		//DAOの戻り値をscheduleListで受け取る
+		//DAOの戻り値をuserListで受け取る
 			List<UserBean> userList = new ArrayList<>();
 			UserDao dao = new UserDao();
 			userList = dao.selectUserIdNameNotDelFlag();
@@ -41,12 +41,12 @@ public class UserBl {
 	 */
 	public List<UserBean> selectUserAll(int offset){
 
-		//DAOの戻り値をuserInfoListで受け取る
-		List<UserBean> userInfoList = new ArrayList<>();
+		//DAOの戻り値をuserListで受け取る
+		List<UserBean> userList = new ArrayList<>();
 		UserDao dao = new UserDao();
-		userInfoList = dao.selectUserAll(offset);
+		userList = dao.selectUserAll(offset);
 
-		return userInfoList;
+		return userList;
 	}
 
 	/**
@@ -54,12 +54,12 @@ public class UserBl {
 	 */
 	public List<UserBean> selectUserByKeyWord(int offset, String keyWord){
 
-		//DAOの戻り値をuserInfoListで受け取る
-		List<UserBean> userInfoList = new ArrayList<>();
+		//DAOの戻り値をuserListで受け取る
+		List<UserBean> userList = new ArrayList<>();
 		UserDao dao = new UserDao();
-		userInfoList = dao.selectUserByKeyWord(offset, keyWord);
+		userList = dao.selectUserByKeyWord(offset, keyWord);
 
-		return userInfoList;
+		return userList;
 	}
 
 	/**
@@ -74,18 +74,20 @@ public class UserBl {
 		return isSignupResult;
 	}
 
+
 	/**
-	 * 1人のユーザ詳細を取得するメソッド
+	 * idと一致する1人のユーザ詳細を取得するメソッド
 	 */
-	public List<UserBean> selectUserOne(String id){
+	public UserBean selectUserOneById(String id){
 
-		//DAOの戻り値をuserInfoListで受け取る
-		List<UserBean> userInfoList = new ArrayList<>();
+		//DAOの戻り値をuserBeanで受け取る
+		UserBean userBean = new UserBean();
 		UserDao dao = new UserDao();
-		userInfoList = dao.selectUserOne(id);
+		userBean = dao.selectUserOneById(id);
 
-		return userInfoList;
+		return userBean;
 	}
+
 
 	/**
 	 * 1人のユーザ情報を更新メソッド
