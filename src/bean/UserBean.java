@@ -14,6 +14,7 @@ public class UserBean {
 	private String note;
 	private String delFlag;
 
+	private String countAll;
 
 
 	//getter, setter
@@ -76,5 +77,11 @@ public class UserBean {
 	}
 	public void setDelFlag(String delFlag) {
 		this.delFlag = delFlag;
+	}
+	public String getCountAll() {
+		return countAll;
+	}
+	public void setCountAll(String countAll) {
+		this.countAll = countAll;
 	}
 }

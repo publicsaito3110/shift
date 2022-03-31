@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bean.UserInfoBean;
-import bl.UserInfoBl;
+import bean.UserBean;
+import bl.UserBl;
 
 /**
  * Servlet implementation class UserOneServlet
@@ -28,7 +28,8 @@ public class UserOneServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -43,9 +44,9 @@ public class UserOneServlet extends HttpServlet {
 		String id = request.getParameter("id");
 
 		//BLの戻り値をdbListで受け取る
-		List<UserInfoBean> dbList = new ArrayList<>();
-		UserInfoBl bl = new UserInfoBl();
-		dbList = bl.selectUserOneDB(id);
+		List<UserBean> dbList = new ArrayList<>();
+		UserBl bl = new UserBl();
+		dbList = bl.selectUserOne(id);
 
 
 		//dbListの結果を抽出する

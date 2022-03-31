@@ -11,7 +11,7 @@
 
 	<h1>ユーザー一覧</h1>
 
-	<form action="UserListSearchServlet" method="post">
+	<form action="UserListServlet" method="post">
 		<p>キーワード:<input type="text" name="keyWord" value="${keyWord}"></p>
 		<c:if test="${afterFormFlag}">
 			<span><a href="UserListServlet">条件を解除する</a></span>
@@ -32,7 +32,7 @@
 	</thead>
 
 	<tbody>
-		<c:forEach var="b" items="${dbList}" varStatus="status">
+		<c:forEach var="b" items="${userList}" varStatus="status">
 			<tr>
 				<td>${b.id}</td>
 				<td>${b.name}</td>
@@ -56,11 +56,27 @@
 		</c:forEach>
 	</tbody>
 	</table>
+
 	<br>
-	<a href="UserSignUpServlet">新規登録</a>
+
+
+	<div style="display:inline-flex">
+		<c:forEach var="i" items="${pageList}" varStatus="status">
+			<form name="pushPage" method="post" action="UserListServlet">
+				<input type="hidden" name="page" value="${i}">
+				<input type="hidden" name=keyWord value="${keyWord}">
+				<a class="pages" href="javascript:document.pushPage[${status.count -1}].submit()">${i}</a>
+			</form>
+		</c:forEach>
+	</div>
+
+
+	<br>
+	<a href="UserAddServlet">新規登録</a>
 
 </body>
 <style>
+
 
 </style>
 

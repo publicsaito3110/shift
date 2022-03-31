@@ -39,12 +39,12 @@ public class UserBl {
 	/**
 	 * 登録しているユーザ全員を取得する
 	 */
-	public List<UserBean> selectUserAll(){
+	public List<UserBean> selectUserAll(int offset){
 
 		//DAOの戻り値をuserInfoListで受け取る
 		List<UserBean> userInfoList = new ArrayList<>();
 		UserDao dao = new UserDao();
-		userInfoList = dao.selectUserAll();
+		userInfoList = dao.selectUserAll(offset);
 
 		return userInfoList;
 	}
@@ -52,12 +52,12 @@ public class UserBl {
 	/**
 	 * キーワードに該当するユーザ全員を表示するメソッド
 	 */
-	public List<UserBean> selectUserByKeyWord(String keyWord){
+	public List<UserBean> selectUserByKeyWord(int offset, String keyWord){
 
 		//DAOの戻り値をuserInfoListで受け取る
 		List<UserBean> userInfoList = new ArrayList<>();
 		UserDao dao = new UserDao();
-		userInfoList = dao.selectUserByKeyWord(keyWord);
+		userInfoList = dao.selectUserByKeyWord(offset, keyWord);
 
 		return userInfoList;
 	}
@@ -65,13 +65,13 @@ public class UserBl {
 	/**
 	 * ユーザを新規登録するメソッド
 	 */
-	public boolean insertUserSignup(List<UserBean> userInfoList){
+	public boolean insertUserSignup(UserBean userBean){
 
 		//DAOの戻り値をbooleanで受け取る
 		UserDao dao = new UserDao();
-		boolean sighnUpResult = dao.insertUserSignup(userInfoList);
+		boolean isSignupResult = dao.insertUserSignup(userBean);
 
-		return sighnUpResult;
+		return isSignupResult;
 	}
 
 	/**
@@ -90,13 +90,13 @@ public class UserBl {
 	/**
 	 * 1人のユーザ情報を更新メソッド
 	 */
-	public boolean updateUser(List<UserBean> userList){
+	public boolean updateUser(UserBean userBean){
 
 		//DAOの戻り値をUpdateResultで受け取る
 		UserDao dao = new UserDao();
-		boolean UpdateResult = dao.updateUserDB(userList);
+		boolean isUpdateResult = dao.updateUserDB(userBean);
 
-		return UpdateResult;
+		return isUpdateResult;
 	}
 
 }
