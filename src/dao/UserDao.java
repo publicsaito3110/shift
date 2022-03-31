@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.UserBean;
+import common.Const;
 import common.DbConst;
 
 
@@ -171,7 +172,7 @@ public class UserDao {
 	/**
 	 * 登録済みのユーザ全員を取得するメソッド
 	 */
-	public List<UserBean> selectUserAll() {
+	public List<UserBean> selectUserAll(int offset) {
 
 
 		//JDBCの接続に使用するオブジェクトを宣言
@@ -190,10 +191,19 @@ public class UserDao {
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
-			buf.append("SELECT ID, NAME, NAME_KANA, GENDER FROM USER ORDER BY ID");
+			buf.append("SELECT ID, NAME, NAME_KANA, GENDER, (SELECT COUNT(ID) FROM USER) AS COUNT ");
+			buf.append(" FROM USER ");
+			buf.append(" ORDER BY ID ");
+			buf.append(" LIMIT ");
+			buf.append( Const.PAGE_LIMIT );
+			buf.append(" OFFSET  ? ");
+			buf.append(" ; ");
 
 			//SQLをセット
 			ps = con.prepareStatement(buf.toString());
+
+			// ? にパラメータをセット
+			ps.setInt(1, offset);
 
 			//SQLの結果を取得
 			rs = ps.executeQuery();
@@ -201,11 +211,12 @@ public class UserDao {
 			//結果をさらに抽出
 			while (rs.next()) {
 				UserBean bean = new UserBean();
-				//ymdからday部分のみを抽出し、beanにsetする
+
 				bean.setId(rs.getString("id"));
 				bean.setName(rs.getString("name"));
 				bean.setNameKana(rs.getString("name_kana"));
 				bean.setGender(rs.getString("gender"));
+				bean.setCountAll(rs.getString("count"));
 
 				beanList.add(bean);
 			}
@@ -245,7 +256,7 @@ public class UserDao {
 	/**
 	 *キーワードに該当するユーザ全員を取得するメソッド
 	 */
-	public List<UserBean> selectUserByKeyWord(String keyWord) {
+	public List<UserBean> selectUserByKeyWord(int offset, String keyWord) {
 
 
 		//JDBCの接続に使用するオブジェクトを宣言
@@ -265,20 +276,29 @@ public class UserDao {
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
 			buf.append("SELECT ID, NAME, NAME_KANA, GENDER ");
+			buf.append(", (SELECT COUNT(ID) FROM USER WHERE ID LIKE ? OR NAME LIKE ? OR NAME_KANA LIKE ? ) AS COUNT ");
 			buf.append(" FROM USER ");
 			buf.append(" WHERE ID LIKE ? OR NAME LIKE ? OR NAME_KANA LIKE ? ");
 			buf.append(" ORDER BY ID ");
+			buf.append(" LIMIT ");
+			buf.append( Const.PAGE_LIMIT );
+			buf.append(" OFFSET  ? ");
 			buf.append(" ; ");
+
 
 			//SQLをセット
 			ps = con.prepareStatement(buf.toString());
 
 			// ? にパラメータをセット
-			String per = "%";                      //SELECT検索のWHERE句でLIKEを使用するため
+			String paramKeyWord = Const.PERCENT + keyWord + Const.PERCENT;
 
-			ps.setString(1, per + keyWord + per);      //keyWordが""のとき
-			ps.setString(2, per + keyWord + per);      //WHERE * LIKE '%%' となり WHERE * と同様の結果になる
-			ps.setString(3, per + keyWord + per);      //(MySQLの場合)
+			ps.setString(1, paramKeyWord);
+			ps.setString(2, paramKeyWord);
+			ps.setString(3, paramKeyWord);
+			ps.setString(4, paramKeyWord);      //keyWordが""のとき
+			ps.setString(5, paramKeyWord);      //WHERE * LIKE '%%' となり WHERE * と同様の結果になる
+			ps.setString(6, paramKeyWord);      //(MySQLの場合)
+			ps.setInt(7, offset);
 
 			//SQLの結果を取得
 			rs = ps.executeQuery();
@@ -291,6 +311,7 @@ public class UserDao {
 				bean.setName(rs.getString("name"));
 				bean.setNameKana(rs.getString("name_kana"));
 				bean.setGender(rs.getString("gender"));
+				bean.setCountAll(rs.getString("count"));
 
 				beanList.add(bean);
 			}
@@ -410,10 +431,10 @@ public class UserDao {
 	/**
 	 *ユーザを新規登録するメソッド
 	 */
-	public boolean insertUserSignup(List<UserBean> userInfoList){
+	public boolean insertUserSignup(UserBean userBean){
 
 		//実行結果を取得
-		boolean sighnUpResult = false;
+		boolean isSignupResult = false;
 
 		//JDBCの接続に使用するオブジェクトを宣言
 		Connection con = null;
@@ -442,21 +463,21 @@ public class UserDao {
 			ps = con.prepareStatement(buf.toString());
 
 			//パラメーターをセット
-			ps.setString(1, userInfoList.get(0).getId());
-			ps.setString(2, userInfoList.get(0).getName());
-			ps.setString(3, userInfoList.get(0).getNameKana());
-			ps.setString(4, userInfoList.get(0).getGender());
-			ps.setString(5, userInfoList.get(0).getPassword());
-			ps.setString(6, userInfoList.get(0).getAddress());
-			ps.setString(7, userInfoList.get(0).getTel());
-			ps.setString(8, userInfoList.get(0).getEmail());
-			ps.setString(9, userInfoList.get(0).getNote());
+			ps.setString(1, userBean.getId());
+			ps.setString(2, userBean.getName());
+			ps.setString(3, userBean.getNameKana());
+			ps.setString(4, userBean.getGender());
+			ps.setString(5, userBean.getPassword());
+			ps.setString(6, userBean.getAddress());
+			ps.setString(7, userBean.getTel());
+			ps.setString(8, userBean.getEmail());
+			ps.setString(9, userBean.getNote());
 
 			//SQLを実行
 			ps.executeUpdate();
 
 			//SQL実行の成功結果を反映
-			sighnUpResult = true;
+			isSignupResult = true;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -464,7 +485,7 @@ public class UserDao {
 		} finally {
 
 			//トランザクションの終了
-			if(sighnUpResult){    //SQLの実行成功時、明示的にコミットを実施
+			if(isSignupResult){    //SQLの実行成功時、明示的にコミットを実施
 				try {
 					con.commit();
 				} catch (SQLException e) {
@@ -495,17 +516,17 @@ public class UserDao {
 			}
 		}
 
-		return sighnUpResult;
+		return isSignupResult;
 	}
 
 
 	/**
 	 *ユーザ情報を更新するメソッド
 	 */
-	public boolean updateUserDB(List<UserBean> userInfoList){
+	public boolean updateUserDB(UserBean userBean){
 
 		//実行結果を取得
-		boolean upDateResult = false;
+		boolean isUpdateResult = false;
 
 		//JDBCの接続に使用するオブジェクトを宣言
 		Connection con = null;
@@ -538,18 +559,18 @@ public class UserDao {
 			ps = con.prepareStatement(buf.toString());
 
 			//パラメーターをセット
-			ps.setString(1, userInfoList.get(0).getName());
-			ps.setString(2, userInfoList.get(0).getNameKana());
-			ps.setString(3, userInfoList.get(0).getGender());
-			ps.setString(4, userInfoList.get(0).getDelFlag());
-			ps.setString(5, userInfoList.get(0).getId());
+			ps.setString(1, userBean.getName());
+			ps.setString(2, userBean.getNameKana());
+			ps.setString(3, userBean.getGender());
+			ps.setString(4, userBean.getDelFlag());
+			ps.setString(5, userBean.getId());
 
 
 			//SQLを実行
 			ps.executeUpdate();
 
 			//SQL実行の成功結果を反映
-			upDateResult = true;
+			isUpdateResult = true;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -557,7 +578,7 @@ public class UserDao {
 		} finally {
 
 			//トランザクションの終了
-			if(upDateResult){    //SQLの実行成功時、明示的にコミットを実施
+			if(isUpdateResult){    //SQLの実行成功時、明示的にコミットを実施
 				try {
 					con.commit();
 				} catch (SQLException e) {
@@ -588,7 +609,7 @@ public class UserDao {
 			}
 		}
 
-		return upDateResult;
+		return isUpdateResult;
 	}
 
 }

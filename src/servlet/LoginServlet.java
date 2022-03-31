@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bean.UserInfoBean;
-import bl.UserInfoBl;
+import bean.UserBean;
+import bl.UserBl;
 
 
 /**
@@ -85,16 +85,16 @@ public class LoginServlet extends HttpServlet {
 		//------------------
 		// 入力情報をDB検索
 		//------------------
-		List <UserInfoBean> userInfoList = new ArrayList<>();
-		UserInfoBean bean = new UserInfoBean();
+		List <UserBean> userInfoList = new ArrayList<>();
+		UserBean bean = new UserBean();
 
 		bean.setId(id);
 		bean.setPassword(password);
 		userInfoList.add(bean);
 
 		//名前の検索結果をnameを受け取る
-		UserInfoBl bl = new UserInfoBl();
-		name = bl.selectUserLoginDB(userInfoList);
+		UserBl bl = new UserBl();
+		name = bl.selectUserLogin(userInfoList);
 
 
 		//--------------------
