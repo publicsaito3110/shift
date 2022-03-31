@@ -86,9 +86,9 @@ public class ScheduleDayUtil {
 		//共通デフォルトを設定
 		bean.setUser("未設定");
 		bean.setId("");
-		bean.setCheckUser1(Const.optionSelected);
-		bean.setCheckUser2(Const.optionSelected);
-		bean.setCheckUser3(Const.optionSelected);
+		bean.setCheckUser1(Const.OPTION_SELECTED);
+		bean.setCheckUser2(Const.OPTION_SELECTED);
+		bean.setCheckUser3(Const.OPTION_SELECTED);
 
 		scheduleDayList.add(bean);
 
@@ -113,19 +113,19 @@ public class ScheduleDayUtil {
 				//登録ユーザ(id)とスケジュールに登録されているユーザid(user1)が一致したときselectedをつける
 				if(id.equals(user1)) {
 
-					checkUser1 = Const.optionSelected;
+					checkUser1 = Const.OPTION_SELECTED;
 				}
 
 				//登録ユーザ(id)とスケジュールに登録されているユーザid(user1)が一致したときselectedをつける
 				if(id.equals(user2)) {
 
-					checkUser2 = Const.optionSelected;
+					checkUser2 = Const.OPTION_SELECTED;
 				}
 
 				//登録ユーザ(id)とスケジュールに登録されているユーザid(user1)が一致したときselectedをつける
 				if(id.equals(user3)) {
 
-					checkUser3 = Const.optionSelected;
+					checkUser3 = Const.OPTION_SELECTED;
 				}
 			}
 			bean.setUser(user);

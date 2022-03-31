@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.ScheduleBean;
+import common.Const;
 import common.DbConst;
 
 public class ScheduleDao {
@@ -44,7 +45,7 @@ public class ScheduleDao {
 		ps = con.prepareStatement(buf.toString());
 
 		// ? にパラメータをセット
-		ps.setString(1, ym + "%");
+		ps.setString(1, ym + Const.PERCENT);
 
 		//SQLの結果を取得
 		rs = ps.executeQuery();
@@ -133,7 +134,7 @@ public class ScheduleDao {
 			ps = con.prepareStatement(buf.toString());
 
 			// ? にパラメータをセット
-			ps.setString(1,ymd);
+			ps.setString(1, ymd);
 
 			//SQLの結果を取得
 			rs = ps.executeQuery();

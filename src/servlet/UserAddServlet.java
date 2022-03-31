@@ -1,8 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -63,52 +61,50 @@ public class UserAddServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String note = request.getParameter("note");
 
-		//ArrayListに値を詰める
-		List<UserBean> userInfoList = new ArrayList<>();
-		UserBean bean = new UserBean();
 
-		bean.setId(id);
-		bean.setName(name);
-		bean.setNameKana(nameKana);
-		bean.setGender(gender);
-		bean.setPassword(password);
-		bean.setAddress(address);
-		bean.setTel(tel);
-		bean.setEmail(email);
-		bean.setNote(note);
+		//userBeanに値を詰める
+		UserBean userBean = new UserBean();
 
-		userInfoList.add(bean);
+		userBean.setId(id);
+		userBean.setName(name);
+		userBean.setNameKana(nameKana);
+		userBean.setGender(gender);
+		userBean.setPassword(password);
+		userBean.setAddress(address);
+		userBean.setTel(tel);
+		userBean.setEmail(email);
+		userBean.setNote(note);
 
 
 		//--------------------------
 		//バリデーションチェック
 		//--------------------------
 
-		//userInfoListを引き渡し、結果とエラーテキストを受け取る
-		List <ValidationBean> valiList = new ArrayList<>();
-		valiList = ValidationUtil.validInputAllStatus(userInfoList);
+		//userInfoを引き渡し、結果とエラーテキストを受け取る
+		ValidationBean valiBean = new ValidationBean();
+		valiBean = ValidationUtil.validInputAllStatus(userBean);
 
 		//バリデーションチェックの結果を抽出
-		boolean isVali1 = valiList.get(0).isValiId();
-		boolean isVali2 = valiList.get(0).isValiName();
-		boolean isVali3 = valiList.get(0).isValiNameKana();
-		boolean isVali4 = valiList.get(0).isValiGender();
-		boolean isVali5 = valiList.get(0).isValiPassword();
-		boolean isVali6 = valiList.get(0).isValiAddress();
-		boolean isVali7 = valiList.get(0).isValiTel();
-		boolean isVali8 = valiList.get(0).isValiEmail();
-		boolean isVali9 = valiList.get(0).isValiNote();
+		boolean isVali1 = valiBean.isValiId();
+		boolean isVali2 = valiBean.isValiName();
+		boolean isVali3 = valiBean.isValiNameKana();
+		boolean isVali4 = valiBean.isValiGender();
+		boolean isVali5 = valiBean.isValiPassword();
+		boolean isVali6 = valiBean.isValiAddress();
+		boolean isVali7 = valiBean.isValiTel();
+		boolean isVali8 = valiBean.isValiEmail();
+		boolean isVali9 = valiBean.isValiNote();
 
 		//バリデーションチェックのエラーテキストを抽出
-		String erId = valiList.get(0).getErId();
-		String erName = valiList.get(0).getErName();
-		String erNameKana = valiList.get(0).getErNameKana();
-		String erGender = valiList.get(0).getErGender();
-		String erPassword = valiList.get(0).getErPassword();
-		String erAddress = valiList.get(0).getErAddress();
-		String erTel = valiList.get(0).getErTel();
-		String erEmail = valiList.get(0).getErEmail();
-		String erNote = valiList.get(0).getErNote();
+		String erId = valiBean.getErId();
+		String erName = valiBean.getErName();
+		String erNameKana = valiBean.getErNameKana();
+		String erGender = valiBean.getErGender();
+		String erPassword = valiBean.getErPassword();
+		String erAddress = valiBean.getErAddress();
+		String erTel = valiBean.getErTel();
+		String erEmail = valiBean.getErEmail();
+		String erNote = valiBean.getErNote();
 
 		//エラーテキストを返す
 		request.setAttribute("erId", erId);
@@ -146,16 +142,17 @@ public class UserAddServlet extends HttpServlet {
 		note = CommonUtil.replaceEscapeChar(note);
 
 
+
 		//------------
 		//SQLの実行
 		//------------
 		//userInfoListをBLに引き渡し、実行結果を受け取る
 		UserBl bl = new UserBl();
-		boolean sighnUpResult = bl.insertUserSignup(userInfoList);
+		boolean isSignupResult = bl.insertUserSignup(userBean);
 
 
 		//SQLが実行失敗したとき
-		if(!sighnUpResult) {
+		if(!isSignupResult) {
 
 			//入力された値を返す
 			request.setAttribute("id", id);

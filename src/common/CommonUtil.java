@@ -54,11 +54,11 @@ public class CommonUtil {
 	}
 
 	/**
-	 * 引数が""でないかつnull のとき""を返すメソッド
+	 * 引数がnull のとき""を返すメソッド
 	 */
 	public static String changeEmptyByNull(String value) {
 
-		if(value != "" && value == null) {
+		if(value == null) {
 			value = "";
 		}
 

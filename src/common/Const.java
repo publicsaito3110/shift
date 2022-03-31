@@ -6,21 +6,26 @@ public class Const {
 		// インスタンス化できないように設定
 	}
 
-	public static String optionSelected = "selected";   //半角数字
+	public static String OPTION_SELECTED = "selected";   //半角数字
+
+	public static int OFFSET_FIRST = 0;   //SQL1-5件目を指定
+	public static int MAX_PAGE = 5;      //JSPに1回で表示する最大ページ数
+	public static String PAGE_LIMIT = "5";   //SQL5件分を取得
+	public static String PERCENT = "%";   //%(SQL用)
+
+
 
 	//-------------------------
 	//正規表現
 	//-------------------------
-	public static final String valiNum = "0-9";   //半角数字
-	public static final String valiAlpha = "a-zA-Z"; //半角英字
-	public static final String valiZenkaku = "^-~｡-ﾟ";  //全角全部//TODO
-	public static final String valiKana = "ァ-ヶー";  //全角カタカナ
-	public static final String valiGender = "1|2";  //1または2
-	public static final String valiAllowKigouVer = "-";  //長音
-	public static final String valiEmail = "^(([0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+(.[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+)*)|(\"[^\"]*\"))@[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+(.[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+)*$";  //メールの正規表現
-	public static final String valiDelFlag = "1";  //1
-
-
+	public static final String PATTERN_NUM = "0-9";   //半角数字
+	public static final String PATTERN_ALPHA = "a-zA-Z"; //半角英字
+	public static final String PATTERN_KIGOU_NOT＿VER = "!-,./:-@\\[-~";  //長音の全ての記号
+	public static final String PATTERN_KANA = "ァ-ヶー";  //全角カタカナ
+	public static final String PATTERN_GENDER = "1|2";  //1または2
+	public static final String PATTERN_KIGOU_VER = "-";  //記号(長音のみ)
+	public static final String PATTERN_EMAIL = "^(([0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+(.[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+)*)|(\"[^\"]*\"))@[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+(.[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+)*$";  //メールの正規表現
+	public static final String PATTERN_DELFLAG = "1";  //1
 
 
 }

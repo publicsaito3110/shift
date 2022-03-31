@@ -1,8 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -85,17 +83,14 @@ public class UserModifyServlet extends HttpServlet {
 
 
 
-		//userInfoListに値を詰める
-		List<UserBean> userInfoList = new ArrayList<>();
-		UserBean bean = new UserBean();
+		//userBeanに値を詰める
+		UserBean userBean = new UserBean();
 
-		bean.setId(id);
-		bean.setName(name);
-		bean.setNameKana(nameKana);
-		bean.setGender(gender);
-		bean.setDelFlag(delFlag);
-
-		userInfoList.add(bean);
+		userBean.setId(id);
+		userBean.setName(name);
+		userBean.setNameKana(nameKana);
+		userBean.setGender(gender);
+		userBean.setDelFlag(delFlag);
 
 
 		//-------------------------
@@ -103,22 +98,22 @@ public class UserModifyServlet extends HttpServlet {
 		//-------------------------
 
 		//userInfoListを引き渡し、結果とエラーテキストを受け取る
-		List <ValidationBean> valiList = new ArrayList<>();
-		valiList = ValidationUtil.validInputAllStatus(userInfoList);
+		ValidationBean valiBean = new ValidationBean();
+		valiBean = ValidationUtil.validInputAllStatus(userBean);
 
 		//バリデーションチェックの結果を抽出
-		boolean isVali1 = valiList.get(0).isValiId();
-		boolean isVali2 = valiList.get(0).isValiName();
-		boolean isVali3 = valiList.get(0).isValiNameKana();
-		boolean isVali4 = valiList.get(0).isValiGender();
-		boolean isVali5 = valiList.get(0).isValiDelFlag();
+		boolean isVali1 = valiBean.isValiId();
+		boolean isVali2 = valiBean.isValiName();
+		boolean isVali3 = valiBean.isValiNameKana();
+		boolean isVali4 = valiBean.isValiGender();
+		boolean isVali5 = valiBean.isValiDelFlag();
 
 		//エラーテキストを抽出
-		String erId = valiList.get(0).getErId();
-		String erName = valiList.get(0).getErName();
-		String erNameKana = valiList.get(0).getErNameKana();
-		String erGender = valiList.get(0).getErGender();
-		String erDelFlag = valiList.get(0).getErDelFlag();
+		String erId = valiBean.getErId();
+		String erName = valiBean.getErName();
+		String erNameKana = valiBean.getErNameKana();
+		String erGender = valiBean.getErGender();
+		String erDelFlag = valiBean.getErDelFlag();
 
 		//エラーテキストを返す
 		request.setAttribute("erId", erId);
@@ -149,7 +144,7 @@ public class UserModifyServlet extends HttpServlet {
 
 		//userInfoListをBLに引き渡し、実行結果を受け取る
 		UserBl bl = new UserBl();
-		boolean isUpdResult = bl.updateUser(userInfoList);
+		boolean isUpdResult = bl.updateUser(userBean);
 
 
 		//SQLが実行失敗したとき
