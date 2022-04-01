@@ -12,6 +12,7 @@ import bean.UserBean;
 import bean.ValidationBean;
 import bl.UserBl;
 import common.CommonUtil;
+import common.Const;
 import common.ValidationUtil;
 
 /**
@@ -59,7 +60,15 @@ public class UserAddServlet extends HttpServlet {
 		String address = request.getParameter("address");
 		String tel = request.getParameter("tel");
 		String email = request.getParameter("email");
+		String adminFlag = request.getParameter("adminFlag");
 		String note = request.getParameter("note");
+
+
+		//genderを識別し、女性にチェックがあるか判別
+		boolean isCheckedGender2 = CommonUtil.isCheckGenderFemaleByGender(gender);
+
+		//adminFlagを識別し、管理者にチェックがあるか判別
+		boolean isCheckedAdminFlag = CommonUtil.isCheckAdminFlagByAdminFlag(adminFlag);
 
 
 		//userBeanに値を詰める
@@ -73,6 +82,7 @@ public class UserAddServlet extends HttpServlet {
 		userBean.setAddress(address);
 		userBean.setTel(tel);
 		userBean.setEmail(email);
+		userBean.setAdminFlag(adminFlag);
 		userBean.setNote(note);
 
 
@@ -93,7 +103,8 @@ public class UserAddServlet extends HttpServlet {
 		boolean isVali6 = valiBean.isValiAddress();
 		boolean isVali7 = valiBean.isValiTel();
 		boolean isVali8 = valiBean.isValiEmail();
-		boolean isVali9 = valiBean.isValiNote();
+		boolean isVali9 = valiBean.isValiAdminFlag();
+		boolean isVali10 = valiBean.isValiNote();
 
 		//バリデーションチェックのエラーテキストを抽出
 		String erId = valiBean.getErId();
@@ -104,6 +115,7 @@ public class UserAddServlet extends HttpServlet {
 		String erAddress = valiBean.getErAddress();
 		String erTel = valiBean.getErTel();
 		String erEmail = valiBean.getErEmail();
+		String erAdminFlag = valiBean.getErAdminFlag();
 		String erNote = valiBean.getErNote();
 
 		//エラーテキストを返す
@@ -115,24 +127,40 @@ public class UserAddServlet extends HttpServlet {
 		request.setAttribute("erAddress", erAddress);
 		request.setAttribute("erTel", erTel);
 		request.setAttribute("erEmail", erEmail);
+		request.setAttribute("erAdminFlag", erAdminFlag);
 		request.setAttribute("erNote", erNote);
 
 
-
 		//バリデーションチェックが1つでもアウトのとき
-		if(!isVali1 || !isVali2 || !isVali3 || !isVali4 || !isVali5 || !isVali6 || !isVali7 || !isVali8 || !isVali9) {
+		if(!isVali1 || !isVali2 || !isVali3 || !isVali4 || !isVali5 || !isVali6 || !isVali7 || !isVali8 || !isVali9 || ! isVali10) {
 
 			//エラーの情報と入力された値を返す
 			request.setAttribute("id", id);
 			request.setAttribute("name", name);
 			request.setAttribute("nameKana", nameKana);
+			request.setAttribute("checkGender2", "");
 			request.setAttribute("password", password);
 			request.setAttribute("address", address);
 			request.setAttribute("tel", tel);
 			request.setAttribute("email", email);
+			request.setAttribute("checkAdminFlag", "");
 			request.setAttribute("note", note);
 			request.setAttribute("result", false);
 			request.setAttribute("resultText", "[エラー] 入力値が不正です");
+
+			//女性にチェックが入っていたとき
+			if(isCheckedGender2) {
+
+				//checkboxにチェックを入れる
+				request.setAttribute("checkGender2", Const.CHECKBOX_CHECKED);
+			}
+
+			//管理者にチェックが入っていたとき
+			if(isCheckedAdminFlag) {
+
+				//checkboxにチェックを入れる
+				request.setAttribute("checkAdminFlag", Const.CHECKBOX_CHECKED);
+			}
 
 			//画面遷移
 			request.getRequestDispatcher("/WEB-INF/jsp/user-add.jsp").forward(request, response);
@@ -140,9 +168,9 @@ public class UserAddServlet extends HttpServlet {
 		}
 
 
+
 		//エスケープ処理
 		note = CommonUtil.replaceEscapeChar(note);
-
 
 
 		//------------
@@ -160,13 +188,29 @@ public class UserAddServlet extends HttpServlet {
 			request.setAttribute("id", id);
 			request.setAttribute("name", name);
 			request.setAttribute("nameKana", nameKana);
+			request.setAttribute("checkGender2", "");
 			request.setAttribute("password", password);
 			request.setAttribute("address", address);
 			request.setAttribute("tel", tel);
 			request.setAttribute("email", email);
+			request.setAttribute("checkAdminFlag", "");
 			request.setAttribute("note", note);
 			request.setAttribute("result", false);
 			request.setAttribute("resultText", "[エラー] 新規登録に失敗しました");
+
+			//女性にチェックが入っていたとき
+			if(isCheckedGender2) {
+
+				//checkboxにチェックを入れる
+				request.setAttribute("checkGender2", Const.CHECKBOX_CHECKED);
+			}
+
+			//管理者にチェックが入っていたとき
+			if(isCheckedAdminFlag) {
+
+				//checkboxにチェックを入れる
+				request.setAttribute("checkAdminFlag", Const.CHECKBOX_CHECKED);
+			}
 
 			//画面遷移
 			request.getRequestDispatcher("/WEB-INF/jsp/user-add.jsp").forward(request, response);
@@ -175,8 +219,10 @@ public class UserAddServlet extends HttpServlet {
 
 
 
+		//受け渡す値を設定
 		request.setAttribute("result", true);
 		request.setAttribute("resultText", "新規登録に成功しました");
+
 
 		//画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/user-add.jsp").forward(request, response);

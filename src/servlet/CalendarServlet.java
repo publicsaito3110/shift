@@ -82,7 +82,7 @@ public class CalendarServlet extends HttpServlet {
 		//--------------------------------
 
 		//year,monthをString6桁に変える
-		ym = CommonUtil.toStringYmFormatSixByInt(year, month);
+		ym = CommonUtil.toStringYmFormatSixByIntYm(year, month);
 
 		//BLの戻り値をdbListで受け取る
 		ScheduleBl bl = new ScheduleBl();
@@ -171,7 +171,7 @@ public class CalendarServlet extends HttpServlet {
 		int beforeMonth = localDateBefore.getMonthValue();
 
 		//year,monthをString6桁に変える
-		String beforeYm = CommonUtil.toStringYmFormatSixByInt(beforeYear, beforeMonth);
+		String beforeYm = CommonUtil.toStringYmFormatSixByIntYm(beforeYear, beforeMonth);
 
 
 		//取得したカレンダーの翌月のymをafterYmに代入
@@ -180,7 +180,7 @@ public class CalendarServlet extends HttpServlet {
 		int afterMonth = localDateAfter.getMonthValue();
 
 		//year,monthをString6桁に変える
-		String afterYm = CommonUtil.toStringYmFormatSixByInt(afterYear, afterMonth);
+		String afterYm = CommonUtil.toStringYmFormatSixByIntYm(afterYear, afterMonth);
 
 
 

@@ -12,8 +12,9 @@
 		<div class="hamburger-demo-menuwrap hamburger-menuwrap-right">
 			<ul class="hamburger-demo-menulist hamburger-menulist-circle">
 				<li><a href="CalendarServlet">ホーム</a></li>
+				<li><a href="CalendarServlet">今月のシフト</a></li>
 				<li><a href="UserListServlet">ユーザー一覧</a></li>
-				<li><a href="#">メニューリスト3</a></li>
+				<li><a href="LogoutServlet">ログアウト</a></li>
 			</ul>
 		</div>
 		<div class="hamburger-demo-cover"></div>

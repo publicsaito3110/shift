@@ -14,7 +14,7 @@ public class CommonUtil {
 	/**
 	 * year, month(int) をym(String6文字)で返すメソッド
 	 */
-	public static String toStringYmFormatSixByInt(int year, int month) {
+	public static String toStringYmFormatSixByIntYm(int year, int month) {
 
 		//monthが1桁のとき2桁の文字列に変換する
 		String ym = year + String.format("%02d", month);
@@ -78,6 +78,50 @@ public class CommonUtil {
 		return false;
 	}
 
+
+	/**
+	 * genderが管理者パターンと一致しているときtrueを返すメソッド
+	 */
+	public static boolean isCheckGenderFemaleByGender(String gender) {
+
+
+		//adminFlagがnullまたは空文字のとき
+		if(StringUtils.isEmpty(gender)) {
+			return false;
+		}
+
+		boolean isVali =gender.equals(Const.GENDER_FEMALE);
+
+		//genderが女性("2")のとき
+		if(isVali) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+
+	/**
+	 * adminFlagが管理者パターンと一致しているときtrueを返すメソッド
+	 */
+	public static boolean isCheckAdminFlagByAdminFlag(String adminFlag) {
+
+
+		//adminFlagがnullまたは空文字のとき
+		if(StringUtils.isEmpty(adminFlag)) {
+			return false;
+		}
+
+		boolean isVali =adminFlag.matches(Const.PATTERN_ADMIN_FLAG);
+
+		//adminFlagがパターンと一致しているとき
+		if(isVali) {
+			return true;
+		}
+
+		return false;
+	}
 
 
 	/**

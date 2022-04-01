@@ -12,7 +12,7 @@ public class Const {
 
 
 	public static String OPTION_SELECTED = "selected";   //<option>のセレクト
-	public static String RADIO_CHECKED = "checked";   //<radio>のチェック
+	public static String CHECKBOX_CHECKED = "checked";   //<radio>のチェック
 
 
 	public static int OFFSET_FIRST = 0;   //SQL1-5件目を指定
@@ -32,7 +32,9 @@ public class Const {
 	public static final String PATTERN_GENDER = "1|2";  //1または2
 	public static final String PATTERN_KIGOU_VER = "-";  //記号(長音のみ)
 	public static final String PATTERN_EMAIL = "^(([0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+(.[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+)*)|(\"[^\"]*\"))@[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+(.[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+)*$";  //メールの正規表現
-	public static final String PATTERN_DELFLAG = "1";  //1
+	public static final String PATTERN_ADMIN_FLAG = "1";  //adminFlag 1
+	public static final String PATTERN_DEL_FLAG = "1";  //delFlag 1
+
 
 
 }

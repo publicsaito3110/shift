@@ -12,6 +12,7 @@ public class UserBean {
 	private String tel;
 	private String email;
 	private String note;
+	private String adminFlag;
 	private String delFlag;
 
 	private String countAll;
@@ -71,6 +72,12 @@ public class UserBean {
 	}
 	public void setNote(String note) {
 		this.note = note;
+	}
+	public String getAdminFlag() {
+		return adminFlag;
+	}
+	public void setAdminFlag(String adminFlag) {
+		this.adminFlag = adminFlag;
 	}
 	public String getDelFlag() {
 		return delFlag;

@@ -96,7 +96,7 @@ public class UserDao {
 	/**
 	 *1人のユーザ名を取得するメソッド
 	 */
-	public String selectUserLogin(List<UserBean> userList) {
+	public UserBean selectUserIdNameAdmFlgLogin(UserBean userBean) {
 
 
 		//JDBCの接続に使用するオブジェクトを宣言
@@ -104,8 +104,8 @@ public class UserDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		//ユーザ名を受け取るための変数(nullを宣言しておく)
-		String name = null;
+		//ユーザ情報を受け取るための変数
+		UserBean dbBean = new UserBean();
 
 		try {
 
@@ -116,7 +116,7 @@ public class UserDao {
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
-			buf.append("SELECT NAME ");
+			buf.append("SELECT ID, NAME, ADMIN_FLG ");
 			buf.append(" FROM USER ");
 			buf.append(" WHERE ID = ? AND PASSWORD = ? ");
 			buf.append(" ; ");
@@ -125,8 +125,8 @@ public class UserDao {
 			ps = con.prepareStatement(buf.toString());
 
 			//   ? にパラメータをセット
-			ps.setString(1, userList.get(0).getId());
-			ps.setString(2, userList.get(0).getPassword());
+			ps.setString(1, userBean.getId());
+			ps.setString(2, userBean.getPassword());
 
 
 			//SQLの結果を取得
@@ -134,7 +134,10 @@ public class UserDao {
 
 			//結果をさらに抽出
 			while (rs.next()) {
-				name = rs.getString("name");
+
+				dbBean.setId(rs.getString("id"));
+				dbBean.setName(rs.getString("name"));
+				dbBean.setAdminFlag(rs.getString("admin_flg"));
 			}
 
 		} catch (Exception e) {
@@ -165,7 +168,7 @@ public class UserDao {
 			}
 		}
 
-		return name;
+		return dbBean;
 	}
 
 
@@ -453,9 +456,9 @@ public class UserDao {
 			StringBuffer buf = new StringBuffer();
 			buf.append("INSERT INTO ");
 			buf.append(" USER ");
-			buf.append(" (ID, NAME, NAME_KANA, GENDER, PASSWORD, ADDRESS, TEL, EMAIL, NOTE) ");
+			buf.append(" (ID, NAME, NAME_KANA, GENDER, PASSWORD, ADDRESS, TEL, EMAIL, ADMIN_FLG, NOTE) ");
 			buf.append(" VALUES ");
-			buf.append(" (?, ?, ?, ?, ?, ?, ?, ?, ?) ; ");
+			buf.append(" (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ; ");
 
 			//SQLをセット
 			ps = con.prepareStatement(buf.toString());
@@ -469,7 +472,8 @@ public class UserDao {
 			ps.setString(6, userBean.getAddress());
 			ps.setString(7, userBean.getTel());
 			ps.setString(8, userBean.getEmail());
-			ps.setString(9, userBean.getNote());
+			ps.setString(9, userBean.getAdminFlag());
+			ps.setString(10, userBean.getNote());
 
 			//SQLを実行
 			ps.executeUpdate();

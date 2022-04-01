@@ -20,15 +20,11 @@ import common.Const;
 public class UserOneServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public UserOneServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
 		doPost(request, response);
 	}
 
@@ -67,7 +63,7 @@ public class UserOneServlet extends HttpServlet {
 		//genderが女性(2)のとき<radio>をチェックする
 		if(gender.equals(Const.GENDER_FEMALE)) {
 
-			checkGender2 = Const.RADIO_CHECKED;
+			checkGender2 = Const.CHECKBOX_CHECKED;
 		}
 
 
@@ -81,7 +77,7 @@ public class UserOneServlet extends HttpServlet {
 		//退職フラグがあるとき
 		if(delFlag.equals(Const.DELETE_FLAG)) {
 
-			checkDelFlag = Const.RADIO_CHECKED;
+			checkDelFlag = Const.CHECKBOX_CHECKED;
 		}
 
 

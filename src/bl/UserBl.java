@@ -12,14 +12,14 @@ public class UserBl {
 	/**
 	 * 初回ログイン時、1人のユーザの名前を取得するメソッド
 	 */
-	public String selectUserLogin(List<UserBean> userInfoList){
+	public UserBean selectUserIdNameAdmFlgLogin(UserBean userBean){
 
-		//DAOの戻り値をnameで受け取る
-		String name = null;
+		//DAOの戻り値をdbBeanで受け取る
+		UserBean dbBean = new UserBean();
 		UserDao dao = new UserDao();
-		name = dao.selectUserLogin(userInfoList);
+		dbBean = dao.selectUserIdNameAdmFlgLogin(userBean);
 
-		return name;
+		return dbBean;
 	}
 
 
