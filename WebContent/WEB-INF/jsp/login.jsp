@@ -11,6 +11,8 @@
 
 	<h3>ログインフォーム</h3>
 
+
+	<p>${err}</p>
 	<form action="LoginServlet" method="post" >
 		<p>ユーザーID:
 			<input type ="text" name="id"></input>
@@ -22,8 +24,6 @@
 		<input type="submit" value="ログイン"></input>
 	</form>
 
-
-	<p>${err}</p>
 
 </body>
 </html>

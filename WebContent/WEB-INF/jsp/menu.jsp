@@ -7,8 +7,11 @@
 <!DOCTYPE HTML>
 
 <html>
+<head>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/header.css">
+</head>
 <body>
-
+	<jsp:include page="header.jsp" flush="true" />
 
 
 	<h1>ようこそ${name}さん</h1>
