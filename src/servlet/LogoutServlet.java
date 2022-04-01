@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bean.UserBean;
+
 /**
  * Servlet implementation class LogoutServlet
  */
@@ -31,16 +33,26 @@ public class LogoutServlet extends HttpServlet {
 
 		//セッションのデータを取得
 		HttpSession session = request.getSession();
-		String sessionName = (String)session.getAttribute("USERINFO") ;
+		UserBean userBean = (UserBean)session.getAttribute("USER_BEAN") ;
+
 
 		//セッションがないとき
-		if(sessionName == null) {
+		if(userBean == null) {
 
+			//返す値を設定
+			request.setAttribute("err", "");
+
+
+			//画面遷移(ログイン画面)
+			request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
 		}
+
 
 		//セッションを破棄
 		session.invalidate();
 
-		request.getRequestDispatcher("/WEB-INF/jsp/logout.jsp").forward(request,response);    //ログアウト画面へ
+
+		//画面遷移
+		request.getRequestDispatcher("/WEB-INF/jsp/logout.jsp").forward(request,response);
 	}
 }

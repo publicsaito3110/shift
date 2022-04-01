@@ -12,6 +12,7 @@ public class ValidationBean {
 	private String erTel;
 	private String erEmail;
 	private String erNote;
+	private String erAdminFlag;
 	private String erDelFlag;
 
 	private boolean valiId;
@@ -23,6 +24,7 @@ public class ValidationBean {
 	private boolean valiTel;
 	private boolean valiEmail;
 	private boolean valiNote;
+	private boolean valiAdminFlag;
 	private boolean valiDelFlag;
 
 
@@ -82,6 +84,18 @@ public class ValidationBean {
 	public void setErNote(String erNote) {
 		this.erNote = erNote;
 	}
+	public String getErAdminFlag() {
+		return erAdminFlag;
+	}
+	public void setErAdminFlag(String erAdminFlag) {
+		this.erAdminFlag = erAdminFlag;
+	}
+	public String getErDelFlag() {
+		return erDelFlag;
+	}
+	public void setErDelFlag(String erDelFlag) {
+		this.erDelFlag = erDelFlag;
+	}
 	public boolean isValiId() {
 		return valiId;
 	}
@@ -136,11 +150,11 @@ public class ValidationBean {
 	public void setValiNote(boolean valiNote) {
 		this.valiNote = valiNote;
 	}
-	public String getErDelFlag() {
-		return erDelFlag;
+	public boolean isValiAdminFlag() {
+		return valiAdminFlag;
 	}
-	public void setErDelFlag(String erDelFlag) {
-		this.erDelFlag = erDelFlag;
+	public void setValiAdminFlag(boolean valiAdminFlag) {
+		this.valiAdminFlag = valiAdminFlag;
 	}
 	public boolean isValiDelFlag() {
 		return valiDelFlag;

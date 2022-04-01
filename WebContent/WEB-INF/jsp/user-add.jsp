@@ -36,7 +36,7 @@
 				<th>性別</th>
 				<td>
 					<input type="radio" name="gender" value="1" checked>男
-					<input type="radio" name="gender" value="2">女
+					<input type="radio" name="gender" value="2" ${checkGender2}>女
 					<span>${erGender}</span>
 				</td>
 			</tr>
@@ -62,6 +62,12 @@
 				<th>メール</th>
 				<td>
 					<input type="email" name="email" value="${email}"><span>${erEmail}</span>
+				</td>
+			</tr>
+			<tr>
+				<th>管理者</th>
+				<td>
+					役職1<input type="checkbox" name="adminFlag" value="1" ${checkAdminFlag}><span>${erAdminFlag}</span>
 				</td>
 			</tr>
 			<tr>

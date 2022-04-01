@@ -16,12 +16,23 @@ public class ValidationUtil {
 	 */
 	public static ValidationBean validInputAllStatus(UserBean userBean) {
 
+
+		//adminFlag及びdelFlagがnullのとき""を代入(checkboxの判定がnullで行われるため)
+		userBean.setAdminFlag(CommonUtil.changeEmptyByNull(userBean.getAdminFlag()));
+		userBean.setDelFlag(CommonUtil.changeEmptyByNull(userBean.getDelFlag()));
+
+
 		//バリデーションチェックの戻り値を受け取る
 		ValidationBean bean = new ValidationBean();
 
 		//バリデーションチェックの結果(bean)をsetし、返す
 		ValidationBean valiBean = new ValidationBean();
 
+
+
+		//------------------------
+		//バリデーションチェック
+		//------------------------
 
 		//userListにidがあればバリデーションチェック
 		if(userBean.getId() != null) {
@@ -121,6 +132,16 @@ public class ValidationUtil {
 			valiBean.setValiNote(bean.isValiNote());
 		}
 
+
+		//userListにadminFlagがあればバリデーションチェック
+		if(userBean.getAdminFlag() != null) {
+
+			String adminFlag = userBean.getAdminFlag();
+			bean = ValidationUtil.validAdminFlagStatus(adminFlag);
+
+			valiBean.setErAdminFlag(bean.getErAdminFlag());
+			valiBean.setValiAdminFlag(bean.isValiAdminFlag());
+		}
 
 		//userListにdelFlagがあればバリデーションチェック
 		if(userBean.getDelFlag() != null) {
@@ -493,6 +514,48 @@ public class ValidationUtil {
 	}
 
 	/**
+	 * adminFlagをバリデーションチェック
+	 * valiBeanに結果とエラーテキストをセットし返す
+	 */
+	public static ValidationBean validAdminFlagStatus(String adminFlag) {
+
+		//valiBeanを戻り値として返す
+		ValidationBean valiBean = new ValidationBean();
+
+		boolean isVali = false;
+		String er = "";
+
+		// 1
+		String pattern = Const.PATTERN_ADMIN_FLAG;
+
+		try {
+			 //adminFlagが1文字であればバリデーションチェック
+			if(adminFlag.length() == 1) {
+				isVali = adminFlag.matches(pattern);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		//delFlagは任意のため、""のときはtrue
+		if(adminFlag.isEmpty()) {
+			isVali = true;
+		}
+
+		//バリデーションチェックがアウトなら、エラ―テキストを代入
+		if(!isVali) {
+			er = "不正な値を検知しました";
+		}
+
+
+		//バリデーションチェックの結果とエラーテキストをセット
+		valiBean.setValiAdminFlag(isVali);
+		valiBean.setErAdminFlag(er);
+
+		return valiBean;
+	}
+
+	/**
 	 * delFlagをバリデーションチェック
 	 * valiBeanに結果とエラーテキストをセットし返す
 	 */
@@ -505,7 +568,7 @@ public class ValidationUtil {
 		String er = "";
 
 		// 1
-		String pattern = Const.PATTERN_DELFLAG;
+		String pattern = Const.PATTERN_DEL_FLAG;
 
 		try {
 			 //delFlagが1文字であればバリデーションチェック

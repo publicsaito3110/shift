@@ -6,19 +6,19 @@ public class Const {
 		// インスタンス化できないように設定
 	}
 
-	public static String GENDER_MAN = "1";   //性別が男
-	public static String GENDER_FEMALE = "2";   //性別が女
-	public static String DELETE_FLAG = "1";   //deleteFlagがある
+	public static final String GENDER_MAN = "1";   //性別が男
+	public static final String GENDER_FEMALE = "2";   //性別が女
+	public static final String DELETE_FLAG = "1";   //deleteFlagがある
 
 
-	public static String OPTION_SELECTED = "selected";   //<option>のセレクト
-	public static String CHECKBOX_CHECKED = "checked";   //<radio>のチェック
+	public static final String OPTION_SELECTED = "selected";   //<option>のセレクト
+	public static final String CHECKBOX_CHECKED = "checked";   //<radio>のチェック
 
 
-	public static int OFFSET_FIRST = 0;   //SQL1-5件目を指定
-	public static int MAX_PAGE = 5;      //JSPに1回で表示する最大ページ数
-	public static String PAGE_LIMIT = "5";   //SQL5件分を取得
-	public static String PERCENT = "%";   //%(SQL用)
+	public static final int OFFSET_FIRST = 0;   //SQL1-5件目を指定
+	public static final int MAX_PAGE = 5;      //JSPに1回で表示する最大ページ数
+	public static final String PAGE_LIMIT = "5";   //SQL5件分を取得
+	public static final String PERCENT = "%";   //%(SQL用)
 
 
 
