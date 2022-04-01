@@ -8,10 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+
 import bean.UserBean;
 import bean.ValidationBean;
 import bl.UserBl;
 import common.CommonUtil;
+import common.Const;
 import common.ValidationUtil;
 
 /**
@@ -26,11 +29,11 @@ public class UserModifyServlet extends HttpServlet {
      */
     public UserModifyServlet() {
         super();
-        // TODO Auto-generated constructor stub
+        //  Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		//Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -48,25 +51,13 @@ public class UserModifyServlet extends HttpServlet {
 		String gender = request.getParameter("gender");
 		String delFlag = request.getParameter("delFlag");
 
-		//delFlagがnullのとき""を代入(checkboxの判定がnullで行われるため)
-		delFlag = CommonUtil.changeEmptyByNull(delFlag);
 
 
-		//genderが女性かの判別
-		String checkGender2 = "";
+		//genderを識別し、女性にチェックがあるか判別
+		boolean isCheckedGender2 = CommonUtil.isCheckGenderFemaleByGender(gender);
 
-		//genderが女性(2)のとき<radio>をチェックする
-		if(gender == "2") {
-			checkGender2 = "checked";
-		}
-
-		//<checkbox>退職フラグ(checkDelFlag)にチェックがあるかの判定
-		String checkDelFlag = "";
-
-		//退職フラグにチェックがあるとき
-		if(delFlag == "1") {
-			checkDelFlag = "checked";
-		}
+		//delFlagを識別し、退職済みにチェックがあるか判別
+		boolean isCheckedDelFlag = this.isCheckDelFlag(delFlag);
 
 
 
@@ -76,10 +67,22 @@ public class UserModifyServlet extends HttpServlet {
 		request.setAttribute("id", id);
 		request.setAttribute("name", name);
 		request.setAttribute("nameKana", nameKana);
-		request.setAttribute("checkGender2", checkGender2);
-		request.setAttribute("checkDelFlag", checkDelFlag);
+		request.setAttribute("checkGender2", "");
+		request.setAttribute("checkDelFlag", "");
 		request.setAttribute("afterFormFlag", true);
 		request.setAttribute("popTitle", "ユーザー情報の更新結果");
+
+		//女性にチェックが入っていたとき
+		if(isCheckedGender2) {
+
+			//checkboxにチェックを入れる
+			request.setAttribute("checkGender2", Const.CHECKBOX_CHECKED);
+		}
+
+		//退職済みにチェックが入っていたとき
+		if(isCheckedDelFlag) {
+			request.setAttribute("checkDelFlag", Const.CHECKBOX_CHECKED);
+		}
 
 
 
@@ -167,4 +170,26 @@ public class UserModifyServlet extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/jsp/user-modify.jsp").forward(request, response);
 	}
 
+
+
+	/**
+	 * delFlagがdelFlagパターンと一致しているときtrueを返すメソッド
+	 */
+	public boolean isCheckDelFlag(String delFlag) {
+
+
+		//delFlagがnullまたは空文字のとき
+		if(StringUtils.isEmpty(delFlag)) {
+			return false;
+		}
+
+		boolean isVali =delFlag.equals(Const.PATTERN_DEL_FLAG);
+
+		//delFlagが退職済み("1")のとき
+		if(isVali) {
+			return true;
+		}
+
+		return false;
+	}
 }

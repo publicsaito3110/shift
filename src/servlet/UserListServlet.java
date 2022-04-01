@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.UserBean;
 import bl.UserBl;
@@ -42,6 +43,20 @@ public class UserListServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 
+		//セッションのデータをuserBeanで取得
+		HttpSession session = request.getSession();
+		UserBean sessionUserBean = (UserBean)session.getAttribute("USER_BEAN");
+
+		//sessionから管理者を取得し判別するための変数
+		boolean isAdministrator = false;
+
+		//セッションが存在するとき
+		if(sessionUserBean != null) {
+			//管理者か判別
+			isAdministrator = CommonUtil.isCheckAdminFlagByAdminFlag(sessionUserBean.getAdminFlag());
+		}
+
+
 
 		//user-list.jsp からの値を受け取る
 		String page = request.getParameter("page");
@@ -50,9 +65,17 @@ public class UserListServlet extends HttpServlet {
 		//keyWordがnullのとき空文字を代入
 		keyWord = CommonUtil.changeEmptyByNull(keyWord);
 
+		//管理者でないとき
+		if(!isAdministrator) {
+
+			//開発用(仮)　セッションからidを取得し、keywordへ代入する
+			keyWord = "A002";//非管理者で確認する場合はid=A002
+		}
+
 
 		//指定したページに対応したoffsetを取得する
 		int offset = this.toIntReturnOffsetByPage(page);
+
 
 
 		//------------
@@ -67,18 +90,27 @@ public class UserListServlet extends HttpServlet {
 
 
 
+
 		// 引き渡す値を設定
 		request.setAttribute("afterFormFlag", true);
 		request.setAttribute("keyWord", keyWord);
 		request.setAttribute("userList", userList);
+		request.setAttribute("formAction", "");
+		request.setAttribute("inputDisabled", Const.INPUT_DISABLED);
 		request.setAttribute("displayLastPage", "");
 
-		//jspに表示するページをListで取得する
+		//ログイン済みのユーザが管理者のとき
+		if(isAdministrator) {
+			request.setAttribute("formAction", "UserOneServlet");
+			request.setAttribute("inputDisabled", "");
+			request.setAttribute("administrater", true);
+		}
+
+		//jspに表示するページを取得する
 		int lastPage = this.toIntReturnLastPageByUserList(userList);
 		List<String> pageList = this.toListDisplayPageNoByMaxPage(page, lastPage);
 
 		request.setAttribute("pageList", pageList);
-
 
 		//keyWordが空文字のとき
 		if(keyWord.isEmpty()) {

@@ -11,14 +11,16 @@
 
 	<h1>ユーザー一覧</h1>
 
-	<form action="UserListServlet" method="post">
-		<p>キーワード:<input type="text" name="keyWord" value="${keyWord}"></p>
-		<c:if test="${afterFormFlag}">
-			<span><a href="UserListServlet">条件を解除する</a></span>
-		</c:if>
-		<br>
-		<input type="submit" value="検索する">
-	</form>
+	<c:if test="${administrater}">
+		<form action="UserListServlet" method="post">
+			<p>キーワード:<input type="text" name="keyWord" value="${keyWord}"></p>
+			<c:if test="${afterFormFlag}">
+				<span><a href="UserListServlet">条件を解除する</a></span>
+			</c:if>
+			<br>
+			<input type="submit" value="検索する">
+		</form>
+	</c:if>
 	<br>
 
 	<table border="1" cellspacing="0">
@@ -48,8 +50,8 @@
 					</c:choose>
 				</td>
 				<td>
-					<form action="UserOneServlet" method="post">
-						<button type="submit" name="id" value="${b.id}">更新</button>
+					<form action="${formAction}" method="post">
+						<button type="submit" name="id" value="${b.id}" ${inputDisabled}>更新</button>
 					</form>
 				</td>
 			</tr>
@@ -70,9 +72,10 @@
 		</c:forEach>
 	</div>
 
-
 	<br>
+	<c:if test="${administrater}">
 	<a href="UserAddServlet">新規登録</a>
+	</c:if>
 
 </body>
 <style>

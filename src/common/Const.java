@@ -13,6 +13,7 @@ public class Const {
 
 	public static final String OPTION_SELECTED = "selected";   //<option>のセレクト
 	public static final String CHECKBOX_CHECKED = "checked";   //<radio>のチェック
+	public static final String INPUT_DISABLED = "disabled";   //<button>の無効
 
 
 	public static final int OFFSET_FIRST = 0;   //SQL1-5件目を指定
