@@ -68,7 +68,7 @@ public class UserAddServlet extends HttpServlet {
 		boolean isCheckedGender2 = CommonUtil.isCheckGenderFemaleByGender(gender);
 
 		//adminFlagを識別し、管理者にチェックがあるか判別
-		boolean isCheckedAdminFlag = CommonUtil.isCheckAdminFlagByAdminFlag(adminFlag);
+		boolean isCheckedAdminFlag = CommonUtil.isCheckAdministratorByAdminFlag(adminFlag);
 
 
 		//userBeanに値を詰める

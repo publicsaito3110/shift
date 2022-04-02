@@ -47,14 +47,9 @@ public class UserListServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserBean sessionUserBean = (UserBean)session.getAttribute("USER_BEAN");
 
-		//sessionから管理者を取得し判別するための変数
-		boolean isAdministrator = false;
 
-		//セッションが存在するとき
-		if(sessionUserBean != null) {
-			//管理者か判別
-			isAdministrator = CommonUtil.isCheckAdminFlagByAdminFlag(sessionUserBean.getAdminFlag());
-		}
+		//sessionから管理者かどうかを取得
+		boolean isAdministrator = sessionUserBean.isAdministrator();
 
 
 
@@ -65,16 +60,16 @@ public class UserListServlet extends HttpServlet {
 		//keyWordがnullのとき空文字を代入
 		keyWord = CommonUtil.changeEmptyByNull(keyWord);
 
-		//管理者でないとき
-		if(!isAdministrator) {
-
-			//開発用(仮)　セッションからidを取得し、keywordへ代入する
-			keyWord = "A002";//非管理者で確認する場合はid=A002
-		}
-
-
 		//指定したページに対応したoffsetを取得する
 		int offset = this.toIntReturnOffsetByPage(page);
+
+
+		//ログインしているユーザが管理者でないとき
+		if(!isAdministrator) {
+
+			//idをキーワードに代入する
+			keyWord = sessionUserBean.getId();
+		}
 
 
 
@@ -185,8 +180,8 @@ public class UserListServlet extends HttpServlet {
 		List<String> pageList = new ArrayList<>();
 
 
-		//1回で表示する最大ページ数
-		int maxPage = Const.MAX_PAGE;
+//		//1回で表示する最大ページ数
+//		int maxPage = Const.MAX_PAGE;
 
 
 

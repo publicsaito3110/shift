@@ -80,7 +80,7 @@ public class CommonUtil {
 
 
 	/**
-	 * genderが管理者パターンと一致しているときtrueを返すメソッド
+	 * genderが女性パターンと一致しているときtrueを返すメソッド
 	 */
 	public static boolean isCheckGenderFemaleByGender(String gender) {
 
@@ -101,11 +101,10 @@ public class CommonUtil {
 	}
 
 
-
 	/**
 	 * adminFlagが管理者パターンと一致しているときtrueを返すメソッド
 	 */
-	public static boolean isCheckAdminFlagByAdminFlag(String adminFlag) {
+	public static boolean isCheckAdministratorByAdminFlag(String adminFlag) {
 
 
 		//adminFlagがnullまたは空文字のとき
@@ -113,7 +112,7 @@ public class CommonUtil {
 			return false;
 		}
 
-		boolean isVali =adminFlag.matches(Const.PATTERN_ADMIN_FLAG);
+		boolean isVali = adminFlag.matches(Const.PATTERN_ADMIN_FLAG);
 
 		//adminFlagがパターンと一致しているとき
 		if(isVali) {

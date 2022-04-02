@@ -15,6 +15,7 @@ public class UserBean {
 	private String adminFlag;
 	private String delFlag;
 
+	private boolean isAdministrator;
 	private String countAll;
 
 
@@ -84,6 +85,12 @@ public class UserBean {
 	}
 	public void setDelFlag(String delFlag) {
 		this.delFlag = delFlag;
+	}
+	public boolean isAdministrator() {
+		return isAdministrator;
+	}
+	public void setAdministrator(boolean isAdministrator) {
+		this.isAdministrator = isAdministrator;
 	}
 	public String getCountAll() {
 		return countAll;

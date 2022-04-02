@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import bean.UserBean;
 import bl.UserBl;
+import common.CommonUtil;
 
 
 /**
@@ -124,7 +125,12 @@ public class LoginServlet extends HttpServlet {
 
 
 
-		//初回ログイン時、sessionに"USER_BEAN"を作成し、userBean(id,name,adminFlag)を格納
+		//管理者かどうかを判別し、結果をセットする
+		boolean isAdministrator = CommonUtil.isCheckAdministratorByAdminFlag(userBean.getAdminFlag());
+		userBean.setAdministrator(isAdministrator);
+
+
+		//sessionに"USER_BEAN"を作成し、userBean(id,name,adminFlag)を格納
 		session.setAttribute("USER_BEAN", userBean) ;
 
 		//引き渡す値を設定
