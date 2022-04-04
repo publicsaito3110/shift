@@ -6,6 +6,8 @@ public class Const {
 		// インスタンス化できないように設定
 	}
 
+	public static final int NEWS_LIMIT_DAY_BEFORE_NOW = 14;   //お知らせに表示する現在～日までの日数
+
 	public static final String GENDER_MAN = "1";   //性別が男
 	public static final String GENDER_FEMALE = "2";   //性別が女
 	public static final String DELETE_FLAG = "1";   //deleteFlagがある

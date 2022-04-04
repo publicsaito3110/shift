@@ -21,11 +21,10 @@ import common.CommonUtil;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public LoginServlet() {
+    public LoginServlet(){
         super();
         //Auto-generated constructor stub
     }
-
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -84,7 +83,7 @@ public class LoginServlet extends HttpServlet {
 
 
 			//画面遷移
-			request.getRequestDispatcher("/WEB-INF/jsp/menu.jsp").forward(request, response);
+			request.getRequestDispatcher("/HomeServlet").forward(request, response);
 			return;
 		}
 
@@ -139,6 +138,6 @@ public class LoginServlet extends HttpServlet {
 
 
 		//画面遷移
-		request.getRequestDispatcher("/WEB-INF/jsp/menu.jsp").forward(request, response);
+		request.getRequestDispatcher("/HomeServlet").forward(request, response);
 	}
 }
