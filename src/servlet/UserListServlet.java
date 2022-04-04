@@ -164,7 +164,7 @@ public class UserListServlet extends HttpServlet {
 		BigDecimal calc = sqlCountBd.divide(pageLimitBd);
 		calc = calc.setScale(0, RoundingMode.UP);
 
-		//ページ数をintがたに変換
+		//ページ数をint型に変換
 		int maxPage = calc.intValue();
 
 		return maxPage;
@@ -227,7 +227,7 @@ public class UserListServlet extends HttpServlet {
 		//pageがnullまたは1ページ目を指定
 		//----------------------------------
 
-		//maxPageの回数分だけjspに表示するページを代入する
+		//lastPageの回数分だけjspに表示するページを代入する
 		for(int i = 1; i <= lastPage; i++) {
 
 			String strPage = String.valueOf(i);

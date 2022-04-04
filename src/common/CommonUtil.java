@@ -11,17 +11,6 @@ public class CommonUtil {
 		// インスタンス化できないように設定
 	}
 
-	/**
-	 * year, month(int) をym(String6文字)で返すメソッド
-	 */
-	public static String toStringYmFormatSixByIntYm(int year, int month) {
-
-		//monthが1桁のとき2桁の文字列に変換する
-		String ym = year + String.format("%02d", month);
-
-		return ym;
-	}
-
 
 	/**
 	 * year, month, day をymd(String8文字)で返すメソッド

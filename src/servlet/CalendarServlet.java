@@ -40,6 +40,7 @@ public class CalendarServlet extends HttpServlet {
 		int month = now.getMonthValue();
 
 
+		//値を受け取る
 		String ym = request.getParameter("ym");
 
 		//calendar.jspからym(年月)を指定されたとき
@@ -48,7 +49,6 @@ public class CalendarServlet extends HttpServlet {
 			//ymからyear(4文字)month(2文字)を取得
 			year = Integer.parseInt(ym.substring(0, 4));
 			month = Integer.parseInt(ym.substring(4, 6));
-
 		}
 
 
@@ -82,7 +82,7 @@ public class CalendarServlet extends HttpServlet {
 		//--------------------------------
 
 		//year,monthをString6桁に変える
-		ym = CommonUtil.toStringYmFormatSixByIntYm(year, month);
+		ym = this.toStringYmFormatSixByIntYm(year, month);
 
 		//BLの戻り値をdbListで受け取る
 		ScheduleBl bl = new ScheduleBl();
@@ -171,7 +171,7 @@ public class CalendarServlet extends HttpServlet {
 		int beforeMonth = localDateBefore.getMonthValue();
 
 		//year,monthをString6桁に変える
-		String beforeYm = CommonUtil.toStringYmFormatSixByIntYm(beforeYear, beforeMonth);
+		String beforeYm = this.toStringYmFormatSixByIntYm(beforeYear, beforeMonth);
 
 
 		//取得したカレンダーの翌月のymをafterYmに代入
@@ -180,7 +180,7 @@ public class CalendarServlet extends HttpServlet {
 		int afterMonth = localDateAfter.getMonthValue();
 
 		//year,monthをString6桁に変える
-		String afterYm = CommonUtil.toStringYmFormatSixByIntYm(afterYear, afterMonth);
+		String afterYm = this.toStringYmFormatSixByIntYm(afterYear, afterMonth);
 
 
 
@@ -194,6 +194,18 @@ public class CalendarServlet extends HttpServlet {
 		// 画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/calendar.jsp").forward(request, response);
 
+	}
+
+
+	/**
+	 * year, month(int) をym(String6文字)で返すメソッド
+	 */
+	public String toStringYmFormatSixByIntYm(int year, int month) {
+
+		//monthが1桁のとき2桁の文字列に変換する
+		String ym = year + String.format("%02d", month);
+
+		return ym;
 	}
 
 }
