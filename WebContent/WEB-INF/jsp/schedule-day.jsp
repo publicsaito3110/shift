@@ -11,7 +11,7 @@
 </head>
 <body>
 
-	<jsp:include page="header.jsp" flush="true" />
+	<jsp:include page="common/header.jsp" flush="true" />
 
 	<h1>シフト変更</h1>
 
@@ -77,7 +77,7 @@
 
 
 	<%--ポップアップウィンドウ  Form送信後に自動的に表示 --%>
-	<jsp:include page="pop-window.jsp" flush="true" />
+	<jsp:include page="common/pop-window.jsp" flush="true" />
 
 </body>
 </html>

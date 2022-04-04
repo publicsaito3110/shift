@@ -7,7 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/header.css">
 </head>
 <body>
-	<jsp:include page="header.jsp" flush="true" />
+	<jsp:include page="common/header.jsp" flush="true" />
 
 	<h1>ユーザー一覧</h1>
 

@@ -9,7 +9,7 @@
 </head>
 <body>
 
-	<jsp:include page="header.jsp" flush="true" />
+	<jsp:include page="common/header.jsp" flush="true" />
 
 	<form action="UserModifyServlet" method="post">
 		<table border="1" cellspacing="0">
@@ -55,7 +55,7 @@
 
 
 	<%--ポップアップウィンドウ  Form送信後に自動的に表示 --%>
-	<jsp:include page="pop-window.jsp" flush="true" />
+	<jsp:include page="common/pop-window.jsp" flush="true" />
 
 
 </body>

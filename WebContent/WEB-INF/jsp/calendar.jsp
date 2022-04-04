@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/calendar.css">
 </head>
 <body>
-	<jsp:include page="header.jsp" flush="true" />
+	<jsp:include page="common/header.jsp" flush="true" />
 
 
 	<div style="float:left"><a class="text-balack" href="CalendarServlet?ym=${beforeYm}">前の月へ</a></div>
