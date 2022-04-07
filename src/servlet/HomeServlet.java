@@ -10,8 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.NewsBean;
+import bean.UserBean;
 import bl.NewsBl;
 import common.Const;
 
@@ -19,7 +21,7 @@ import common.Const;
  * Servlet implementation class HomeServlet
  */
 @WebServlet("/HomeServlet")
-public class HomeServlet extends HttpServlet {
+public class HomeServlet extends BaseLoginServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
@@ -31,7 +33,8 @@ public class HomeServlet extends HttpServlet {
     }
 
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+	protected void executeExistSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
 		//現在の日付を取得
@@ -65,7 +68,7 @@ public class HomeServlet extends HttpServlet {
 
 
 		//表示できるお知らせがない(dbListが空文字)とき
-		if(dbList.isEmpty()) {
+		if (dbList.isEmpty()) {
 
 			bean.setYmd("お知らせはありません");
 			bean.setContent("");
@@ -77,7 +80,7 @@ public class HomeServlet extends HttpServlet {
 
 
 			//画面遷移
-			request.getRequestDispatcher("/WEB-INF/jsp/menu.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
 			return;
 		}
 
@@ -89,7 +92,7 @@ public class HomeServlet extends HttpServlet {
 
 
 		//dbListの要素数の回数だけdbListから結果を抽出し、newsListにセットする
-		for(int i = 0; i < dbList.size(); i++) {
+		for (int i = 0; i < dbList.size(); i++) {
 
 			//beanを初期化し、dbListからymdとcontentを取得
 			bean = new NewsBean();
@@ -128,16 +131,17 @@ public class HomeServlet extends HttpServlet {
 		//引き渡す値を設定
 		request.setAttribute("newsList", newsList);
 
+		//sessionから名前を取得する
+		HttpSession session = request.getSession();
+		UserBean sessionUserBean = (UserBean)session.getAttribute("USER_BEAN");
+		String name = sessionUserBean.getName();
+
+		request.setAttribute("userNameText", name + "さん");
+
 
 		//画面遷移
-		request.getRequestDispatcher("/WEB-INF/jsp/menu.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
 		return;
-	}
-
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		doGet(request, response);
 	}
 
 

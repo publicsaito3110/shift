@@ -21,7 +21,7 @@ import common.ScheduleDayUtil;
  * Servlet implementation class ScheduleDayModifyServlet
  */
 @WebServlet("/ScheduleDayModifyServlet")
-public class ScheduleDayModifyServlet extends HttpServlet {
+public class ScheduleDayModifyServlet extends BaseLoginServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -33,13 +33,8 @@ public class ScheduleDayModifyServlet extends HttpServlet {
 	}
 
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@Override
+	protected void executeExistSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		//文字コードをUTF-8で設定
 		response.setContentType("text/html;charset=UTF-8");
@@ -260,6 +255,9 @@ public class ScheduleDayModifyServlet extends HttpServlet {
 			request.setAttribute("btnValue1", "INSERT");
 			request.setAttribute("btn1", "登録する");
 		}
+
+		//CalendarServletに戻ったとき変更した年月を表示
+		request.setAttribute("ym", year + month);
 
 
 		// 画面遷移

@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,13 +11,14 @@ import javax.servlet.http.HttpSession;
 import bean.UserBean;
 import bl.UserBl;
 import common.CommonUtil;
+import common.Const;
 
 
 /**
  * Servlet implementation class LoginServlet
  */
 @WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends BaseNoLoginServlet {
 	private static final long serialVersionUID = 1L;
 
     public LoginServlet(){
@@ -26,28 +26,16 @@ public class LoginServlet extends HttpServlet {
         //Auto-generated constructor stub
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		//返す値を設定
-		request.setAttribute("err", "");
+	@Override
+	protected void executeNoSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
-		//画面遷移
-		request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-		//文字コードをUTF-8で設定
-		response.setContentType("text/html;charset=UTF-8");
-		request.setCharacterEncoding("UTF-8");
-
+		//Postで受け取ったとき
+		if (Const.DO_POST.equals(request.getMethod())) {
 
 		//login.jsp からの値を受け取る
 		String inputId = request.getParameter("id");
 		String inputPassword = request.getParameter("password");
-
 
 
 		//-----------------
@@ -78,8 +66,7 @@ public class LoginServlet extends HttpServlet {
 
 
 			//引き渡す値を設定
-			String name = sessionUserBean.getName();
-			request.setAttribute("name", name);
+			request.setAttribute("firstLoginText", "");
 
 
 			//画面遷移
@@ -133,11 +120,27 @@ public class LoginServlet extends HttpServlet {
 		session.setAttribute("USER_BEAN", userBean) ;
 
 		//引き渡す値を設定
-		String name = userBean.getName();
-		request.setAttribute("name", name);
+		request.setAttribute("firstLoginText", "ようこそ");
 
 
 		//画面遷移
 		request.getRequestDispatcher("/HomeServlet").forward(request, response);
+		}
+
+
+		//-----
+		//Get
+		//-----
+		if (Const.DO_GET.equals(request.getMethod())) {
+
+			//返す値を設定
+			request.setAttribute("err", "");
+
+			HttpSession session = request.getSession();
+			session.invalidate();
+
+			//画面遷移
+			request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+		}
 	}
 }

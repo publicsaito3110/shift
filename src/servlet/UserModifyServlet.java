@@ -21,7 +21,7 @@ import common.ValidationUtil;
  * Servlet implementation class UserModifyServlet
  */
 @WebServlet("/UserModifyServlet")
-public class UserModifyServlet extends HttpServlet {
+public class UserModifyServlet extends BaseLoginServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
@@ -32,12 +32,9 @@ public class UserModifyServlet extends HttpServlet {
         //  Auto-generated constructor stub
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@Override
+	protected void executeExistSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		//文字コードをUTF-8で設定
 		response.setContentType("text/html;charset=UTF-8");

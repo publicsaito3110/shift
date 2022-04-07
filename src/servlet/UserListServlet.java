@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,7 +22,7 @@ import common.Const;
  */
 
 @WebServlet("/UserListServlet")
-public class UserListServlet extends HttpServlet {
+public class UserListServlet extends BaseLoginServlet {
 	private static final long serialVersionUID = 1L;
 
     public UserListServlet() {
@@ -31,13 +30,9 @@ public class UserListServlet extends HttpServlet {
         //  Auto-generated constructor stub
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		doPost(request, response);
-	}
-
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@Override
+	protected void executeExistSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		//文字コードをUTF-8で設定
 		response.setContentType("text/html;charset=UTF-8");
@@ -47,11 +42,8 @@ public class UserListServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserBean sessionUserBean = (UserBean)session.getAttribute("USER_BEAN");
 
-
 		//sessionから管理者かどうかを取得
 		boolean isAdministrator = sessionUserBean.isAdministrator();
-
-
 
 		//user-list.jsp からの値を受け取る
 		String page = request.getParameter("page");
@@ -63,14 +55,12 @@ public class UserListServlet extends HttpServlet {
 		//指定したページに対応したoffsetを取得する
 		int offset = this.toIntReturnOffsetByPage(page);
 
-
 		//ログインしているユーザが管理者でないとき
 		if(!isAdministrator) {
 
 			//idをキーワードに代入する
 			keyWord = sessionUserBean.getId();
 		}
-
 
 
 		//------------
@@ -113,8 +103,6 @@ public class UserListServlet extends HttpServlet {
 			//全件表示され、doGetと同様の結果になるためafterFormFlagをfalseにする
 			request.setAttribute("afterFormFlag", false);
 		}
-
-
 
 		// 画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/user-list.jsp").forward(request, response);
@@ -180,47 +168,52 @@ public class UserListServlet extends HttpServlet {
 		List<String> pageList = new ArrayList<>();
 
 
-//		//1回で表示する最大ページ数
-//		int maxPage = Const.MAX_PAGE;
+		//1回で表示する最大ページ数
+		int maxPage = Const.MAX_PAGE;
 
 
 
-		//-------------------------------------------------
-		//ページ数が1しかないときpageListをなにもせず返す
-		//-------------------------------------------------
+		//------------------------------------------------------
+		//全体のページ数が1しかないときpageListをなにもせず返す
+		//------------------------------------------------------
 		if(lastPage == 1) {
 
 			return pageList;
 		}
 
 //TODO
-//		//jspに表示するページの処理(動的)p3以上->2,3,4,5,6... あとで
-//
-//		//---------------------------------------------------
-//		//pageがnullでないかつ1ページ目以外指定があるのとき
-//		//---------------------------------------------------
-//
-//		if(page != null) {
-//
-//			int nowPage = Integer.parseInt(page);
-//
-//			//maxPageの回数分だけjspに表示するページを代入する
-//			for(int i = nowPage - 1; i <= lastPage; i++) {
-//
-//				String strPage = String.valueOf(i);
-//
-//				//maxPageの回数以上ループしたとき(1回で表示する最大ページ5)
-//				if(maxPage <= i) {
-//
-//					pageList.add(strPage);
-//					break;
-//				}
-//
-//				pageList.add(strPage);
-//			}
-//
-//			return pageList;
-//		}
+		//jspに表示するページの処理(動的)p3以上->2,3,4,5,6... あとで
+
+		//---------------------------------------------------
+		//pageがnullでないかつ1ページ目以外指定があるのとき
+		//---------------------------------------------------
+
+		if(page != null && !page.equals("1")) {
+
+			//現在のページをintに変換する
+			int nowPage = Integer.parseInt(page);
+
+			//現在のループ回数をカウントする
+			int loopCount = 0;
+
+			//nowPage - 1を最初のページとしてlastPageの回数分だけjspに表示するページを代入する
+			for(int i = nowPage - 1; i <= lastPage; i++) {
+
+				String strPage = String.valueOf(i);
+
+				//maxPageの回数以上ループしたとき(1回で表示する最大ページ5)
+				if(maxPage <= loopCount) {
+
+					pageList.add(strPage);
+					break;
+				}
+
+				pageList.add(strPage);
+				loopCount++;
+			}
+
+			return pageList;
+		}
 
 
 		//----------------------------------

@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,18 +19,12 @@ import common.CommonUtil;
  * Servlet implementation class CalendarServlet
  */
 @WebServlet("/CalendarServlet")
-public class CalendarServlet extends HttpServlet {
+public class CalendarServlet extends BaseLoginServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		//文字コードをUTF-8で設定
-		response.setContentType("text/html;charset=UTF-8");
-		request.setCharacterEncoding("UTF-8");
+	@Override
+	protected void executeExistSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
 		//現在の日付を取得
@@ -207,5 +200,4 @@ public class CalendarServlet extends HttpServlet {
 
 		return ym;
 	}
-
 }
