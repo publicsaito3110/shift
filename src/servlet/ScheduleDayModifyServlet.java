@@ -252,7 +252,7 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 	 * @param String sqlType, Get form that it is sql type
 	 * @return boolean, Return true in sqlType is INSERT or UPDATE or DELETE
 	 */
-	public boolean isBtnSqlTypeIUD(String sqlType) {
+	private boolean isBtnSqlTypeIUD(String sqlType) {
 
 		//sqlTypeがINSERT, UPDATE, DELETEでないとき
 		if(sqlType != "INSERT" && sqlType != "UPDATE" && sqlType == "DELETE") {
@@ -268,7 +268,7 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 	 * @param String,
 	 * @return boolean, Return true in schedule is not Empty or sqlType is DELETE
 	 */
-	public boolean isNotEmptyAllOrDelete(String user1, String user2, String user3, String memo1, String memo2, String memo3,String sqlType) {
+	private boolean isNotEmptyAllOrDelete(String user1, String user2, String user3, String memo1, String memo2, String memo3,String sqlType) {
 
 		boolean isEmpUser1 = StringUtils.isEmpty(user1);
 		boolean isEmpUser2 = StringUtils.isEmpty(user2);

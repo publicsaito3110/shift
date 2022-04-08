@@ -181,7 +181,7 @@ public class CalendarServlet extends BaseLoginServlet {
 	/**
 	 * year, month(int) をym(String6文字)で返すメソッド
 	 */
-	public String toStringYmFormatSixByIntYm(int year, int month) {
+	private String toStringYmFormatSixByIntYm(int year, int month) {
 
 		//monthが1桁のとき2桁の文字列に変換する
 		String ym = year + String.format("%02d", month);

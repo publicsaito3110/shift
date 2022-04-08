@@ -103,7 +103,7 @@ public class UserListServlet extends BaseLoginServlet {
 	 *@param List<UserBean> userList, getting UserList
 	 *@return int, calc last page
 	 */
-	public int toIntReturnLastPageByUserList(List<UserBean> userList) {
+	private int toIntReturnLastPageByUserList(List<UserBean> userList) {
 
 		//SQLの結果(COUNT)を取得
 		String sqlCount = userList.get(0).getCountAll();
@@ -127,7 +127,7 @@ public class UserListServlet extends BaseLoginServlet {
 	 *@param String page, int lastPage, Got page and calced last page
 	 *@return List<String>, Return calced page List for display
 	 */
-	public List<String> toListDisplayPageNoByMaxPage(String page, int lastPage) {
+	private List<String> toListDisplayPageNoByMaxPage(String page, int lastPage) {
 
 		//Listにjspに表示するページを格納する
 		List<String> pageList = new ArrayList<>();

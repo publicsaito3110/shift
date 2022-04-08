@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-
 import bean.UserBean;
 import bean.ValidationBean;
 import bl.UserBl;
@@ -132,28 +130,5 @@ public class UserModifyServlet extends BaseAdministratorServlet {
 
 		// 画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/user-modify.jsp").forward(request, response);
-	}
-
-
-
-	/**
-	 * delFlagがdelFlagパターンと一致しているときtrueを返すメソッド
-	 */
-	public boolean isCheckDelFlag(String delFlag) {
-
-
-		//delFlagがnullまたは空文字のとき
-		if(StringUtils.isEmpty(delFlag)) {
-			return false;
-		}
-
-		boolean isVali =delFlag.equals(Const.PATTERN_DEL_FLAG);
-
-		//delFlagが退職済み("1")のとき
-		if(isVali) {
-			return true;
-		}
-
-		return false;
 	}
 }
