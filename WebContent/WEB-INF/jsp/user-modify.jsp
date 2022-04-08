@@ -16,19 +16,19 @@
 			<tr>
 				<th><p>ID</p></th>
 				<td>
-					<input type="hidden" name="id" value="${id}">${id}<span>${erId}</span>
+					<input type="hidden" name="id" value="${id}">${id}<span>${valiBean.erId}</span>
 				</td>
 			</tr>
 			<tr>
 				<th><p>名前 <span class="text-red">※</span></p></th>
 				<td>
-					<input type="text" name="name" placeholder="${name}" value="${name}"><span>${erName}</span>
+					<input type="text" name="name" placeholder="${name}" value="${name}"><span>${valiBean.erName}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>フリガナ(任意)</th>
 				<td>
-					<input type="text" name="nameKana" placeholder="${nameKana}" value="${nameKana}"><span>${erNameKana}</span>
+					<input type="text" name="nameKana" placeholder="${nameKana}" value="${nameKana}"><span>${valiBean.erNameKana}</span>
 				</td>
 			</tr>
 			<tr>
@@ -37,13 +37,13 @@
 					  <%--デフォルトは男性にチェックし、女性のときチェックされる --%>
 					<input type="radio" name="gender" value="1" checked>男
 					<input type="radio" name="gender" value="2" ${checkGender2}>女
-					<span>${erGender}</span>
+					<span>${valiBean.erGender}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>退職済み</th>
 				<td>
-					<input type="checkbox" name="delFlag" value="1" ${checkDelFlag}><span>${erDelFlag}</span>
+					<input type="checkbox" name="delFlag" value="1" ${checkDelFlag}><span>${valiBean.erDelFlag}</span>
 				</td>
 			</tr>
 		</table>

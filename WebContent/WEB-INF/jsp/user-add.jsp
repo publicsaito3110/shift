@@ -17,19 +17,19 @@
 			<tr>
 				<th><span>ID</span> <span class="text-red">※</span></th>
 				<td>
-					<input type="text" name="id" value="${id}" placeholder="A123"><span>${erId}</span>
+					<input type="text" name="id" value="${id}" placeholder="A123"><span>${valiBean.erId}</span>
 				</td>
 			</tr>
 			<tr>
 				<th><span>名前</span> <span class="text-red">※</span></th>
 				<td>
-					<input type="text" name="name" value="${name}" placeholder="田中太郎"><span>${erName}</span>
+					<input type="text" name="name" value="${name}" placeholder="田中太郎"><span>${valiBean.erName}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>フリガナ(任意)</th>
 				<td>
-					<input type="text" name="nameKana" value="${nameKana}" placeholder="タナカタロウ"><span>${erNameKana}</span>
+					<input type="text" name="nameKana" value="${nameKana}" placeholder="タナカタロウ"><span>${valiBean.erNameKana}</span>
 				</td>
 			</tr>
 			<tr>
@@ -37,43 +37,43 @@
 				<td>
 					<input type="radio" name="gender" value="1" checked>男
 					<input type="radio" name="gender" value="2" ${checkGender2}>女
-					<span>${erGender}</span>
+					<span>${valiBean.erGender}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>パスワード</th>
 				<td>
-					<input type="password" name="password" value="${password}"><span>${erPassword}</span>
+					<input type="password" name="password" value="${password}"><span>${valiBean.erPassword}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>住所</th>
 				<td>
-					<input type="text" name="address" value="${address}" placeholder="東京都新宿区○○町1-1"><span>${erAddress}</span>
+					<input type="text" name="address" value="${address}" placeholder="東京都新宿区○○町1-1"><span>${valiBean.erAddress}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>TEL</th>
 				<td>
-					<input type="tel" name="tel" value="${tel}" placeholder="01234567890"><span>${erTel}</span>
+					<input type="tel" name="tel" value="${tel}" placeholder="01234567890"><span>${valiBean.erTel}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>メール</th>
 				<td>
-					<input type="email" name="email" value="${email}"><span>${erEmail}</span>
+					<input type="email" name="email" value="${email}"><span>${valiBean.erEmail}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>管理者</th>
 				<td>
-					役職1<input type="checkbox" name="adminFlag" value="1" ${checkAdminFlag}><span>${erAdminFlag}</span>
+					役職1<input type="checkbox" name="adminFlag" value="1" ${checkAdminFlag}><span>${valiBean.erAdminFlag}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>備考</th>
 				<td>
-					<input type="text" name="note" value="${note}"><span>${erNote}</span>
+					<input type="text" name="note" value="${note}"><span>${valiBean.erNote}</span>
 				</td>
 			</tr>
 		</table>
