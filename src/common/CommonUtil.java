@@ -1,8 +1,5 @@
 package common;
 
-import java.util.List;
-
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class CommonUtil {
@@ -13,29 +10,13 @@ public class CommonUtil {
 
 
 	/**
-	 * year, month, day をymd(String8文字)で返すメソッド
-	 */
-	public static String ymdFormatEightByString(String year, String month, String day) {
-
-		if(day.length() != 2) {
-			day = "0" + day;
-		}
-
-		if(month.length() != 2) {
-			month = "0" + month;
-		}
-
-		String ymd = year + month + day;
-
-		return ymd;
-	}
-
-	/**
-	 * 引数が ""かつ != null のときnullを返すメソッド
+	 * 引数が ""かつ != null のときnullを返す
+	 * @param String value, All of String
+	 * @return String, Return null in param is Empty
 	 */
 	public static String changeNullByEmpty(String value) {
 
-		if(value != null && value.equals("")) {
+		if (value != null && value.equals("")) {
 			value = null;
 		}
 
@@ -43,11 +24,13 @@ public class CommonUtil {
 	}
 
 	/**
-	 * 引数がnull のとき""を返すメソッド
+	 * 引数がnull のとき""を返す
+	 * @param String value, All of String
+	 * @return String, Return Empty in param is null
 	 */
 	public static String changeEmptyByNull(String value) {
 
-		if(value == null) {
+		if (value == null) {
 			value = "";
 		}
 
@@ -56,64 +39,9 @@ public class CommonUtil {
 
 
 	/**
-	 * Listの要素が""またはnullときtrueを返すメソッド
-	 */
-	public static boolean isCheckSizeZeroByList(List value) {
-
-		if(CollectionUtils.isEmpty(value)) {
-			return true;
-		}
-
-		return false;
-	}
-
-
-	/**
-	 * genderが女性パターンと一致しているときtrueを返すメソッド
-	 */
-	public static boolean isCheckGenderFemaleByGender(String gender) {
-
-
-		//adminFlagがnullまたは空文字のとき
-		if(StringUtils.isEmpty(gender)) {
-			return false;
-		}
-
-		boolean isVali =gender.equals(Const.GENDER_FEMALE);
-
-		//genderが女性("2")のとき
-		if(isVali) {
-			return true;
-		}
-
-		return false;
-	}
-
-
-	/**
-	 * adminFlagが管理者パターンと一致しているときtrueを返すメソッド
-	 */
-	public static boolean isCheckAdministratorByAdminFlag(String adminFlag) {
-
-
-		//adminFlagがnullまたは空文字のとき
-		if(StringUtils.isEmpty(adminFlag)) {
-			return false;
-		}
-
-		boolean isVali = adminFlag.matches(Const.PATTERN_ADMIN_FLAG);
-
-		//adminFlagがパターンと一致しているとき
-		if(isVali) {
-			return true;
-		}
-
-		return false;
-	}
-
-
-	/**
-	 * input(引数)が記号やURLのときエスケープするメソッド
+	 * input(引数)が記号やURLのときエスケープする
+	 * @param String value, All of String
+	 * @return String, Return escaped in param has symbol or URL
 	 */
 	public static String replaceEscapeChar(String input) {
 
@@ -124,7 +52,7 @@ public class CommonUtil {
 		String pattern2 = ".*" + valiXSSScript + ".*";
 
 		//inputが""またはnullのとき
-		if(StringUtils.isEmpty(input)) {
+		if (StringUtils.isEmpty(input)) {
 
 			return input;
 		}
@@ -132,20 +60,22 @@ public class CommonUtil {
 		try {
 			//inputにURLが含まれているとき
 			if (input.matches(pattern1)) {
-				input = input.replace("http://", "\\http://");
-				input = input.replace("https://", "\\https://");
+
+				input = input.replaceAll("http://", "\\http://");
+				input = input.replaceAll("https://", "\\https://");
 			}
 
 			//inputに記号が含まれているとき
 			if (input.matches(pattern2)) {
-				input = input.replace("&", "&amp;");
-				input = input.replace("<", "&lt;");
-				input = input.replace(">", "&gt;");
-				input = input.replace("\"", "&quot;");
-				input = input.replace("'", "&apos;");
+
+				input = input.replaceAll("&", "&amp;");
+				input = input.replaceAll("<", "&lt;");
+				input = input.replaceAll(">", "&gt;");
+				input = input.replaceAll("\"", "&quot;");
+				input = input.replaceAll("'", "&apos;");
 			}
 
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return input;

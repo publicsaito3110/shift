@@ -6,12 +6,18 @@ public class Const {
 		// インスタンス化できないように設定
 	}
 
+	public static final String DO_GET = "GET";   //doGet
+	public static final String DO_POST = "POST";   //doPost
+
 	public static final int NEWS_LIMIT_DAY_BEFORE_NOW = 14;   //お知らせに表示する現在～日までの日数
 
 	public static final String GENDER_MAN = "1";   //性別が男
 	public static final String GENDER_FEMALE = "2";   //性別が女
 	public static final String DELETE_FLAG = "1";   //deleteFlagがある
 
+	public static final String SQLTYPE_INSERT = "INSERT";   //sqltypeがINSERT
+	public static final String SQLTYPE_UPDATE = "UPDATE";   //sqltypeがUPDATE
+	public static final String SQLTYPE_DELETE = "DELETE";   //sqltypeがDELETE
 
 	public static final String OPTION_SELECTED = "selected";   //<option>のセレクト
 	public static final String CHECKBOX_CHECKED = "checked";   //<radio>のチェック
