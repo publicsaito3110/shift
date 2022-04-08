@@ -80,22 +80,6 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		request.setAttribute("afterFormFlag", true);
 		request.setAttribute("popTitle", "シフトの修正結果");
 
-		//sqlTypeがupdateのとき
-		if (Const.SQLTYPE_UPDATE.equals(sqlType)) {
-			request.setAttribute("sqlTypeUpdate", true);
-			request.setAttribute("btnValue1", "UPDATE");
-			request.setAttribute("btn1", "修正する");
-			request.setAttribute("btnValue2", "DELETE");
-			request.setAttribute("btn2", "削除する");
-		}
-
-		//sqlTypeがinsertのとき
-		if (Const.SQLTYPE_INSERT.equals(sqlType)) {
-			request.setAttribute("sqlTypeUpdate", false);
-			request.setAttribute("btnValue1", "INSERT");
-			request.setAttribute("btn1", "登録する");
-		}
-
 		//userとmemoが""(未設定または未入力)のときnullを代入する
 		inputUser1 = CommonUtil.changeNullByEmpty(inputUser1);
 		inputMemo1 = CommonUtil.changeNullByEmpty(inputMemo1);
@@ -112,27 +96,44 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		//sqlTypeの値をチェックする
 		boolean isVali1 = this.isBtnSqlTypeIUD(btnSqlType);
 
-		//sqlTypeの値がINSERT,UPDATE,DELETE以外のとき
-		if (!isVali1) {
-
-			// schedule-day.jspに返す値
-			request.setAttribute("resultText", "[エラー] 不正な入力値を検知しました");
-			request.setAttribute("result", false);
-
-			// 画面遷移
-			request.getRequestDispatcher("/WEB-INF/jsp/schedule-day.jsp").forward(request, response);
-			return;
-		}
-
 		//afterMemoの値とsqlTypeの組み合わせをチェックする
 		boolean isVali2 = this.isNotEmptyAllOrDelete(inputUser1, inputUser2, inputUser3, inputMemo1, inputMemo2, inputMemo3, btnSqlType);
 
-		//afterMemoが全て""かつ削除ボタン以外が押されたとき
-		if (!isVali2) {
+		//バリデーションチェックが1つでもアウトのとき
+		if (!isVali1 || !isVali2) {
 
-			// schedule-day.jspに返す値
-			request.setAttribute("resultText", "[エラー] 修正後のシフトを入力してください");
+			//返す値を設定
 			request.setAttribute("result", false);
+
+			//sqlTypeがUPDATEのとき
+			if (Const.SQLTYPE_UPDATE.equals(sqlType)) {
+				request.setAttribute("sqlTypeUpdate", true);
+				request.setAttribute("btnValue1", Const.SQLTYPE_UPDATE);
+				request.setAttribute("btn1", "修正する");
+				request.setAttribute("btnValue2", Const.SQLTYPE_DELETE);
+				request.setAttribute("btn2", "削除する");
+			}
+
+			//sqlTypeがINSERTのとき
+			if (Const.SQLTYPE_INSERT.equals(sqlType)) {
+				request.setAttribute("sqlTypeUpdate", false);
+				request.setAttribute("btnValue1", Const.SQLTYPE_INSERT);
+				request.setAttribute("btn1", "登録する");
+			}
+
+			//sqlTypeの値がINSERT,UPDATE,DELETE以外のとき
+			if (!isVali1) {
+
+				// schedule-day.jspに返す値
+				request.setAttribute("resultText", "[エラー] 不正な入力値を検知しました");
+			}
+
+			//afterMemoが全て""かつ削除ボタン以外が押されたとき
+			if (!isVali2) {
+
+				// schedule-day.jspに返す値
+				request.setAttribute("resultText", "[エラー] 修正後のシフトを入力してください");
+			}
 
 			// 画面遷移
 			request.getRequestDispatcher("/WEB-INF/jsp/schedule-day.jsp").forward(request, response);
@@ -168,17 +169,17 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 
 		switch (btnSqlType){
 
-		case "UPDATE":    //修正ボタンが押されたとき
+		case Const.SQLTYPE_UPDATE:    //修正ボタンが押されたとき
 
 			isRecordResult = bl.updateScheduleDay(scheduleBean);
 			break;
 
-		case "DELETE":    //削除ボタンが押されたとき
+		case Const.SQLTYPE_DELETE:    //削除ボタンが押されたとき
 
 			isRecordResult = bl.deleteScheduleDay(scheduleBean);
 			break;
 
-		case "INSERT":    //登録ボタンが押されたとき
+		case Const.SQLTYPE_INSERT:    //登録ボタンが押されたとき
 
 			isRecordResult = bl.insertScheduleDay(scheduleBean);
 			break;
@@ -221,19 +222,19 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		request.setAttribute("resultText", "修正に成功しました");
 		request.setAttribute("result", true);
 
-		//sqlTypeがupdateのとき
-		if (sqlType.equals("update")) {
+		//sqlTypeがUPDATEのとき
+		if (Const.SQLTYPE_UPDATE.equals(sqlType)) {
 			request.setAttribute("sqlTypeUpdate", true);
-			request.setAttribute("btnValue1", "UPDATE");
+			request.setAttribute("btnValue1", Const.SQLTYPE_UPDATE);
 			request.setAttribute("btn1", "修正する");
-			request.setAttribute("btnValue2", "DELETE");
+			request.setAttribute("btnValue2", Const.SQLTYPE_DELETE);
 			request.setAttribute("btn2", "削除する");
 		}
 
-		//sqlTypeがinsertのとき
-		if (sqlType.equals("insert")) {
+		//sqlTypeがINSERTのとき
+		if (Const.SQLTYPE_INSERT.equals(sqlType)) {
 			request.setAttribute("sqlTypeUpdate", false);
-			request.setAttribute("btnValue1", "INSERT");
+			request.setAttribute("btnValue1", Const.SQLTYPE_INSERT);
 			request.setAttribute("btn1", "登録する");
 		}
 
@@ -254,7 +255,7 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 	private boolean isBtnSqlTypeIUD(String sqlType) {
 
 		//sqlTypeがINSERT, UPDATE, DELETEでないとき
-		if(sqlType != "INSERT" && sqlType != "UPDATE" && sqlType == "DELETE") {
+		if(sqlType != Const.SQLTYPE_INSERT && sqlType != Const.SQLTYPE_UPDATE && sqlType == Const.SQLTYPE_DELETE) {
 			return false;
 		}
 
@@ -277,7 +278,7 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		boolean isEmpMemo3 = StringUtils.isEmpty(memo3);
 
 		//user, memoが全て空文字かつsqlTypeがDELETEでないとき
-		if(isEmpUser1 && isEmpUser2 && isEmpUser3 && isEmpMemo1 && isEmpMemo2 && isEmpMemo3 && sqlType != "DELETE") {
+		if(isEmpUser1 && isEmpUser2 && isEmpUser3 && isEmpMemo1 && isEmpMemo2 && isEmpMemo3 && sqlType != Const.SQLTYPE_DELETE) {
 			return false;
 		}
 
