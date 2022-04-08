@@ -12,11 +12,13 @@ import bean.NewsBean;
 import common.Const;
 import common.DbConst;
 
-public class NewsDao {
+public class NewsDao{
 
 
 	/**
-	 *指定された日付の範囲内のお知らせを取得するメソッド
+	 *指定された日付の範囲内のお知らせを取得する
+	 *@param String nowYmd, Date of today is state of YYYYMMDD
+	 *@return List<NewsBean>, Get news until today
 	 */
 	public List<NewsBean> selectNews(String nowYmd) {
 
@@ -28,6 +30,7 @@ public class NewsDao {
 
 		//ユーザ名を受け取るための変数(nullを宣言しておく)
 		List<NewsBean> newsList = new ArrayList<>();
+
 
 		try {
 
@@ -49,14 +52,11 @@ public class NewsDao {
 			//SQLをセット
 			ps = con.prepareStatement(buf.toString());
 
-
 			// ? にパラメータをセット
 			ps.setString(1, nowYmd);
 
-
 			//SQLの結果を取得
 			rs = ps.executeQuery();
-
 
 			//結果をさらに抽出
 			while (rs.next()) {

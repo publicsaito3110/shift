@@ -18,6 +18,8 @@ public class UserDao {
 
 	/**
 	 *delFlgがないユーザ名,idを取得するメソッド
+	 *@param void
+	 *@return List<UserBean>, User in no delFlag
 	 */
 	public List<UserBean> selectUserIdNameNotDelFlag() {
 
@@ -50,7 +52,6 @@ public class UserDao {
 			//SQLの結果を取得
 			rs = ps.executeQuery();
 
-
 			//結果をさらに抽出
 			while (rs.next()) {
 				UserBean bean = new UserBean();
@@ -64,6 +65,7 @@ public class UserDao {
 			e.printStackTrace();
 
 		} finally {
+
 			//DBの接続解除
 			if (rs != null) {
 				try {
@@ -94,7 +96,9 @@ public class UserDao {
 
 
 	/**
-	 *1人のユーザ名を取得するメソッド
+	 *1人のユーザを取得するメソッド
+	 *@param UserBean userBean, Id and Password in login
+	 *@return UserBean, User info of Id, Name and AdmFlg
 	 */
 	public UserBean selectUserIdNameAdmFlgLogin(UserBean userBean) {
 
@@ -128,7 +132,6 @@ public class UserDao {
 			ps.setString(1, userBean.getId());
 			ps.setString(2, userBean.getPassword());
 
-
 			//SQLの結果を取得
 			rs = ps.executeQuery();
 
@@ -144,6 +147,7 @@ public class UserDao {
 			e.printStackTrace();
 
 		} finally {
+
 			//DBの接続解除
 			if (rs != null) {
 				try {
@@ -173,7 +177,9 @@ public class UserDao {
 
 
 	/**
-	 * 登録済みのユーザ全員を取得するメソッド
+	 * 登録済みのユーザ全員を取得する
+	 * @param int offset, ?????checkTODO
+	 * @return List<UserBean>, All user in recording
 	 */
 	public List<UserBean> selectUserAll(int offset) {
 
@@ -228,6 +234,7 @@ public class UserDao {
 			e.printStackTrace();
 
 		} finally {
+
 			//DBの接続解除
 			if (rs != null) {
 				try {
@@ -257,7 +264,9 @@ public class UserDao {
 
 
 	/**
-	 *キーワードに該当するユーザ全員を取得するメソッド
+	 *キーワードに該当するユーザ全員を取得する
+	 *@param String keyWord, keyword of user id, name and Katakana
+	 *@return  List<UserBean>, All user of muching keyword
 	 */
 	public List<UserBean> selectUserByKeyWord(int offset, String keyWord) {
 
@@ -287,7 +296,6 @@ public class UserDao {
 			buf.append( Const.PAGE_LIMIT );
 			buf.append(" OFFSET  ? ");
 			buf.append(" ; ");
-
 
 			//SQLをセット
 			ps = con.prepareStatement(buf.toString());
@@ -323,6 +331,7 @@ public class UserDao {
 			e.printStackTrace();
 
 		} finally {
+
 			//DBの接続解除
 			if (rs != null) {
 				try {
@@ -352,7 +361,9 @@ public class UserDao {
 
 
 	/**
-	 *idと一致する1人のユーザを取得するメソッド
+	 *idと一致する1人のユーザを取得する
+	 *@param String id, A user id
+	 *@return UserBean, a user of muching id
 	 */
 	public UserBean selectUserOneById(String id) {
 
@@ -382,7 +393,6 @@ public class UserDao {
 			//   ? にパラメータをセット
 			ps.setString(1, id);
 
-
 			//SQLの結果を取得
 			rs = ps.executeQuery();
 
@@ -400,6 +410,7 @@ public class UserDao {
 			e.printStackTrace();
 
 		} finally {
+
 			//DBの接続解除
 			if (rs != null) {
 				try {
@@ -430,7 +441,9 @@ public class UserDao {
 
 
 	/**
-	 *ユーザを新規登録するメソッド
+	 *ユーザを新規登録する
+	 *@param UserBean userBean, user info that you want to signup
+	 *@return boolean, Return true in insert user
 	 */
 	public boolean insertUserSignup(UserBean userBean){
 
@@ -523,7 +536,9 @@ public class UserDao {
 
 
 	/**
-	 *ユーザ情報を更新するメソッド
+	 *ユーザ情報を更新する
+	 *@param UserBean userBean, user info that you want to modify
+	 *@return  boolean, Return true in update user
 	 */
 	public boolean updateUserDB(UserBean userBean){
 
@@ -566,7 +581,6 @@ public class UserDao {
 			ps.setString(3, userBean.getGender());
 			ps.setString(4, userBean.getDelFlag());
 			ps.setString(5, userBean.getId());
-
 
 			//SQLを実行
 			ps.executeUpdate();

@@ -16,7 +16,9 @@ public class ScheduleDao {
 
 
 	/**
-	 *1ヵ月分のスケジュールを取得するメソッド
+	 *1ヵ月分のスケジュールを取得する
+	 *@param String ym, Month is status of YYYYMM
+	 *@return List<ScheduleBean>, Recoding schedule in this month
 	 */
 	public List<ScheduleBean> selectScheduleMonth(String ym) {
 
@@ -68,11 +70,11 @@ public class ScheduleDao {
 			beanList.add(bean);
 		}
 
-
 	} catch (Exception e) {
 		e.printStackTrace();
 
 	} finally {
+
 		//DBの接続解除
 		if (rs != null) {
 			try {
@@ -104,6 +106,8 @@ public class ScheduleDao {
 
 	/**
 	 *1日分のスケジュールを取得するメソッド
+	 *@param String ymd, A date is status of YYYYMMDD
+	 *@return ScheduleBean, Recoding schedule in this date
 	 */
 	public ScheduleBean selectScheduleDay(String ymd) {
 
@@ -150,11 +154,11 @@ public class ScheduleDao {
 				scheduleBean.setMemo3(rs.getString("memo3"));
 			}
 
-
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		} finally {
+
 			//DBの接続解除
 			if (rs != null) {
 				try {
@@ -184,7 +188,9 @@ public class ScheduleDao {
 
 
 	/**
-	 * スケジュールを新規で追加する(INSERT)
+	 * スケジュールを新規で追加する
+	 * @param ScheduleBean scheduleBean, Schedule info taht you want to record
+	 * @return boolean, Return true in insert schedule
 	 */
 	public boolean insertScheduleDay(ScheduleBean scheduleBean){
 
@@ -276,7 +282,9 @@ public class ScheduleDao {
 
 
 	/**
-	 *スケジュールを更新する(UPDATE)
+	 *スケジュールを更新する
+	 *@param ScheduleBean scheduleBean, Schedule info taht you want to modify
+	 *@return boolean, Return true in update schedule
 	 */
 	public boolean updateScheduleDay(ScheduleBean scheduleBean){
 
@@ -284,7 +292,6 @@ public class ScheduleDao {
 		//JDBCの接続に使用するオブジェクトを宣言
 		Connection con = null;
 		PreparedStatement ps = null;
-
 
 		//実行結果を取得するための変数
 		boolean isResult = false;
@@ -375,7 +382,9 @@ public class ScheduleDao {
 
 
 	/**
-	 *スケジュールを削除する(DELETE)
+	 *スケジュールを削除する
+	 *@param ScheduleBean scheduleBean, Schedule taht you want to remove
+	 *@return boolean, Return true in delete schedule
 	 */
 	public boolean deleteScheduleDay(ScheduleBean scheduleBean){
 
