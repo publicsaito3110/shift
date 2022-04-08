@@ -62,6 +62,8 @@ public class UserModifyServlet extends BaseAdministratorServlet {
 
 		//退職済みにチェックが入っていたとき
 		if(Const.DELETE_FLAG.equals(delFlag)) {
+
+			//checkboxにチェックを入れる
 			request.setAttribute("checkDelFlag", Const.CHECKBOX_CHECKED);
 		}
 

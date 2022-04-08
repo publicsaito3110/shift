@@ -124,7 +124,6 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 			return;
 		}
 
-
 		//afterMemoの値とsqlTypeの組み合わせをチェックする
 		boolean isVali2 = this.isNotEmptyAllOrDelete(inputUser1, inputUser2, inputUser3, inputMemo1, inputMemo2, inputMemo3, btnSqlType);
 

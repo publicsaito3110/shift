@@ -179,7 +179,9 @@ public class CalendarServlet extends BaseLoginServlet {
 
 
 	/**
-	 * year, month(int) をym(String6文字)で返すメソッド
+	 * year, month(int) をym(String6文字)で返す
+	 * @param int year, int month, Got LocalDate of year and month
+	 * @return String, Return ym state to YYYYMM
 	 */
 	private String toStringYmFormatSixByIntYm(int year, int month) {
 

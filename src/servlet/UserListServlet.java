@@ -108,7 +108,7 @@ public class UserListServlet extends BaseLoginServlet {
 		//SQLの結果(COUNT)を取得
 		String sqlCount = userList.get(0).getCountAll();
 
-		//SQLの結果(COUNT) ÷ 1ページあたりの表示件数 = ページ数(切り上げ) とする
+		//SQLの結果(COUNT) ÷ 1ページあたりの表示件数 = 最終ページ数(切り上げ) とする
 		BigDecimal sqlCountBd = new BigDecimal(sqlCount);
 		BigDecimal pageLimitBd = new BigDecimal(Const.PAGE_LIMIT);
 
