@@ -9,14 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.UserBean;
 import bl.UserBl;
-import common.CommonUtil;
 import common.Const;
 
 /**
  * Servlet implementation class UserOneServlet
  */
 @WebServlet("/UserOneServlet")
-public class UserOneServlet extends BaseLoginServlet {
+public class UserOneServlet extends BaseAdministratorServlet {
 	private static final long serialVersionUID = 1L;
 
     public UserOneServlet() {
@@ -25,25 +24,22 @@ public class UserOneServlet extends BaseLoginServlet {
 
 
 	@Override
-	protected void executeExistSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-		//文字コードをUTF-8で設定
-		response.setContentType("text/html;charset=UTF-8");
-		request.setCharacterEncoding("UTF-8");
+	protected void isAdministorator(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
 		//更新したいユーザのidをuser-list.jspから受け取る
 		String id = request.getParameter("id");
 
 
+		//-----------
+		//SQLの実行
+		//-----------
 
 		//idと一致するユーザを取得するuserBeanで受け取る
-		UserBean userBean = new UserBean();
 		UserBl bl = new UserBl();
 
+		UserBean userBean = new UserBean();
 		userBean = bl.selectUserOneById(id);
-
 
 		//dbListの結果を抽出する
 		id = userBean.getId();
@@ -52,47 +48,28 @@ public class UserOneServlet extends BaseLoginServlet {
 		String gender = userBean.getGender();
 		String delFlag = userBean.getDelFlag();
 
-
-		//genderが女性かの判別
-		String checkGender2 = "";
-
-
-		//genderが女性(2)のとき<radio>をチェックする
-		if(gender.equals(Const.GENDER_FEMALE)) {
-
-			checkGender2 = Const.CHECKBOX_CHECKED;
-		}
-
-
-		//delFlagがあるかの判定
-		String checkDelFlag = "";
-
-		//delFlagがnullのとき空文字を返す
-		delFlag = CommonUtil.changeEmptyByNull(delFlag);
-
-
-		//退職フラグがあるとき
-		if(delFlag.equals(Const.DELETE_FLAG)) {
-
-			checkDelFlag = Const.CHECKBOX_CHECKED;
-		}
-
-
-
-
 		// 引き渡す値を設定
 		request.setAttribute("id", id);
 		request.setAttribute("name", name);
 		request.setAttribute("nameKana", nameKana);
-		request.setAttribute("checkGender2", checkGender2);
-		request.setAttribute("checkDelFlag", checkDelFlag);
-
-		request.setAttribute("erId", "");
-		request.setAttribute("erName", "");
-		request.setAttribute("erNameKana", "");
-		request.setAttribute("erGender", "");
-		request.setAttribute("erDelFlag", "");
+		request.setAttribute("checkGender2", "");
+		request.setAttribute("checkDelFlag", "");
+		request.setAttribute("valiBean", null);
 		request.setAttribute("afterFormFlag", false);
+
+		//genderが女性(2)のとき
+		if(Const.GENDER_FEMALE.equals(gender)) {
+
+			//<radio>をチェックする
+			request.setAttribute("checkGender2", Const.CHECKBOX_CHECKED);
+		}
+
+		//退職フラグがあるとき
+		if(Const.DELETE_FLAG.equals(delFlag)) {
+
+			//<checkbox>をチェックする
+			request.setAttribute("checkDelFlag", Const.CHECKBOX_CHECKED);
+		}
 
 		// 画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/user-modify.jsp").forward(request, response);

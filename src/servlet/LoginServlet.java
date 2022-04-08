@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 
 import bean.UserBean;
 import bl.UserBl;
-import common.CommonUtil;
 import common.Const;
 
 
@@ -18,7 +17,7 @@ import common.Const;
  * Servlet implementation class LoginServlet
  */
 @WebServlet("/LoginServlet")
-public class LoginServlet extends BaseNoLoginServlet {
+public class LoginServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 
     public LoginServlet(){
@@ -28,7 +27,7 @@ public class LoginServlet extends BaseNoLoginServlet {
 
 
 	@Override
-	protected void executeNoSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		//Postで受け取ったとき
 		if (Const.DO_POST.equals(request.getMethod())) {
@@ -43,7 +42,7 @@ public class LoginServlet extends BaseNoLoginServlet {
 		//-----------------
 
 		//idまたはpasswordが未入力のとき
-		if(inputId.isEmpty() || inputPassword.isEmpty()) {
+		if (inputId.isEmpty() || inputPassword.isEmpty()) {
 
 			request.setAttribute("userId", inputId);
 			request.setAttribute("err", "IDまたはパスワードが未入力です");
@@ -60,20 +59,16 @@ public class LoginServlet extends BaseNoLoginServlet {
 		HttpSession session = request.getSession();
 		UserBean sessionUserBean = (UserBean)session.getAttribute("USER_BEAN");
 
-
 		//セッションが存在し、ログインしているとき
-		if(sessionUserBean != null) {
-
+		if (sessionUserBean != null) {
 
 			//引き渡す値を設定
 			request.setAttribute("firstLoginText", "");
-
 
 			//画面遷移
 			request.getRequestDispatcher("/HomeServlet").forward(request, response);
 			return;
 		}
-
 
 
 		//------------------
@@ -92,13 +87,12 @@ public class LoginServlet extends BaseNoLoginServlet {
 		userBean = bl.selectUserIdNameAdmFlgLogin(inputUserBean);
 
 
-
 		//--------------------
 		//初回ログインの判定
 		//--------------------
 
 		//ログインできなかったとき
-		if(userBean.getId() == null) {//TODO
+		if (userBean.getId() == null) {
 
 			//引き渡す値を設定
 			request.setAttribute("userId", inputId);
@@ -110,11 +104,9 @@ public class LoginServlet extends BaseNoLoginServlet {
 		}
 
 
-
 		//管理者かどうかを判別し、結果をセットする
-		boolean isAdministrator = CommonUtil.isCheckAdministratorByAdminFlag(userBean.getAdminFlag());
+		boolean isAdministrator = Const.PATTERN_ADMIN_FLAG.equals(userBean.getAdminFlag());
 		userBean.setAdministrator(isAdministrator);
-
 
 		//sessionに"USER_BEAN"を作成し、userBean(id,name,adminFlag)を格納
 		session.setAttribute("USER_BEAN", userBean) ;
@@ -122,22 +114,32 @@ public class LoginServlet extends BaseNoLoginServlet {
 		//引き渡す値を設定
 		request.setAttribute("firstLoginText", "ようこそ");
 
-
 		//画面遷移
 		request.getRequestDispatcher("/HomeServlet").forward(request, response);
 		}
 
 
-		//-----
-		//Get
-		//-----
+		//Getで受け取ったとき
 		if (Const.DO_GET.equals(request.getMethod())) {
+
+			//セッションのデータをuserBeanで取得
+			HttpSession session = request.getSession();
+			UserBean sessionUserBean = (UserBean)session.getAttribute("USER_BEAN");
+
+			//セッションが存在し、ログインしているとき
+			if (sessionUserBean != null) {
+
+				//引き渡す値を設定
+				request.setAttribute("firstLoginText", "");
+
+				//画面遷移
+				request.getRequestDispatcher("/HomeServlet").forward(request, response);
+				return;
+			}
+
 
 			//返す値を設定
 			request.setAttribute("err", "");
-
-			HttpSession session = request.getSession();
-			session.invalidate();
 
 			//画面遷移
 			request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);

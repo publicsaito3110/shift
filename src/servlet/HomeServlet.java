@@ -34,7 +34,7 @@ public class HomeServlet extends BaseLoginServlet {
 
 
     @Override
-	protected void executeExistSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void existSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
 		//現在の日付を取得
@@ -57,7 +57,6 @@ public class HomeServlet extends BaseLoginServlet {
 		dbList = bl.selectNews(nowYmd);
 
 
-
 		//-----------------------------
 		//jspに表示するお知らせの処理
 		//-----------------------------
@@ -65,7 +64,6 @@ public class HomeServlet extends BaseLoginServlet {
 		//dbListからお知らせを格納するための変数
 		List<NewsBean> newsList = new ArrayList<>();
 		NewsBean bean = new NewsBean();
-
 
 		//表示できるお知らせがない(dbListが空文字)とき
 		if (dbList.isEmpty()) {
@@ -78,46 +76,37 @@ public class HomeServlet extends BaseLoginServlet {
 			//引き渡す値を設定
 			request.setAttribute("newsList", newsList);
 
-
 			//画面遷移
 			request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
 			return;
 		}
 
 
-
-
 		//現在の日付からお知らせに表示する下限の日付を取得
 		LocalDate limitDate = now.minusDays(Const.NEWS_LIMIT_DAY_BEFORE_NOW);
-
 
 		//dbListの要素数の回数だけdbListから結果を抽出し、newsListにセットする
 		for (int i = 0; i < dbList.size(); i++) {
 
 			//beanを初期化し、dbListからymdとcontentを取得
 			bean = new NewsBean();
-
 			String ymd = dbList.get(i).getYmd();
 			String content = dbList.get(i).getContent();
-
 
 			//ymdをLocalDate用(yyyy-mm-dd)に変換し、LocalDateで日付を取得
 			String dateYmd = ymd.substring(0, 4) + "-" + ymd.substring(4, 6) + "-" + ymd.substring(6, 8);
 			LocalDate dbDate = LocalDate.parse(dateYmd);
 
-
 			//ymdをjsp表示用(yyyy/mm/dd)に変換する
 			String displayYmd = ymd.substring(0, 4) + "/" + ymd.substring(4, 6) + "/" + ymd.substring(6, 8);
 
-
 			//登録されている日付(dbDate)がのお知らせに表示する下限の日付(limitDate)より後のとき
-			if(dbDate.isAfter(limitDate)) {
+			if (dbDate.isAfter(limitDate)) {
 
 				bean.setYmd(displayYmd);
 				bean.setContent(content);
 				bean.setLabelNew("NEW");
 				newsList.add(bean);
-
 				continue;
 			}
 
@@ -138,7 +127,6 @@ public class HomeServlet extends BaseLoginServlet {
 
 		request.setAttribute("userNameText", name + "さん");
 
-
 		//画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
 		return;
@@ -147,24 +135,14 @@ public class HomeServlet extends BaseLoginServlet {
 
 
     /**
-     * year, month, day(int) をymd(String8桁)で返すメソッド
+     * year, month, day(int) をymd(String8桁)で返す
+     * @param int year, int month, int day, Date of Received LocalDate
+     * @return String, Change date of state to YYYYMMDD
      */
-	public String toStringYmdFormatEightByIntYMD(int year, int month, int day) {
+	private String toStringYmdFormatEightByIntYMD(int year, int month, int day) {
 
 		String ymd = String.valueOf(year) +  String.format("%02d", month) + String.format("%02d", day);
 
 		return ymd;
 	}
-
-
-    /**
-     * ymd(String) をymd(int)で返すメソッド
-     */
-	public int toIntYmdByString(String ymd) {
-
-		int intYmd = Integer.parseInt(ymd);
-
-		return intYmd;
-	}
-
 }

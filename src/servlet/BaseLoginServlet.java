@@ -44,16 +44,15 @@ public abstract class BaseLoginServlet extends BaseServlet {
 			//引き渡す値を設定
 			request.setAttribute("er", "");
 
-
 			//画面遷移(ログイン画面)
 			request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
 			return;
 		}
 
 
-		executeExistSession(request, response);
+		existSession(request, response);
 	}
 
-	//継承したクラスはjudgeSessionメソッドのオーバライドを強制
-	protected abstract void executeExistSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+	//継承したクラスはexistSessionメソッドのオーバライドを強制
+	protected abstract void existSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }

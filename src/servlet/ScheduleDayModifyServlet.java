@@ -14,8 +14,10 @@ import org.apache.commons.lang3.StringUtils;
 import bean.ScheduleBean;
 import bean.ScheduleDayBean;
 import bl.ScheduleBl;
+import common.CommonLogic;
 import common.CommonUtil;
-import common.ScheduleDayUtil;
+import common.Const;
+import common.ScheduleDayLogic;
 
 /**
  * Servlet implementation class ScheduleDayModifyServlet
@@ -34,53 +36,40 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 
 
 	@Override
-	protected void executeExistSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		//文字コードをUTF-8で設定
-		response.setContentType("text/html;charset=UTF-8");
-		request.setCharacterEncoding("UTF-8");
+	protected void existSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
-
-		//-------------------------------------
-		//scheduleDay.jsp からの値を受け取る
-		//-------------------------------------
+		//値を受け取る
 		String year = request.getParameter("year");
 		String month = request.getParameter("month");
 		String day = request.getParameter("day");
-
 		String inputUser1 = request.getParameter("user1");
 		String inputMemo1 = request.getParameter("memo1");
 		String inputUser2 = request.getParameter("user2");
 		String inputMemo2 = request.getParameter("memo2");
 		String inputUser3 = request.getParameter("user3");
 		String inputMemo3 = request.getParameter("memo3");
-
 		String btnSqlType = request.getParameter("sqlType");
 
-
-
 		//month,dayが2桁でないとき"0"をつける
-		String ymd = CommonUtil.ymdFormatEightByString(year, month, day);
+		CommonLogic commonLogic = new CommonLogic();
 
+		String ymd = commonLogic.ymdFormatEightByString(year, month, day);
 
 		//指定した日付から値(登録済みのidとユーザ名, スケジュールに登録しているuser,memo)を取得する
-		List<ScheduleDayBean> scheduleDayList = ScheduleDayUtil.toListScheduleDayOptionByYmd(ymd);
+		ScheduleDayLogic scheduleDayLogic = new ScheduleDayLogic();
+
+		List<ScheduleDayBean> scheduleDayList = scheduleDayLogic.toListScheduleDayOptionByYmd(ymd);
 
 		//scheduleDayListからmemoのみを抽出
 		String memo1 = scheduleDayList.get(0).getMemo1();
 		String memo2 = scheduleDayList.get(0).getMemo2();
 		String memo3 = scheduleDayList.get(0).getMemo3();
 
-
 		//登録済みのスケジュールからsqlTypeを取得
-		String sqlType = ScheduleDayUtil.checkSqlType(scheduleDayList);
+		String sqlType = scheduleDayLogic.checkSqlType(scheduleDayList);
 
-
-
-		//------------------------
 		//共通で返す値を設定
-		//------------------------
 		request.setAttribute("scheduleDayList", scheduleDayList);
 		request.setAttribute("year", year);
 		request.setAttribute("month", month);
@@ -92,7 +81,7 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		request.setAttribute("popTitle", "シフトの修正結果");
 
 		//sqlTypeがupdateのとき
-		if(sqlType.equals("update")) {
+		if (Const.SQLTYPE_UPDATE.equals(sqlType)) {
 			request.setAttribute("sqlTypeUpdate", true);
 			request.setAttribute("btnValue1", "UPDATE");
 			request.setAttribute("btn1", "修正する");
@@ -101,13 +90,11 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		}
 
 		//sqlTypeがinsertのとき
-		if(sqlType.equals("insert")) {
+		if (Const.SQLTYPE_INSERT.equals(sqlType)) {
 			request.setAttribute("sqlTypeUpdate", false);
 			request.setAttribute("btnValue1", "INSERT");
 			request.setAttribute("btn1", "登録する");
 		}
-
-
 
 		//userとmemoが""(未設定または未入力)のときnullを代入する
 		inputUser1 = CommonUtil.changeNullByEmpty(inputUser1);
@@ -117,6 +104,7 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		inputUser3 = CommonUtil.changeNullByEmpty(inputUser3);
 		inputMemo3 = CommonUtil.changeNullByEmpty(inputMemo3);
 
+
 		//--------------------------
 		//バリデーションチェック
 		//--------------------------
@@ -125,7 +113,7 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		boolean isVali1 = this.isBtnSqlTypeIUD(btnSqlType);
 
 		//sqlTypeの値がINSERT,UPDATE,DELETE以外のとき
-		if(!isVali1) {
+		if (!isVali1) {
 
 			// schedule-day.jspに返す値
 			request.setAttribute("resultText", "[エラー] 不正な入力値を検知しました");
@@ -141,7 +129,7 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		boolean isVali2 = this.isNotEmptyAllOrDelete(inputUser1, inputUser2, inputUser3, inputMemo1, inputMemo2, inputMemo3, btnSqlType);
 
 		//afterMemoが全て""かつ削除ボタン以外が押されたとき
-		if(!isVali2) {
+		if (!isVali2) {
 
 			// schedule-day.jspに返す値
 			request.setAttribute("resultText", "[エラー] 修正後のシフトを入力してください");
@@ -153,13 +141,10 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		}
 
 
-
 		//memoをエスケープ
 		inputMemo1 = CommonUtil.replaceEscapeChar(inputMemo1);
 		inputMemo2 = CommonUtil.replaceEscapeChar(inputMemo2);
 		inputMemo3 = CommonUtil.replaceEscapeChar(inputMemo3);
-
-
 
 		//受け取った値をscheduleBeanに格納
 		ScheduleBean scheduleBean = new ScheduleBean();
@@ -173,7 +158,6 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		scheduleBean.setMemo3(inputMemo3);
 
 
-
 		//-------------------------ー------------
 		//UPDATE,DELETE,INSERTを判別し、SQL実行
 		//---------------------------------------
@@ -183,7 +167,7 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 
 		ScheduleBl bl = new ScheduleBl();
 
-		switch(btnSqlType){
+		switch (btnSqlType){
 
 		case "UPDATE":    //修正ボタンが押されたとき
 
@@ -202,10 +186,12 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		}
 
 
-		//-----------------
-		//DBの更新が失敗
-		//-----------------
-		if(!isRecordResult) {
+		//-----------
+		//SQLの判定
+		//-----------
+
+		//SQLが失敗したとき
+		if (!isRecordResult) {
 
 			// schedule-day.jspに返す値
 			request.setAttribute("resultText", "[エラー] 修正に失敗しました");
@@ -216,12 +202,9 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 			return;
 		}
 
-		//-----------------
-		//DBの更新が成功
-		//-----------------
 
 		//先ほどの日付から値(登録済みのidとユーザ名, 更新したuser,memo)を改めて取得する
-		scheduleDayList = ScheduleDayUtil.toListScheduleDayOptionByYmd(ymd);
+		scheduleDayList = scheduleDayLogic.toListScheduleDayOptionByYmd(ymd);
 
 		//scheduleDayListからmemo(更新済み)のみを抽出
 		memo1 = scheduleDayList.get(0).getMemo1();
@@ -229,8 +212,7 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		memo3 = scheduleDayList.get(0).getMemo3();
 
 		//更新したスケジュールからsqlTypeを改めて取得
-		sqlType = ScheduleDayUtil.checkSqlType(scheduleDayList);
-
+		sqlType = scheduleDayLogic.checkSqlType(scheduleDayList);
 
 		// schedule-day.jspに返す値の設定
 		request.setAttribute("scheduleDayList", scheduleDayList);
@@ -241,7 +223,7 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		request.setAttribute("result", true);
 
 		//sqlTypeがupdateのとき
-		if(sqlType.equals("update")) {
+		if (sqlType.equals("update")) {
 			request.setAttribute("sqlTypeUpdate", true);
 			request.setAttribute("btnValue1", "UPDATE");
 			request.setAttribute("btn1", "修正する");
@@ -250,25 +232,25 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		}
 
 		//sqlTypeがinsertのとき
-		if(sqlType.equals("insert")) {
+		if (sqlType.equals("insert")) {
 			request.setAttribute("sqlTypeUpdate", false);
 			request.setAttribute("btnValue1", "INSERT");
 			request.setAttribute("btn1", "登録する");
 		}
 
-		//CalendarServletに戻ったとき変更した年月を表示
+		//CalendarServletに戻ったとき変更したときの年月を渡す
 		request.setAttribute("ym", year + month);
-
 
 		// 画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/schedule-day.jsp").forward(request, response);
-
 	}
 
 
 
 	/**
-	 * sqlTypeが INSERT,UPDATE,DELETE のときtrueを返すメソッド
+	 * sqlTypeが INSERT,UPDATE,DELETE のときtrueを返す
+	 * @param String sqlType, Get form that it is sql type
+	 * @return boolean, Return true in sqlType is INSERT or UPDATE or DELETE
 	 */
 	public boolean isBtnSqlTypeIUD(String sqlType) {
 
@@ -282,7 +264,9 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 
 
 	/**
-	 * sqlTypeがDELETE以外でuserとmemoが全て""でないときtrueを返すメソッド
+	 * sqlTypeがDELETE以外でuserとmemoが全て""でないときtrueを返す
+	 * @param String,
+	 * @return boolean, Return true in schedule is not Empty or sqlType is DELETE
 	 */
 	public boolean isNotEmptyAllOrDelete(String user1, String user2, String user3, String memo1, String memo2, String memo3,String sqlType) {
 

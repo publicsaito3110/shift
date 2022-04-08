@@ -22,7 +22,7 @@ public class LogoutServlet extends BaseLoginServlet {
 
 
     @Override
-	protected void executeExistSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void existSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
 		//セッションのデータを取得
@@ -30,7 +30,6 @@ public class LogoutServlet extends BaseLoginServlet {
 
 		//セッションを破棄
 		session.invalidate();
-
 
 		//画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/logout.jsp").forward(request,response);

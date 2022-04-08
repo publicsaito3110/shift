@@ -13,15 +13,14 @@ import org.apache.commons.lang3.StringUtils;
 import bean.UserBean;
 import bean.ValidationBean;
 import bl.UserBl;
-import common.CommonUtil;
 import common.Const;
-import common.ValidationUtil;
+import common.ValidationLogic;
 
 /**
  * Servlet implementation class UserModifyServlet
  */
 @WebServlet("/UserModifyServlet")
-public class UserModifyServlet extends BaseLoginServlet {
+public class UserModifyServlet extends BaseAdministratorServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
@@ -34,11 +33,7 @@ public class UserModifyServlet extends BaseLoginServlet {
 
 
 	@Override
-	protected void executeExistSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		//文字コードをUTF-8で設定
-		response.setContentType("text/html;charset=UTF-8");
-		request.setCharacterEncoding("UTF-8");
+	protected void isAdministorator(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
 		//user-info-change.jspからの値を受け取る
@@ -47,15 +42,6 @@ public class UserModifyServlet extends BaseLoginServlet {
 		String nameKana = request.getParameter("nameKana");
 		String gender = request.getParameter("gender");
 		String delFlag = request.getParameter("delFlag");
-
-
-
-		//genderを識別し、女性にチェックがあるか判別
-		boolean isCheckedGender2 = CommonUtil.isCheckGenderFemaleByGender(gender);
-
-		//delFlagを識別し、退職済みにチェックがあるか判別
-		boolean isCheckedDelFlag = this.isCheckDelFlag(delFlag);
-
 
 
 		//------------------------
@@ -70,20 +56,19 @@ public class UserModifyServlet extends BaseLoginServlet {
 		request.setAttribute("popTitle", "ユーザー情報の更新結果");
 
 		//女性にチェックが入っていたとき
-		if(isCheckedGender2) {
+		if(Const.GENDER_FEMALE.equals(gender)) {
 
 			//checkboxにチェックを入れる
 			request.setAttribute("checkGender2", Const.CHECKBOX_CHECKED);
 		}
 
 		//退職済みにチェックが入っていたとき
-		if(isCheckedDelFlag) {
+		if(Const.DELETE_FLAG.equals(delFlag)) {
 			request.setAttribute("checkDelFlag", Const.CHECKBOX_CHECKED);
 		}
 
 
-
-		//userBeanに値を詰める
+		//userBeanに入力された値を詰める
 		UserBean userBean = new UserBean();
 
 		userBean.setId(id);
@@ -98,33 +83,16 @@ public class UserModifyServlet extends BaseLoginServlet {
 		//-------------------------
 
 		//userInfoListを引き渡し、結果とエラーテキストを受け取る
+		ValidationLogic validationLogic = new ValidationLogic();
+
 		ValidationBean valiBean = new ValidationBean();
-		valiBean = ValidationUtil.validInputAllStatus(userBean);
+		valiBean = validationLogic.validInputAllStatus(userBean);
 
-		//バリデーションチェックの結果を抽出
-		boolean isVali1 = valiBean.isValiId();
-		boolean isVali2 = valiBean.isValiName();
-		boolean isVali3 = valiBean.isValiNameKana();
-		boolean isVali4 = valiBean.isValiGender();
-		boolean isVali5 = valiBean.isValiDelFlag();
-
-		//エラーテキストを抽出
-		String erId = valiBean.getErId();
-		String erName = valiBean.getErName();
-		String erNameKana = valiBean.getErNameKana();
-		String erGender = valiBean.getErGender();
-		String erDelFlag = valiBean.getErDelFlag();
-
-		//エラーテキストを返す
-		request.setAttribute("erId", erId);
-		request.setAttribute("erName", erName);
-		request.setAttribute("erNameKana", erNameKana);
-		request.setAttribute("erGender", erGender);
-		request.setAttribute("erDelFlag", erDelFlag);
-
+		//バリデーションチェックの結果を返す
+		request.setAttribute("valiBean", valiBean);
 
 		//バリデーションチェックが1つでもアウトのとき
-		if(!isVali1 || !isVali2 || !isVali3 || !isVali4 || !isVali5) {
+		if(!valiBean.isValidationAll()) {
 
 			//入力結果の情報を返す
 			request.setAttribute("result", false);
@@ -137,7 +105,6 @@ public class UserModifyServlet extends BaseLoginServlet {
 		}
 
 
-
 		//------------
 		//SQLの実行
 		//------------
@@ -145,7 +112,6 @@ public class UserModifyServlet extends BaseLoginServlet {
 		//userInfoListをBLに引き渡し、実行結果を受け取る
 		UserBl bl = new UserBl();
 		boolean isUpdResult = bl.updateUser(userBean);
-
 
 		//SQLが実行失敗したとき
 		if(!isUpdResult) {
@@ -160,6 +126,7 @@ public class UserModifyServlet extends BaseLoginServlet {
 		}
 
 
+		//入力結果の情報を返す
 		request.setAttribute("result", true);
 		request.setAttribute("resultText", "ユーザー更新に成功しました");
 

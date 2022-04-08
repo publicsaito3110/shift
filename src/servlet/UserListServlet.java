@@ -32,11 +32,8 @@ public class UserListServlet extends BaseLoginServlet {
 
 
 	@Override
-	protected void executeExistSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void existSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		//文字コードをUTF-8で設定
-		response.setContentType("text/html;charset=UTF-8");
-		request.setCharacterEncoding("UTF-8");
 
 		//セッションのデータをuserBeanで取得
 		HttpSession session = request.getSession();
@@ -52,11 +49,8 @@ public class UserListServlet extends BaseLoginServlet {
 		//keyWordがnullのとき空文字を代入
 		keyWord = CommonUtil.changeEmptyByNull(keyWord);
 
-		//指定したページに対応したoffsetを取得する
-		int offset = this.toIntReturnOffsetByPage(page);
-
 		//ログインしているユーザが管理者でないとき
-		if(!isAdministrator) {
+		if (!isAdministrator) {
 
 			//idをキーワードに代入する
 			keyWord = sessionUserBean.getId();
@@ -68,27 +62,22 @@ public class UserListServlet extends BaseLoginServlet {
 		//------------
 
 		//keyWordをBLに引き渡し、AllayListを戻り値として受け取る
-		List<UserBean> userList = new ArrayList<>();
-
 		UserBl bl = new UserBl();
-		userList = bl.selectUserByKeyWord(offset, keyWord);
 
-
+		List<UserBean> userList = new ArrayList<>();
+		userList = bl.selectUserByKeyWord(page, keyWord);
 
 
 		// 引き渡す値を設定
 		request.setAttribute("afterFormFlag", true);
 		request.setAttribute("keyWord", keyWord);
 		request.setAttribute("userList", userList);
-		request.setAttribute("formAction", "");
 		request.setAttribute("inputDisabled", Const.INPUT_DISABLED);
-		request.setAttribute("displayLastPage", "");
 
 		//ログイン済みのユーザが管理者のとき
-		if(isAdministrator) {
-			request.setAttribute("formAction", "UserOneServlet");
+		if (isAdministrator) {
 			request.setAttribute("inputDisabled", "");
-			request.setAttribute("administrater", true);
+			request.setAttribute("isAdministrater", true);
 		}
 
 		//jspに表示するページを取得する
@@ -98,7 +87,7 @@ public class UserListServlet extends BaseLoginServlet {
 		request.setAttribute("pageList", pageList);
 
 		//keyWordが空文字のとき
-		if(keyWord.isEmpty()) {
+		if (keyWord.isEmpty()) {
 
 			//全件表示され、doGetと同様の結果になるためafterFormFlagをfalseにする
 			request.setAttribute("afterFormFlag", false);
@@ -109,36 +98,10 @@ public class UserListServlet extends BaseLoginServlet {
 	}
 
 
-
 	/**
-	 *指定したページに対応したoffsetを返す
-	 */
-	public int toIntReturnOffsetByPage(String page) {
-
-		//1回のSQLで表示する件数
-		int pageLimitPer = Integer.parseInt(Const.PAGE_LIMIT);
-
-
-		//ユーザ一覧に表示するためページに対応した(データn件目～)に初期値0を代入する
-		int offset = Const.OFFSET_FIRST;
-
-
-		//ページ数を指定されたとき
-		if (page != null) {
-
-			//ユーザ一覧するため指定したページに対応した(データn件目～)をoffsetに代入する
-			int nowPage = Integer.parseInt(page);
-			nowPage = (nowPage - 1) * pageLimitPer;
-
-			offset = nowPage;
-		}
-
-		return offset;
-	}
-
-
-	/**
-	 *SQLの該当件数から最大ページ数(maxPage)を返す
+	 *SQLの該当件数から最大ページ数(lastPage)を返す
+	 *@param List<UserBean> userList, getting UserList
+	 *@return int, calc last page
 	 */
 	public int toIntReturnLastPageByUserList(List<UserBean> userList) {
 
@@ -153,42 +116,41 @@ public class UserListServlet extends BaseLoginServlet {
 		calc = calc.setScale(0, RoundingMode.UP);
 
 		//ページ数をint型に変換
-		int maxPage = calc.intValue();
+		int lastPage = calc.intValue();
 
-		return maxPage;
+		return lastPage;
 	}
 
 
 	/**
 	 *最終ページ数(lastPage)からjspに表示するページを返す
+	 *@param String page, int lastPage, Got page and calced last page
+	 *@return List<String>, Return calced page List for display
 	 */
 	public List<String> toListDisplayPageNoByMaxPage(String page, int lastPage) {
 
 		//Listにjspに表示するページを格納する
 		List<String> pageList = new ArrayList<>();
 
-
 		//1回で表示する最大ページ数
 		int maxPage = Const.MAX_PAGE;
-
 
 
 		//------------------------------------------------------
 		//全体のページ数が1しかないときpageListをなにもせず返す
 		//------------------------------------------------------
-		if(lastPage == 1) {
+		if (lastPage == 1) {
 
 			return pageList;
 		}
 
-//TODO
-		//jspに表示するページの処理(動的)p3以上->2,3,4,5,6... あとで
 
-		//---------------------------------------------------
+		//------------------------------------------------------
+		//jspに表示するページの処理(動的)p3以上->2,3,4,5,6...
+		//------------------------------------------------------
+
 		//pageがnullでないかつ1ページ目以外指定があるのとき
-		//---------------------------------------------------
-
-		if(page != null && !page.equals("1")) {
+		if (page != null && !"1".equals(page)) {
 
 			//現在のページをintに変換する
 			int nowPage = Integer.parseInt(page);
@@ -197,7 +159,7 @@ public class UserListServlet extends BaseLoginServlet {
 			int loopCount = 0;
 
 			//nowPage - 1を最初のページとしてlastPageの回数分だけjspに表示するページを代入する
-			for(int i = nowPage - 1; i <= lastPage; i++) {
+			for (int i = nowPage - 1; i <= lastPage; i++) {
 
 				String strPage = String.valueOf(i);
 
@@ -221,7 +183,7 @@ public class UserListServlet extends BaseLoginServlet {
 		//----------------------------------
 
 		//lastPageの回数分だけjspに表示するページを代入する
-		for(int i = 1; i <= lastPage; i++) {
+		for (int i = 1; i <= lastPage; i++) {
 
 			String strPage = String.valueOf(i);
 			pageList.add(strPage);
