@@ -27,6 +27,8 @@ public class ValidationBean {
 	private boolean valiAdminFlag;
 	private boolean valiDelFlag;
 
+	private boolean validationAll;
+
 
 
 	// getter, setter
@@ -161,5 +163,11 @@ public class ValidationBean {
 	}
 	public void setValiDelFlag(boolean valiDelFlag) {
 		this.valiDelFlag = valiDelFlag;
+	}
+	public boolean isValidationAll() {
+		return validationAll;
+	}
+	public void setValidationAll(boolean validationAll) {
+		this.validationAll = validationAll;
 	}
 }
