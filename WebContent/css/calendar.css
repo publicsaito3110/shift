@@ -1,14 +1,7 @@
-/*カレンダーの設定*/
 
 * {
 	margin: 0;
 	padding: 0;
-}
-
-.calendar-wrap {
-	width: 500px;
-	background: #eee;
-	color: #333;
 }
 
 a {
@@ -18,7 +11,7 @@ a {
 h1 {
 	line-height: 100px;
 	text-align: center;
-	font-size: 30px;
+	font-size: 40px;
 }
 
 .calendar {
