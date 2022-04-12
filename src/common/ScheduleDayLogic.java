@@ -63,7 +63,7 @@ public class ScheduleDayLogic {
 		String checkUser2 = "";
 		String checkUser3 = "";
 
-		//取得したuser,memoを要素(0)に格納
+		//取得したuser,memoをbeanに格納
 		bean.setUser1(user1);
 		bean.setUser2(user2);
 		bean.setUser3(user3);
@@ -127,6 +127,7 @@ public class ScheduleDayLogic {
 
 	/**
 	 *scheduleDayListからuser,memoの値を判別し、sqlTypeを返す
+	 *@param List<ScheduleDayBean> scheduleDayList,
 	 */
 	public String checkSqlType(List<ScheduleDayBean> scheduleDayList) {
 
