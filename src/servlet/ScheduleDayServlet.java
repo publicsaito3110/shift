@@ -40,7 +40,7 @@ public class ScheduleDayServlet extends BaseLoginServlet {
 
 		List<ScheduleDayBean> scheduleDayList = scheduleDayLogic.toListScheduleDayOptionByYmd(ymd);
 
-		//scheduleDayListからmemoのみを抽出
+		//scheduleDayListからmemoのみを抽出する
 		String memo1 = scheduleDayList.get(0).getMemo1();
 		String memo2 = scheduleDayList.get(0).getMemo2();
 		String memo3 = scheduleDayList.get(0).getMemo3();
