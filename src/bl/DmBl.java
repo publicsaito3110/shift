@@ -15,10 +15,10 @@ public class DmBl {
 	public List<DmBean> selectLastMsgByLoginId(String id){
 
 		//DAOの戻り値をscheduleListで受け取る
-		List<DmBean> sendMsgList = new ArrayList<>();
+		List<DmBean> msgList = new ArrayList<>();
 		DmDao dao = new DmDao();
-		sendMsgList = dao.selectLastMsgByLoginId(id);
+		msgList = dao.selectLastMsgByLoginId(id);
 
-		return sendMsgList;
+		return msgList;
 	}
 }
