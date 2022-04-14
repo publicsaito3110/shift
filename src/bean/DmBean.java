@@ -7,8 +7,8 @@ public class DmBean {
 	private String receiveUser;
 	private String msg;
 	private String msgDate;
-	private String dmIdPtn;
 	private String msgToName;
+	private String msgToId;
 
 
 
@@ -37,16 +37,16 @@ public class DmBean {
 	public void setMsgDate(String msgDate) {
 		this.msgDate = msgDate;
 	}
-	public String getDmIdPtn() {
-		return dmIdPtn;
-	}
-	public void setDmIdPtn(String dmIdPtn) {
-		this.dmIdPtn = dmIdPtn;
-	}
 	public String getMsgToName() {
 		return msgToName;
 	}
 	public void setMsgToName(String msgToName) {
 		this.msgToName = msgToName;
+	}
+	public String getMsgToId() {
+		return msgToId;
+	}
+	public void setMsgToId(String msgToId) {
+		this.msgToId = msgToId;
 	}
 }

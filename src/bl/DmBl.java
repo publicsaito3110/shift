@@ -10,29 +10,15 @@ public class DmBl {
 
 
 	/**
-	 * ログインしているユーザが最後に送信したメッセージを非ログインユーザごとに取得するメソッド
+	 * ログインしているユーザの最後のメッセージを他のユーザごとに取得するメソッド
 	 */
-	public List<DmBean> selectSendMsgUserIdLastMsg(String id){
+	public List<DmBean> selectLastMsgByLoginId(String id){
 
 		//DAOの戻り値をscheduleListで受け取る
 		List<DmBean> sendMsgList = new ArrayList<>();
 		DmDao dao = new DmDao();
-		sendMsgList = dao.selectSendMsgUserIdLastMsg(id);
+		sendMsgList = dao.selectLastMsgByLoginId(id);
 
 		return sendMsgList;
-	}
-
-
-	/**
-	 * ログインしているユーザが最後に受信したメッセージを非ログインユーザごとに取得するメソッド
-	 */
-	public List<DmBean> selectReceiveMsgUserIdLastMsg(String id){
-
-		//DAOの戻り値をscheduleListで受け取る
-		List<DmBean> receiveMsgList = new ArrayList<>();
-		DmDao dao = new DmDao();
-		receiveMsgList = dao.selectReceiveMsgUserIdLastMsg(id);
-
-		return receiveMsgList;
 	}
 }

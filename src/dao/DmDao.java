@@ -16,9 +16,9 @@ public class DmDao {
 
 
 	/**
-	 *ログインしているユーザが最後に送信したメッセージを非ログインユーザごとに取得する
+	 *ログインしているユーザの最後のメッセージを他のユーザごとに取得する
 	 */
-	public List<DmBean> selectSendMsgUserIdLastMsg(String LoginUser) {
+	public List<DmBean> selectLastMsgByLoginId(String LoginUser) {
 
 
 		//JDBCの接続に使用するオブジェクトを宣言
@@ -37,13 +37,16 @@ public class DmDao {
 
 		//SQL発行
 		StringBuffer buf = new StringBuffer();
-		buf.append("SELECT d.msg_date, d.msg, d.send_user, d.receive_user, CONCAT(d.receive_user, d.send_user) AS DM_ID_PTN, u.name AS MSG_TO_NAME ");
-		buf.append(" FROM ( DM d INNER JOIN ");
-		buf.append(" (SELECT send_user, receive_user, MAX(msg_date) AS max_date FROM DM WHERE send_user = ? GROUP BY send_user, receive_user) m ");
-		buf.append(" ON m.send_user = d.send_user ");
-		buf.append(" ) INNER JOIN USER u ON u.id = d.receive_user ");
-		buf.append(" WHERE m.max_date = d.msg_date ");
-		buf.append(" ORDER BY DM_ID_PTN ");
+		buf.append("SELECT a.* ");
+		buf.append(" FROM ( ");
+		buf.append(" SELECT DISTINCT d.msg_date, d.msg, d.send_user, d.receive_user ");
+		buf.append(" , CASE WHEN d.send_user = ? THEN s.name WHEN d.receive_user = ? THEN u.name END AS MSG_TO_NAME ");
+		buf.append(" , CASE WHEN d.send_user = ? THEN s.id WHEN d.receive_user = ? THEN u.id END AS MSG_TO_ID ");
+		buf.append(" FROM (DM d INNER JOIN USER u ON u.id = d.send_user) INNER JOIN USER s ON s.id = d.receive_user  ");
+		buf.append(" WHERE d.send_user = ? OR d.receive_user = ? ");
+		buf.append(" ORDER BY d.id DESC ");
+		buf.append(" ) a ");
+		buf.append(" GROUP BY a.MSG_TO_ID ");
 		buf.append(" ; ");
 
 		//SQLをセット
@@ -51,6 +54,11 @@ public class DmDao {
 
 		// ? にパラメータをセット
 		ps.setString(1, LoginUser);
+		ps.setString(2, LoginUser);
+		ps.setString(3, LoginUser);
+		ps.setString(4, LoginUser);
+		ps.setString(5, LoginUser);
+		ps.setString(6, LoginUser);
 
 		//SQLの結果を取得
 		rs = ps.executeQuery();
@@ -63,8 +71,8 @@ public class DmDao {
 			bean.setMsg(rs.getString("msg"));
 			bean.setSendUser(rs.getString("send_user"));
 			bean.setReceiveUser(rs.getString("receive_user"));
-			bean.setDmIdPtn(rs.getString("dm_id_ptn"));
 			bean.setMsgToName(rs.getString("msg_to_name"));
+			bean.setMsgToId(rs.getString("msg_to_id"));
 			beanList.add(bean);
 		}
 
@@ -149,92 +157,9 @@ public class DmDao {
 			bean.setMsg(rs.getString("msg"));
 			bean.setSendUser(rs.getString("send_user"));
 			bean.setReceiveUser(rs.getString("receive_user"));
-			bean.setDmIdPtn(rs.getString("dm_id_ptn"));
+			bean.setMsgToId(rs.getString("dm_id_ptn"));
 			bean.setMsgToName(rs.getString("msg_to_name"));
 			beanList.add(bean);
-		}
-
-
-	} catch (Exception e) {
-		e.printStackTrace();
-
-	} finally {
-		//DBの接続解除
-		if (rs != null) {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		if (ps != null) {
-			try {
-				ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		if (con != null) {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	return beanList;
-}
-
-
-	/**
-	 *ログインしているユーザと取得したいユーザ間のメッセージを取得する
-	 */
-	public List<DmBean> selectScheduleMonth(String sendUser, String receiveUser) {
-
-
-		//JDBCの接続に使用するオブジェクトを宣言
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		List<DmBean> beanList = new ArrayList<>();
-
-	try {
-
-		Class.forName(DbConst.DRIVER_NAME);
-
-		//conにDB情報を入れる
-		con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
-
-		//SQL発行
-		StringBuffer buf = new StringBuffer();
-		buf.append("SELECT a.msg AS MSG, b.name AS SEND_USER, c.name AS RECEIVE_USER, a.msg_date AS MSG_DATE ");
-		buf.append(" FROM (DM a INNER JOIN USER b ON b.id = a.send_user) INNER JOIN USER c ON c.id = a.receive_user ");
-		buf.append(" WHERE ( a.send_user = ? AND a.receive_user = ? ) OR ( a.send_user = ? AND a.receive_user = ? ) ");
-		buf.append(" ORDER BY a.msg_date ");
-		buf.append(" ; ");
-
-		//SQLをセット
-		ps = con.prepareStatement(buf.toString());
-
-		// ? にパラメータをセット
-		ps.setString(1, sendUser);
-		ps.setString(2, receiveUser);
-		ps.setString(3, receiveUser);
-		ps.setString(4, sendUser);
-
-		//SQLの結果を取得
-		rs = ps.executeQuery();
-
-		//結果をさらに抽出
-		while (rs.next()) {
-			DmBean bean = new DmBean();
-
-			bean.setMsg(rs.getString("msg"));
-			bean.setSendUser(rs.getString("send_user"));
-			bean.setReceiveUser(rs.getString("receive_user"));
-			bean.setMsgDate(rs.getString("msg_date"));
 		}
 
 
