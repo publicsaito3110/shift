@@ -15,9 +15,9 @@
 				<h1 class="chat-title-h1">メッセージ</h1>
 			</div>
 			<ul class="chat-list">
-				<c:forEach var="i" items="${msgList}" varStatus="status">
+				<c:forEach var="i" items="${chatList}" varStatus="status">
 				<li>
-					<button class="chat-address-btn" formaction="" formmethod="post" value="${i.msgToId}">
+					<button class="chat-address-btn" name="receiveUser" value="${i.msgToId}">
 						<span class="icon">〇${i.msgToName}</span>
 						<p>${i.msg}</p>
 					</button>
@@ -26,21 +26,51 @@
 			</ul>
 		</div>
 		<div class="talk-box">
-
+			<c:forEach var="i" items="${talkList}">
+				<p>${i.msg}</p>
+			</c:forEach>
 		</div>
 	</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+$(function() {
+	// ボタン押下時の処理
+	$('.chat-address-btn').on('click', function (){
+		$.ajax({
+		url: "DmTalkServlet",
+		type: "POST",
+		data: {receiveUser : $(this).val()}
+		}).done(function (result) {
+			// 通信成功時のコールバック
+			alert("読み込み成功");
+			$("${talkList}").load(result);
+		}).fail(function () {
+			// 通信失敗時のコールバック
+			alert("読み込みに失敗しました。");
+		}).always(function (result) {
+        // 常に実行する処理
+		});
+	});
+});
+</script>
 </body>
 <style>
 
 .chat-msg-box {
 	position: absolute;
-	width: 50%;
+	width: 30%;
 	height: 98%;
 	 border-right: 1px solid gray;
 }
 
 .chat-title {
 	position: relative;
+	width: 100%;
+	height: 15%;
 	bottom: 2%;
 }
 
@@ -62,15 +92,33 @@
 	height: 0;
 }
 
-.talk-box {
-	position: absolute;
-	left: 50%;
-	width: 50%;
-	height: 98%;
+.chat-list {
+	position: relative;
+	height: 80%;
+	bottom: 0%;
+	padding: inherit;
+	list-style: none;
+}
+
+.chat-list li:first-child {
+	border-top: 1px solid gray;
+}
+
+.chat-list li {
+	border-bottom: 1px solid gray;
 }
 
 .chat-address-btn {
 	width: 100%;
+	border: none;
+	background-color: white;
+}
+
+.talk-box {
+	position: absolute;
+	left: 36%;
+	width: 64%;
+	height: 98%;
 }
 
 </style>

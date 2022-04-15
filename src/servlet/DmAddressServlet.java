@@ -20,7 +20,7 @@ import bl.UserBl;
  * Servlet implementation class DmAddressServlet
  */
 @WebServlet("/DmAddressServlet")
-public class DmAddressServlet extends BaseServlet {
+public class DmAddressServlet extends BaseLoginServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -34,7 +34,7 @@ public class DmAddressServlet extends BaseServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void existSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
 		//sessionからログインしているユーザのidを受け取る
@@ -64,29 +64,32 @@ public class DmAddressServlet extends BaseServlet {
 		//最後に送信したメッセージと最後のメッセージを判別
 		//---------------------------------------------------------
 
-		//sendMsgListとreceiveMsgListから必要な値を抽出し、格納する
-		List<DmBean> msgList = new ArrayList<>();
+		//dbListから必要な値を抽出し、格納する
+		List<DmBean> chatList = new ArrayList<>();
 		DmBean bean = new DmBean();
 
-		//メッセージを送受信していないとき
+		//ログインしているユーザがメッセージを一度も送受信していないとき
 		if (dbList.isEmpty()) {
+
+			//chatListに結果を代入
 			bean.setMsg("メッセージはありません");
-			msgList.add(bean);
+			chatList.add(bean);
 
 			//引き渡す値を設定
 			request.setAttribute("userList", userList);
-			request.setAttribute("msgList", msgList);
+			request.setAttribute("chatList", chatList);
 
 			//画面遷移
 			request.getRequestDispatcher("/WEB-INF/jsp/dm-address.jsp").forward(request, response);
+			return;
 		}
 
-		//dbListをmsgListに移し変える
-		msgList = dbList;
+		//dbListをchatListに移し変える
+		chatList = dbList;
 
 		//引き渡す値を設定
 		request.setAttribute("userList", userList);
-		request.setAttribute("msgList", msgList);
+		request.setAttribute("chatList", chatList);
 
 		//画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/dm-address.jsp").forward(request, response);

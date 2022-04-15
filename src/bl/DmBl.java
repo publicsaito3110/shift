@@ -14,10 +14,24 @@ public class DmBl {
 	 */
 	public List<DmBean> selectLastMsgByLoginId(String id){
 
-		//DAOの戻り値をscheduleListで受け取る
+		//DAOの戻り値をmsgListで受け取る
 		List<DmBean> msgList = new ArrayList<>();
 		DmDao dao = new DmDao();
 		msgList = dao.selectLastMsgByLoginId(id);
+
+		return msgList;
+	}
+
+
+	/**
+	 * ユーザ同士のメッセージを取得するメソッド
+	 */
+	public List<DmBean> selectTalkByUser(String loginUser, String user){
+
+		//DAOの戻り値をmsgListで受け取る
+		List<DmBean> msgList = new ArrayList<>();
+		DmDao dao = new DmDao();
+		msgList = dao.selectTalkByUser(loginUser,user);
 
 		return msgList;
 	}
