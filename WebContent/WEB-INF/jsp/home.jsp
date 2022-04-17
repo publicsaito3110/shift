@@ -32,6 +32,7 @@
 	        <li>
 	            <span class="date-text">${b.ymd}</span><span class="label">${b.labelNew}</span>
 	            <a href="#" class="content-text">${b.content}</a>
+	        </li>
 	        </c:forEach>
 	    </ul>
 	</div>
