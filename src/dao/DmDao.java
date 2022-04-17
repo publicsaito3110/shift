@@ -157,8 +157,15 @@ public class DmDao {
 			//結果をさらに抽出
 			while (rs.next()) {
 				DmBean bean = new DmBean();
+				StringBuffer sb = new StringBuffer();
 
-				bean.setMsgDate(rs.getString("msg_date"));
+				//msg_dateから不要な値(年とミリ秒)を削除;
+				sb.append(rs.getString("msg_date"));
+				sb.delete(0, 5);
+				sb.replace(2, 3, "/");
+				sb.delete(11, 16);
+
+				bean.setMsgDate(sb.toString());
 				bean.setMsg(rs.getString("msg"));
 				bean.setSendUser(rs.getString("send_user"));
 				beanList.add(bean);

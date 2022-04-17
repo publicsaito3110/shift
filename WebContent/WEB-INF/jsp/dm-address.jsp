@@ -9,7 +9,6 @@
 <body>
 	<jsp:include page="common/header.jsp" flush="true" />
 
-	<div class="parents">
 		<div class="chat-msg-box">
 			<div class="chat-title">
 				<h1 class="chat-title-h1">メッセージ</h1>
@@ -26,11 +25,8 @@
 			</ul>
 		</div>
 		<div class="talk-box">
-			<c:forEach var="i" items="${talkList}">
-				<p>${i.msg}</p>
-			</c:forEach>
+		<div id="talk"></div>
 		</div>
-	</div>
 
 
 
@@ -46,8 +42,7 @@ $(function() {
 		data: {receiveUser : $(this).val()}
 		}).done(function (result) {
 			// 通信成功時のコールバック
-			alert("読み込み成功");
-			$("${talkList}").load(result);
+			$("#talk").html(result);
 		}).fail(function () {
 			// 通信失敗時のコールバック
 			alert("読み込みに失敗しました。");
@@ -64,7 +59,7 @@ $(function() {
 	position: absolute;
 	width: 30%;
 	height: 98%;
-	 border-right: 1px solid gray;
+	border-right: 1px solid gray;
 }
 
 .chat-title {
@@ -116,9 +111,15 @@ $(function() {
 
 .talk-box {
 	position: absolute;
-	left: 36%;
-	width: 64%;
+	left: 31%;
+	width: 68%;
 	height: 98%;
+}
+
+#talk {
+	position: absolute;
+	width: 100%;
+	height: 100%;
 }
 
 </style>

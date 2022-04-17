@@ -60,11 +60,11 @@ public class DmAddressServlet extends BaseLoginServlet {
 		dbList = bl2.selectLastMsgByLoginId(id);
 
 
-		//---------------------------------------------------------
-		//最後に送信したメッセージと最後のメッセージを判別
-		//---------------------------------------------------------
+		//-------------------------
+		//最後のメッセージを判別
+		//-------------------------
 
-		//dbListから必要な値を抽出し、格納する
+		//dbListから必要な値を抽出し、chatListに格納する
 		List<DmBean> chatList = new ArrayList<>();
 		DmBean bean = new DmBean();
 

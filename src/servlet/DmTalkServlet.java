@@ -59,6 +59,6 @@ public class DmTalkServlet extends BaseLoginServlet {
 		request.setAttribute("talkList", talkList);
 
 		//画面遷移
-		request.getRequestDispatcher("/WEB-INF/jsp/dm-address.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/dm-talk.jsp").forward(request, response);
 	}
 }
