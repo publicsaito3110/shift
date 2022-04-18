@@ -201,4 +201,93 @@ public class DmDao {
 
 		return beanList;
 	}
+
+
+	/**
+	 * 送信されたメッセージを追加する
+	 * @param DmBean msgBean, Send mssage and loginUser and To user
+	 * @return boolean, Return true in insert message
+	 */
+	public boolean insertSendMsgByMsgBean(DmBean msgBean){
+
+		//実行結果を取得
+		boolean isResult = false;
+
+		//JDBCの接続に使用するオブジェクトを宣言
+		Connection con = null;
+		PreparedStatement ps = null;
+
+		try {
+
+			Class.forName(DbConst.DRIVER_NAME);
+
+			//conにDB情報を入れる
+			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+
+			//オートコミットをオフにする（トランザクション開始）
+			con.setAutoCommit(false);
+
+			//SQL発行
+			StringBuffer buf = new StringBuffer();
+
+			buf.append("INSERT INTO ");
+			buf.append(" DM ");
+			buf.append(" (MSG, SEND_USER, RECEIVE_USER, MSG_DATE) ");
+			buf.append(" VALUES ");
+			buf.append(" (?, ?, ?, NOW()) ");
+			buf.append(" ; ");
+
+			//SQLをセット
+			ps = con.prepareStatement(buf.toString());
+
+			// ?にパラメーターをセット
+			ps.setString(1, msgBean.getMsg());
+			ps.setString(2, msgBean.getSendUser());
+			ps.setString(3, msgBean.getReceiveUser());
+
+			//SQLを実行
+			ps.executeUpdate();
+
+			//SQL実行の成功結果を反映
+			isResult = true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+
+			//トランザクションの終了
+			if(isResult){    //SQLの実行成功時、明示的にコミットを実施
+				try {
+					con.commit();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else{              //SQLの実行失敗時、明示的にロールバックを実施
+				try {
+					con.rollback();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			//DBの接続解除
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return isResult;
+	}
 }

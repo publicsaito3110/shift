@@ -35,4 +35,17 @@ public class DmBl {
 
 		return msgList;
 	}
+
+
+	/**
+	 * 送信したメッセージを格納するメソッド
+	 */
+	public boolean insertSendMsgByMsgBean(DmBean msgBean) {
+
+		//DAOの戻り値をbooleanで受け取る
+		DmDao dao = new DmDao();
+		boolean isResult = dao.insertSendMsgByMsgBean(msgBean);
+
+		return isResult;
+	}
 }

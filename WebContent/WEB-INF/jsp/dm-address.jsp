@@ -34,12 +34,15 @@
 <script>
 
 $(function() {
-	// ボタン押下時の処理
+	//ボタン押下時の処理
 	$('.chat-address-btn').on('click', function (){
+
+		$(".chat-address-btn").prop("disabled", false);
+		$(this).prop("disabled", true);
 		$.ajax({
-		url: "DmTalkServlet",
-		type: "POST",
-		data: {receiveUser : $(this).val()}
+			url: "DmTalkServlet",
+			type: "POST",
+			data: {receiveUser : $(this).val()}
 		}).done(function (result) {
 			// 通信成功時のコールバック
 			$("#talk").html(result);
@@ -50,6 +53,8 @@ $(function() {
         // 常に実行する処理
 		});
 	});
+
+
 });
 </script>
 </body>
@@ -118,8 +123,9 @@ $(function() {
 
 #talk {
 	position: absolute;
-	width: 100%;
+	width: 99%;
 	height: 100%;
+	overflow: auto;
 }
 
 </style>

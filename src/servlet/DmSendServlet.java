@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,26 +13,23 @@ import javax.servlet.http.HttpSession;
 import bean.DmBean;
 import bean.UserBean;
 import bl.DmBl;
+import common.CommonUtil;
 
 /**
- * Servlet implementation class DmTalkServlet
+ * Servlet implementation class DmSendServlet
  */
-@WebServlet("/DmTalkServlet")
-public class DmTalkServlet extends BaseLoginServlet {
+@WebServlet("/DmSendServlet")
+public class DmSendServlet extends BaseLoginServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DmTalkServlet() {
+    public DmSendServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void existSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	@Override
+	protected void existSession(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 
 
 		//sessionからログインしているユーザのidを受け取る
@@ -43,15 +39,38 @@ public class DmTalkServlet extends BaseLoginServlet {
 
 		//dm-address.jspから値を受け取る
 		String receiveUser = request.getParameter("receiveUser");
+		String msg = request.getParameter("msg");
+
+		//入力値(msg)をエスケープ処理
+		msg = CommonUtil.replaceEscapeChar(msg);
 
 
 		//-----------
 		//SQLの実行
 		//-----------
 
+		//dmBeanに受け取った値を格納する
+		DmBean msgBean = new DmBean();
+
+		msgBean.setSendUser(id);
+		msgBean.setReceiveUser(receiveUser);
+		msgBean.setMsg(msg);
+
+		//戻り値をtalkListで受け取る
+		DmBl bl = new DmBl();
+
+		boolean isResult = bl.insertSendMsgByMsgBean(msgBean);
+
+		//SQL失敗
+		if (!isResult) {
+
+			//画面遷移
+			request.getRequestDispatcher("/WEB-INF/jsp/dm-talk.jsp").forward(request, response);
+			return;
+		}
+
 		//戻り値をtalkListで受け取る
 		List<DmBean> talkList = new ArrayList<>();
-		DmBl bl = new DmBl();
 
 		talkList = bl.selectTalkByUser(id, receiveUser);
 

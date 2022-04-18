@@ -5,6 +5,7 @@
 <html>
 <body>
 
+	<br>
 	<c:forEach var="i" items="${talkList}">
 		<div class="${i.sendUser} chat-wrap">
 			<div class="profile-icon-wrap">
@@ -13,15 +14,48 @@
 			<div class="chatting">
 				<span class="talk-text">${i.msg}</span>
 			</div>
+			<span class="send-date">${i.msgDate}</span>
 		</div>
 	</c:forEach>
 
 	<div class="send-form">
-		<form action="DmSendServlet" method="post">
-			<textarea class="msg-text" name="msg"></textarea> <input type="submit" class="msg-send-btn" value="送信">
-		</form>
+		<textarea id="msg-text" name="msg" maxlength="200"></textarea>
+		<button type="submit" id="msg-send-btn" value="${msgToId}">送信</button>
 	</div>
 </body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(function(){
+	//メッセージテキスト入力時の処理
+	  $('#msg-text')
+	  .on('input', function(){
+	    if ($(this).outerHeight() > this.scrollHeight){
+	      $(this).height(1)
+	    }
+	    while ($(this).outerHeight() < this.scrollHeight){
+	      $(this).height($(this).height() + 1)
+	    }
+	  });
+
+		// 送信ボタン押下時の処理
+		$('#msg-send-btn').on('click', function (){
+			$.ajax({
+			url: "DmSendServlet",
+			type: "POST",
+			data: {msg : $("#msg-text").val(), receiveUser : $("#msg-send-btn").val()}
+			}).done(function (result) {
+				// 通信成功時のコールバック
+				$("#talk").html(result);
+			}).fail(function () {
+				// 通信失敗時のコールバック
+				alert("読み込みに失敗しました。");
+			}).always(function (result) {
+	        // 常に実行する処理
+			});
+		});
+});
+</script>
 <style>
 
 
@@ -108,6 +142,21 @@ right: -15px;
   height: 8px;
   border-radius: 50%;
   border: solid 1px currentColor;
+}
+
+.send-date {
+    display: flex;
+    align-items: end;
+    font-size: 70%;
+}
+
+.send-form {
+	position: fixed;
+    bottom: 0%
+}
+
+#msg-text {
+	resize: none;
 }
 
 </style>
