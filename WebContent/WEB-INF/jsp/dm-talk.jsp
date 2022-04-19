@@ -4,24 +4,25 @@
 <!DOCTYPE HTML>
 <html>
 <body>
-
-	<br>
-	<c:forEach var="i" items="${talkList}">
-		<div class="${i.sendUser} chat-wrap">
-			<div class="profile-icon-wrap">
-				<div class="profile-icon"></div>
+	<h2 class="chat-header">名前</h2>
+	<div class="talk-list">
+		<c:forEach var="i" items="${talkList}">
+			<div class="${i.sendUser} chat-wrap">
+				<div class="profile-icon-wrap">
+					<div class="profile-icon"></div>
+				</div>
+				<div class="chatting">
+					<span class="talk-text">${i.msg}</span>
+				</div>
+				<span class="send-date">${i.msgDate}</span>
 			</div>
-			<div class="chatting">
-				<span class="talk-text">${i.msg}</span>
-			</div>
-			<span class="send-date">${i.msgDate}</span>
-		</div>
-	</c:forEach>
+		</c:forEach>
+	</div>
 
 	<div class="send-form">
 		<textarea id="msg-text" name="msg" maxlength="200"></textarea>
-		<button type="submit" id="msg-send-btn" value="${msgToId}">送信</button>
-	</div>
+		<button type="submit" id="msg-send-btn" value="${msgToId}" disabled>送信</button>
+		</div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -30,6 +31,12 @@ $(function(){
 	//メッセージテキスト入力時の処理
 	  $('#msg-text')
 	  .on('input', function(){
+		  if($(this).val()){
+			  $("#msg-send-btn").prop('disabled', false);
+		  }else{
+			  $("#msg-send-btn").prop('disabled', true);
+		  }
+
 	    if ($(this).outerHeight() > this.scrollHeight){
 	      $(this).height(1)
 	    }
@@ -58,6 +65,25 @@ $(function(){
 </script>
 <style>
 
+.chat-header {
+	transform: scale(0.99,0.99);
+	text-align: center;
+	padding: 1rem 3rem;
+    padding-top: 1rem;
+    padding-right: 3rem;
+    padding-bottom: 1rem;
+    padding-left: 3rem;
+    color: #fff;
+    border-radius: 100vh;
+    background-image: linear-gradient(to left, #a2c4cd 0%, #90cbcb 100%);
+}
+
+.talk-list {
+	overflow: auto;
+	overflow-x: hidden;
+	width: 100%;
+	height: 100%;
+}
 
 .chat-wrap {
 display: flex;
@@ -67,10 +93,14 @@ flex-wrap: wrap;
 
 .LOGIN_USER {
   flex-direction: row-reverse;
+    position: relative;
+    top: 1%;
+    right: 2%;
 }
 
 .NOT_LOGIN_USER {
 position: relative;
+top: 1%;
 left: 2%;
   flex-direction: row;
 }
