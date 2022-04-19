@@ -22,7 +22,7 @@ public class ScheduleDayLogic {
 		//----------------------------------
 		List <UserBean> userList = new ArrayList<>();
 		UserBl bl = new UserBl();
-		userList = bl.selectUserIdNameNotDelFlag();
+		userList = bl.selectAllUserIdNameNotDelFlag();
 
 
 		//---------------------------------------
