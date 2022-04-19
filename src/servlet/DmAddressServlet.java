@@ -51,7 +51,7 @@ public class DmAddressServlet extends BaseLoginServlet {
 		List<UserBean> userList = new ArrayList<>();
 		UserBl bl = new UserBl();
 
-		userList = bl.selectUserIdNameNotDelFlag();
+		userList = bl.selectUserIdNameNotDelFlagLoginUser(id);
 
 		//ログインしているユーザの最後のメッセージををdbListで取得する
 		List<DmBean> dbList = new ArrayList<>();

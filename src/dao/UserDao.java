@@ -21,7 +21,7 @@ public class UserDao {
 	 *@param void
 	 *@return List<UserBean>, User in no delFlag
 	 */
-	public List<UserBean> selectUserIdNameNotDelFlag() {
+	public List<UserBean> selectAllUserIdNameNotDelFlag() {
 
 
 		//JDBCの接続に使用するオブジェクトを宣言
@@ -93,6 +93,86 @@ public class UserDao {
 		return userList;
 	}
 
+
+	/**
+	 *delFlgがないユーザ名,id(ログインしているユーザ以外)を取得する
+	 *@param String loginUser, Got id by session
+	 *@return List<UserBean>, User in no delFlag
+	 */
+	public List<UserBean> selectUserIdNameNotDelFlagLoginUser(String loginUser) {
+
+
+		//JDBCの接続に使用するオブジェクトを宣言
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		//ユーザ名を受け取るための変数(nullを宣言しておく)
+		List<UserBean> userList = new ArrayList<>();
+
+		try {
+
+			Class.forName(DbConst.DRIVER_NAME);
+
+			//conにDB情報を入れる
+			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+
+			//SQL発行
+			StringBuffer buf = new StringBuffer();
+			buf.append("SELECT ID, NAME ");
+			buf.append(" FROM USER ");
+			buf.append(" WHERE (DEL_FLG != '1' OR DEL_FLG IS NULL) AND ID != ?");
+			buf.append(" ; ");
+
+			//SQLをセット
+			ps = con.prepareStatement(buf.toString());
+
+			//   ? にパラメータをセット
+			ps.setString(1, loginUser);
+
+			//SQLの結果を取得
+			rs = ps.executeQuery();
+
+			//結果をさらに抽出
+			while (rs.next()) {
+				UserBean bean = new UserBean();
+
+				bean.setId(rs.getString("id"));
+				bean.setName(rs.getString("name"));
+				userList.add(bean);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+
+			//DBの接続解除
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return userList;
+	}
 
 
 	/**

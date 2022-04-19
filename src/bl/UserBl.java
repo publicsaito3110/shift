@@ -27,12 +27,26 @@ public class UserBl {
 	/**
 	 * 登録しているユーザのidと名前を取得するメソッド
 	 */
-	public List<UserBean> selectUserIdNameNotDelFlag() {
+	public List<UserBean> selectAllUserIdNameNotDelFlag() {
 
 		//DAOの戻り値をuserListで受け取る
 			List<UserBean> userList = new ArrayList<>();
 			UserDao dao = new UserDao();
-			userList = dao.selectUserIdNameNotDelFlag();
+			userList = dao.selectAllUserIdNameNotDelFlag();
+
+			return userList;
+	}
+
+
+	/**
+	 * 自分以外のユーザのidと名前を取得するメソッド
+	 */
+	public List<UserBean> selectUserIdNameNotDelFlagLoginUser(String id) {
+
+		//DAOの戻り値をuserListで受け取る
+			List<UserBean> userList = new ArrayList<>();
+			UserDao dao = new UserDao();
+			userList = dao.selectUserIdNameNotDelFlagLoginUser(id);
 
 			return userList;
 	}
