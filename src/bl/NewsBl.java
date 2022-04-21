@@ -22,4 +22,33 @@ public class NewsBl {
 
 		return newsList;
 	}
+
+
+	/**
+	 *登録しているお知らせを表示するメソッド
+	 */
+	public List<NewsBean> selectAllNews(String nowYmd) {
+
+		//DAOの戻り値をnewsListで受け取る
+		NewsDao dao = new NewsDao();
+		List<NewsBean> newsList = new ArrayList<>();
+
+		newsList = dao.selectAllNews(nowYmd);
+
+		return newsList;
+	}
+
+
+	/**
+	 *指定された日付のお知らせを登録するメソッド
+	 */
+	public boolean insertNews(NewsBean newsBean) {
+
+		//DAOの戻り値をbooleanで受け取る
+		NewsDao dao = new NewsDao();
+
+		boolean isResult = dao.insertNews(newsBean);
+
+		return isResult;
+	}
  }
