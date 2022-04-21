@@ -32,90 +32,90 @@ public class LoginServlet extends BaseServlet {
 		//Postで受け取ったとき
 		if (Const.DO_POST.equals(request.getMethod())) {
 
-		//login.jsp からの値を受け取る
-		String inputId = request.getParameter("id");
-		String inputPassword = request.getParameter("password");
+			//login.jsp からの値を受け取る
+			String inputId = request.getParameter("id");
+			String inputPassword = request.getParameter("password");
 
 
-		//-----------------
-		// 未入力チェック
-		//-----------------
+			//-----------------
+			// 未入力チェック
+			//-----------------
 
-		//idまたはpasswordが未入力のとき
-		if (inputId.isEmpty() || inputPassword.isEmpty()) {
+			//idまたはpasswordが未入力のとき
+			if (inputId.isEmpty() || inputPassword.isEmpty()) {
 
-			request.setAttribute("userId", inputId);
-			request.setAttribute("err", "IDまたはパスワードが未入力です");
-			request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
-			return;
-		}
+				request.setAttribute("userId", inputId);
+				request.setAttribute("err", "IDまたはパスワードが未入力です");
+				request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+				return;
+			}
 
 
-		//--------------------
-		//セッションの判別
-		//--------------------
+			//--------------------
+			//セッションの判別
+			//--------------------
 
-		//セッションのデータをuserBeanで取得
-		HttpSession session = request.getSession();
-		UserBean sessionUserBean = (UserBean)session.getAttribute("USER_BEAN");
+			//セッションのデータをuserBeanで取得
+			HttpSession session = request.getSession();
+			UserBean sessionUserBean = (UserBean)session.getAttribute("USER_BEAN");
 
-		//セッションが存在し、ログインしているとき
-		if (sessionUserBean != null) {
+			//セッションが存在し、ログインしているとき
+			if (sessionUserBean != null) {
+
+				//引き渡す値を設定
+				request.setAttribute("firstLoginText", "");
+
+				//画面遷移
+				request.getRequestDispatcher("/HomeServlet").forward(request, response);
+				return;
+			}
+
+
+			//------------------
+			// 入力情報をDB検索
+			//------------------
+
+			//入力されたidとpasswordをinputUserBeanに格納
+			UserBean inputUserBean = new UserBean();
+
+			inputUserBean.setId(inputId);
+			inputUserBean.setPassword(inputPassword);
+
+			//ログイン結果をuserBeanを受け取る
+			UserBean userBean = new UserBean();
+			UserBl bl = new UserBl();
+			userBean = bl.selectUserIdNameAdmFlgLogin(inputUserBean);
+
+
+			//--------------------
+			//初回ログインの判定
+			//--------------------
+
+			//ログインできなかったとき
+			if (userBean.getId() == null) {
+
+				//引き渡す値を設定
+				request.setAttribute("userId", inputId);
+				request.setAttribute("err", "IDまたはパスワードが違います");
+
+				//画面遷移
+				request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+				return;
+			}
+
+
+			//管理者かどうかを判別し、結果をセットする
+			boolean isAdministrator = Const.PATTERN_ADMIN_FLAG.equals(userBean.getAdminFlag());
+			userBean.setAdministrator(isAdministrator);
+
+			//sessionに"USER_BEAN"を作成し、userBean(id,name,adminFlag)を格納
+			session.setAttribute("USER_BEAN", userBean);
 
 			//引き渡す値を設定
-			request.setAttribute("firstLoginText", "");
+			request.setAttribute("firstLoginText", "ようこそ");
 
 			//画面遷移
 			request.getRequestDispatcher("/HomeServlet").forward(request, response);
-			return;
-		}
-
-
-		//------------------
-		// 入力情報をDB検索
-		//------------------
-
-		//入力されたidとpasswordをinputUserBeanに格納
-		UserBean inputUserBean = new UserBean();
-
-		inputUserBean.setId(inputId);
-		inputUserBean.setPassword(inputPassword);
-
-		//ログイン結果をuserBeanを受け取る
-		UserBean userBean = new UserBean();
-		UserBl bl = new UserBl();
-		userBean = bl.selectUserIdNameAdmFlgLogin(inputUserBean);
-
-
-		//--------------------
-		//初回ログインの判定
-		//--------------------
-
-		//ログインできなかったとき
-		if (userBean.getId() == null) {
-
-			//引き渡す値を設定
-			request.setAttribute("userId", inputId);
-			request.setAttribute("err", "IDまたはパスワードが違います");
-
-			//画面遷移
-			request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
-			return;
-		}
-
-
-		//管理者かどうかを判別し、結果をセットする
-		boolean isAdministrator = Const.PATTERN_ADMIN_FLAG.equals(userBean.getAdminFlag());
-		userBean.setAdministrator(isAdministrator);
-
-		//sessionに"USER_BEAN"を作成し、userBean(id,name,adminFlag)を格納
-		session.setAttribute("USER_BEAN", userBean) ;
-
-		//引き渡す値を設定
-		request.setAttribute("firstLoginText", "ようこそ");
-
-		//画面遷移
-		request.getRequestDispatcher("/HomeServlet").forward(request, response);
 		}
 
 

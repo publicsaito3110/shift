@@ -52,7 +52,7 @@ public abstract class BaseAdministratorServlet extends BaseLoginServlet {
 		//adminFlagが管理者パターンと一致しないとき
 		if (!Const.PATTERN_ADMIN_FLAG.equals(adminFlag)) {
 
-			//画面遷移(ホーム画面)エラーの処理も追加　TODO
+			//画面遷移(ホーム画面)エラーの処理も追加
 			request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
 			return;
 		}
