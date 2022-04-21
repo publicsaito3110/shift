@@ -50,6 +50,16 @@ public abstract class BaseLoginServlet extends BaseServlet {
 		}
 
 
+		//--------------
+		//管理者の判定
+		//--------------
+
+		//
+		boolean isAdministrator = sessionUserBean.isAdministrator();
+
+		//引き渡す値を設定
+		request.setAttribute("isAdministrator", isAdministrator);
+
 		existSession(request, response);
 	}
 
