@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import bean.NewsBean;
 import bean.UserBean;
 import bl.NewsBl;
+import common.CommonLogic;
 import common.Const;
 
 /**
@@ -44,7 +45,9 @@ public class HomeServlet extends BaseLoginServlet {
 		int nowDay = now.getDayOfMonth();
 
 		//ymd(String8桁)へ変換
-		String nowYmd = this.toStringYmdFormatEightByIntYMD(nowYear, nowMonth, nowDay);
+		CommonLogic logic = new CommonLogic();
+
+		String nowYmd = logic.toStringYmdFormatEightByIntYMD(nowYear, nowMonth, nowDay);
 
 
 		//------------
@@ -98,7 +101,7 @@ public class HomeServlet extends BaseLoginServlet {
 			LocalDate dbDate = LocalDate.parse(dateYmd);
 
 			//ymdをjsp表示用(yyyy/mm/dd)に変換する
-			String displayYmd = ymd.substring(0, 4) + "/" + ymd.substring(4, 6) + "/" + ymd.substring(6, 8);
+			String displayYmd = logic.changeDisplayYmdByYMD(ymd);
 
 			//登録されている日付(dbDate)がのお知らせに表示する下限の日付(limitDate)より後のとき
 			if (dbDate.isAfter(limitDate)) {
@@ -130,19 +133,5 @@ public class HomeServlet extends BaseLoginServlet {
 		//画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
 		return;
-	}
-
-
-
-    /**
-     * year, month, day(int) をymd(String8桁)で返す
-     * @param int year, int month, int day, Date of Received LocalDate
-     * @return String, Change date of state to YYYYMMDD
-     */
-	private String toStringYmdFormatEightByIntYMD(int year, int month, int day) {
-
-		String ymd = String.valueOf(year) +  String.format("%02d", month) + String.format("%02d", day);
-
-		return ymd;
 	}
 }

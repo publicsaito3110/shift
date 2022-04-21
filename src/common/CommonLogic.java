@@ -24,4 +24,30 @@ public class CommonLogic {
 
 		return ymd;
 	}
+
+
+    /**
+     * year, month, day(int) をymd(String8桁)で返す
+     * @param int year, int month, int day, Date of Received LocalDate
+     * @return String, Change date of state to YYYYMMDD
+     */
+	public String toStringYmdFormatEightByIntYMD(int year, int month, int day) {
+
+		String ymd = String.valueOf(year) +  String.format("%02d", month) + String.format("%02d", day);
+
+		return ymd;
+	}
+
+
+    /**
+     * ymdを画面に表示用の日付(YYYY/MM/DD)で返す
+     * @param int year, int month, int day, Date of Received LocalDate
+     * @return String, Change date of state to YYYYMMDD
+     */
+	public String changeDisplayYmdByYMD(String ymd) {
+
+		String displayYmd = ymd.substring(0, 4) + "/" + ymd.substring(4, 6) + "/" + ymd.substring(6, 8);
+
+		return displayYmd;
+	}
 }
