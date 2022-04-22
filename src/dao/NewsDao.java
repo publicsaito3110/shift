@@ -127,7 +127,7 @@ public class NewsDao{
 			StringBuffer buf = new StringBuffer();
 			buf.append("SELECT YMD, CONTENT ");
 			buf.append(" FROM NEWS ");
-			buf.append(" WHERE YMD <= ? ");
+			buf.append(" WHERE ? <= YMD ");
 			buf.append(" ORDER BY YMD DESC ");
 			buf.append(" ; ");
 
@@ -221,6 +221,93 @@ public class NewsDao{
 			// ?にパラメーターをセット
 			ps.setString(1, newsBean.getYmd());
 			ps.setString(2, newsBean.getContent());
+
+			//SQLを実行
+			ps.executeUpdate();
+
+			//SQL実行の成功結果を反映
+			isResult = true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+
+			//トランザクションの終了
+			if(isResult){    //SQLの実行成功時、明示的にコミットを実施
+				try {
+					con.commit();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else{              //SQLの実行失敗時、明示的にロールバックを実施
+				try {
+					con.rollback();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			//DBの接続解除
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return isResult;
+	}
+
+
+	/**
+	 *指定された日付のお知らせを更新する
+	 * @param NewsBean newsBean, you wont to modify news of date and content
+	 * @return boolean, Return true in insert news
+	 */
+	public boolean updateNews(NewsBean newsBean){
+
+		//実行結果を取得
+		boolean isResult = false;
+
+		//JDBCの接続に使用するオブジェクトを宣言
+		Connection con = null;
+		PreparedStatement ps = null;
+
+		try {
+
+			Class.forName(DbConst.DRIVER_NAME);
+
+			//conにDB情報を入れる
+			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+
+			//オートコミットをオフにする（トランザクション開始）
+			con.setAutoCommit(false);
+
+			//SQL発行
+			StringBuffer buf = new StringBuffer();
+
+			buf.append("UPDATE NEWS ");
+			buf.append(" SET ");
+			buf.append(" CONTENT = ? ");
+			buf.append(" WHERE YMD = ? ");
+			buf.append(" ; ");
+
+			//SQLをセット
+			ps = con.prepareStatement(buf.toString());
+
+			// ?にパラメーターをセット
+			ps.setString(1, newsBean.getContent());
+			ps.setString(2, newsBean.getYmd());
 
 			//SQLを実行
 			ps.executeUpdate();

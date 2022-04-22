@@ -51,4 +51,18 @@ public class NewsBl {
 
 		return isResult;
 	}
- }
+
+
+	/**
+	 *指定された日付のお知らせを変更するメソッド
+	 */
+	public boolean updateNews(NewsBean newsBean) {
+
+		//DAOの戻り値をbooleanで受け取る
+		NewsDao dao = new NewsDao();
+
+		boolean isResult = dao.updateNews(newsBean);
+
+		return isResult;
+	}
+}
