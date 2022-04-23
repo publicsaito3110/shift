@@ -30,6 +30,8 @@ public class Const {
 	public static final String PERCENT = "%";   //%(SQL用)
 
 
+	public static final int NEWS_ADD_MAX_MONTH = 3;   //お知らせを登録できる日付の範囲(3ヵ月)
+
 
 	//-------------------------
 	//正規表現
