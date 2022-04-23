@@ -23,11 +23,11 @@
 	</div>
     <input id="TAB-03" type="radio" name="TAB" class="tab-switch" /><label class="tab-label" for="TAB-03">お知らせを追加+</label>
     <div class="tab-content">
-		<p>日付: <input type="date" id="nws-add-date" value="${nowDate}" min="${nowDate}" max="${maxDate}"></p>
+		<p>日付: <input type="date" id="news-add-date" value="${nowDate}" min="${nowDate}" max="${maxDate}"></p>
 		<p>タイトル</p>
-		<textarea id="nws-add-title" rows="" cols=""></textarea>
+		<textarea id="news-add-title"></textarea>
 		<p>本文</p>
-		<textarea id="nws-add-content"></textarea>
+		<textarea id="news-add-content"></textarea>
 		<button id="news-add-btn" disabled>新規登録</button>
 	</div>
 </div>
@@ -110,7 +110,7 @@ $(function(){
 		$.ajax({
 		url: "NewsModifyServlet",
 		type: "POST",
-		data: {date : $("#modify-subtitle").text(), title : $("#modify-title").text(), content : $("#modify-content").val()}
+		data: {date : $("#modify-subtitle").val(), title : $("#modify-title").val(), content : $("#modify-content").val()}
 		}).done(function (result) {
 			// 通信成功時のコールバック
 			$("#pop-window-wrap").html(result);
@@ -124,8 +124,8 @@ $(function(){
 
 
 	//新規登録ボタンの処理
-	$('#nws-add-title, #modify-content').on('input', function(){
-		if($('#modify-title' && '#nws-add-content').text()){
+	$('#news-add-title, #news-add-content').on('input', function(){
+		if($('#news-add-title' && '#news-add-content').val()){
 			$("#news-add-btn").prop('disabled', false);
 		}else{
 			$("#news-add-btn").prop('disabled', true);
@@ -138,7 +138,7 @@ $(function(){
 		$.ajax({
 		url: "NewsAddServlet",
 		type: "POST",
-		data: {date : $("#nws-add-date").val(), title : $("#nws-add-title").text(), content : $("#nws-add-content").text()}
+		data: {date : $("#news-add-date").val(), title : $("#news-add-title").text(), content : $("#news-add-content").text()}
 		}).done(function (result) {
 			// 通信成功時のコールバック
 			$("#pop-window-wrap").html(result);

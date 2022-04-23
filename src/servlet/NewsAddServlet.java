@@ -84,7 +84,7 @@ public class NewsAddServlet extends BaseAdministratorServlet {
     	}
 
     	//dateをymd(YYYYMMDD)に変換
-    	String ymd = date.replaceAll("/", "");
+    	String ymd = date.replaceAll("-", "");
 
     	//入力値をエスケープ
     	title = CommonUtil.replaceEscapeChar(title);
