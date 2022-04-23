@@ -24,7 +24,7 @@ public class NewsModifyServlet extends BaseAdministratorServlet {
      */
     public NewsModifyServlet() {
         super();
-        // TODO Auto-generated constructor stub
+        // Auto-generated constructor stub
     }
 
 	/**
