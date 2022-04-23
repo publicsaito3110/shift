@@ -98,7 +98,7 @@ public class NewsAddServlet extends BaseAdministratorServlet {
     	NewsBean newsBean = new NewsBean();
 
     	newsBean.setYmd(ymd);
-    	newsBean.setContent(title);
+    	newsBean.setTitle(title);
     	newsBean.setContent(content);
 
     	NewsBl bl = new NewsBl();

@@ -8,7 +8,7 @@
 		<c:forEach var="i" items="${displayNewsList}" varStatus="status">
 			<li class="news-list-btn">
 				<span class="date-text">${i.ymd}</span>
-				<a class="content-text">${i.content}</a>
+				<a class="content-text">${i.title}</a>
 				<input type="hidden" value="${i.content}">
 			</li>
        </c:forEach>

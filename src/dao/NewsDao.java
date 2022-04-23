@@ -41,7 +41,7 @@ public class NewsDao{
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
-			buf.append("SELECT YMD, CONTENT ");
+			buf.append("SELECT YMD, TITLE, CONTENT ");
 			buf.append(" FROM NEWS ");
 			buf.append(" WHERE YMD <= ? ");
 			buf.append(" ORDER BY YMD DESC ");
@@ -63,6 +63,7 @@ public class NewsDao{
 				NewsBean bean = new NewsBean();
 
 				bean.setYmd(rs.getString("ymd"));
+				bean.setTitle(rs.getString("title"));
 				bean.setContent(rs.getString("content"));
 				newsList.add(bean);
 			}
@@ -125,10 +126,10 @@ public class NewsDao{
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
-			buf.append("SELECT YMD, CONTENT ");
+			buf.append("SELECT YMD, TITLE, CONTENT ");
 			buf.append(" FROM NEWS ");
 			buf.append(" WHERE ? <= YMD ");
-			buf.append(" ORDER BY YMD DESC ");
+			buf.append(" ORDER BY YMD ");
 			buf.append(" ; ");
 
 			//SQLをセット
@@ -145,6 +146,7 @@ public class NewsDao{
 				NewsBean bean = new NewsBean();
 
 				bean.setYmd(rs.getString("ymd"));
+				bean.setTitle(rs.getString("title"));
 				bean.setContent(rs.getString("content"));
 				newsList.add(bean);
 			}
@@ -182,8 +184,8 @@ public class NewsDao{
 
 
 	/**
-	 *指定された日付のお知らせを登録する
-	 * @param NewsBean newsBean, you wont to add news of date and content
+	 *指定された日付のお知らせを新規登録する
+	 * @param NewsBean newsBean, you wont to add news of date, title and content
 	 * @return boolean, Return true in insert news
 	 */
 	public boolean insertNews(NewsBean newsBean){
@@ -210,9 +212,9 @@ public class NewsDao{
 
 			buf.append("INSERT INTO ");
 			buf.append(" NEWS ");
-			buf.append(" (YMD, CONTENT) ");
+			buf.append(" (YMD, TITLE, CONTENT) ");
 			buf.append(" VALUES ");
-			buf.append(" (?, ?) ");
+			buf.append(" (?, ?, ?) ");
 			buf.append(" ; ");
 
 			//SQLをセット
@@ -220,7 +222,8 @@ public class NewsDao{
 
 			// ?にパラメーターをセット
 			ps.setString(1, newsBean.getYmd());
-			ps.setString(2, newsBean.getContent());
+			ps.setString(2, newsBean.getTitle());
+			ps.setString(3, newsBean.getContent());
 
 			//SQLを実行
 			ps.executeUpdate();

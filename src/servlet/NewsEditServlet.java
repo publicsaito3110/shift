@@ -94,6 +94,7 @@ public class NewsEditServlet extends BaseAdministratorServlet {
 
 			//displayNewsDbListの値と変換したymdをdisplayNewsListに格納
 			bean.setYmd(ymd);
+			bean.setTitle(recordNewsDbList.get(i).getTitle());
 			bean.setContent(recordNewsDbList.get(i).getContent());
 			recordNewsList.add(bean);
 		}
@@ -113,6 +114,7 @@ public class NewsEditServlet extends BaseAdministratorServlet {
 
 			//displayNewsDbListの値と変換したymdをdisplayNewsListに格納
 			bean.setYmd(ymd);
+			bean.setTitle(displayNewsDbList.get(i).getTitle());
 			bean.setContent(displayNewsDbList.get(i).getContent());
 			displayNewsList.add(bean);
 		}

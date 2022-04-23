@@ -4,6 +4,7 @@ public class NewsBean {
 
 
 	private String ymd;
+	private String title;
 	private String content;
 	private String labelNew;
 
@@ -14,6 +15,12 @@ public class NewsBean {
 	}
 	public void setYmd(String ymd) {
 		this.ymd = ymd;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getContent() {
 		return content;
