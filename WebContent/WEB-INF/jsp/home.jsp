@@ -28,21 +28,16 @@
 
 	<div>
 	    <ul class="info-detail">
-	    	<c:forEach var="b" items="${newsList}" varStatus="status">
+	    	<c:forEach var="i" items="${newsList}" varStatus="status">
 	        <li>
-	            <span class="date-text">${b.ymd}</span><span class="label">${b.labelNew}</span>
-	            <a href="#" class="content-text">${b.content}</a>
+	            <span class="date-text">${i.ymd}</span><span class="label">${b.labelNew}</span>
+	            <a class="content-text">${i.title}</a>
+	            <input type="hidden" value="${i.content}">
 	        </li>
 	        </c:forEach>
 	    </ul>
 	</div>
 
-	<form action="CalendarServlet" method="post">
-		<input type="submit" value="スケジュール">
-	</form>
-	<form action="UserListServlet" method="post">
-		<input type="submit" value="ユーザー">
-	</form>
 </body>
 <style>
 .title{

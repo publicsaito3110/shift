@@ -94,6 +94,7 @@ public class HomeServlet extends BaseLoginServlet {
 			//beanを初期化し、dbListからymdとcontentを取得
 			bean = new NewsBean();
 			String ymd = dbList.get(i).getYmd();
+			String title = dbList.get(i).getTitle();
 			String content = dbList.get(i).getContent();
 
 			//ymdをLocalDate用(yyyy-mm-dd)に変換し、LocalDateで日付を取得
@@ -107,6 +108,7 @@ public class HomeServlet extends BaseLoginServlet {
 			if (dbDate.isAfter(limitDate)) {
 
 				bean.setYmd(displayYmd);
+				bean.setTitle(title);
 				bean.setContent(content);
 				bean.setLabelNew("NEW");
 				newsList.add(bean);
@@ -114,6 +116,7 @@ public class HomeServlet extends BaseLoginServlet {
 			}
 
 			bean.setYmd(displayYmd);
+			bean.setTitle(title);
 			bean.setContent(content);
 			bean.setLabelNew("");
 			newsList.add(bean);
