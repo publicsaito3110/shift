@@ -1,16 +1,17 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 import bean.UserBean;
 import common.Const;
-import common.DbConst;
 
 
 public class UserDao extends BaseDao {
@@ -34,10 +35,9 @@ public class UserDao extends BaseDao {
 
 		try {
 
-			Class.forName(DbConst.DRIVER_NAME);
-
-			//conにDB情報を入れる
-			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+			InitialContext ic = new InitialContext();
+			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/datasource");
+			con = ds.getConnection();
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
@@ -112,10 +112,9 @@ public class UserDao extends BaseDao {
 
 		try {
 
-			Class.forName(DbConst.DRIVER_NAME);
-
-			//conにDB情報を入れる
-			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+			InitialContext ic = new InitialContext();
+			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/datasource");
+			con = ds.getConnection();
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
@@ -193,10 +192,9 @@ public class UserDao extends BaseDao {
 
 		try {
 
-			Class.forName(DbConst.DRIVER_NAME);
-
-			//conにDB情報を入れる
-			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+			InitialContext ic = new InitialContext();
+			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/datasource");
+			con = ds.getConnection();
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
@@ -273,10 +271,9 @@ public class UserDao extends BaseDao {
 
 		try {
 
-			Class.forName(DbConst.DRIVER_NAME);
-
-			//conにDB情報を入れる
-			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+			InitialContext ic = new InitialContext();
+			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/datasource");
+			con = ds.getConnection();
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
@@ -360,10 +357,9 @@ public class UserDao extends BaseDao {
 
 		try {
 
-			Class.forName(DbConst.DRIVER_NAME);
-
-			//conにDB情報を入れる
-			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+			InitialContext ic = new InitialContext();
+			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/datasource");
+			con = ds.getConnection();
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
@@ -458,10 +454,9 @@ public class UserDao extends BaseDao {
 
 		try {
 
-			Class.forName(DbConst.DRIVER_NAME);
-
-			//conにDB情報を入れる
-			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+			InitialContext ic = new InitialContext();
+			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/datasource");
+			con = ds.getConnection();
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
@@ -537,10 +532,9 @@ public class UserDao extends BaseDao {
 
 		try {
 
-			Class.forName(DbConst.DRIVER_NAME);
-
-			//conにDB情報を入れる
-			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+			InitialContext ic = new InitialContext();
+			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/datasource");
+			con = ds.getConnection();
 
 			//オートコミットをオフにする（トランザクション開始）
 			con.setAutoCommit(false);
@@ -632,10 +626,9 @@ public class UserDao extends BaseDao {
 
 		try {
 
-			Class.forName(DbConst.DRIVER_NAME);
-
-			//conにDB情報を入れる
-			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+			InitialContext ic = new InitialContext();
+			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/datasource");
+			con = ds.getConnection();
 
 			//オートコミットをオフにする（トランザクション開始)
 			con.setAutoCommit(false);

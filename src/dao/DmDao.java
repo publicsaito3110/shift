@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +11,6 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import bean.DmBean;
-import common.DbConst;
 
 public class DmDao extends BaseDao {
 
@@ -21,10 +19,9 @@ public class DmDao extends BaseDao {
 	/**
 	 * 最後のデータ取得処理
 	 * <br>
-	 * ログインしているユーザの最後のメッセージを他のユーザごとに取得する<br>
-	 *
+	 * ログインしているユーザの最後のメッセージを他のユーザごとに取得する
+	 * <br>
 	 *@param loginUser ログインユーザー
-	 *@param
 	 *@return List<DmBean>
 	 */
 	public List<DmBean> selectLastMsgByLoginId(String loginUser) {
@@ -39,13 +36,9 @@ public class DmDao extends BaseDao {
 
 		try {
 
-//			Class.forName(DbConst.DRIVER_NAME);
 			InitialContext ic = new InitialContext();
 			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/datasource");
 			con = ds.getConnection();
-
-//			//conにDB情報を入れ
-//			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
@@ -137,10 +130,9 @@ public class DmDao extends BaseDao {
 
 		try {
 
-			Class.forName(DbConst.DRIVER_NAME);
-
-			//conにDB情報を入れる
-			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+			InitialContext ic = new InitialContext();
+			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/datasource");
+			con = ds.getConnection();
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
@@ -169,7 +161,7 @@ public class DmDao extends BaseDao {
 				DmBean bean = new DmBean();
 				StringBuffer sb = new StringBuffer();
 
-				//msg_dateから不要な値(年とミリ秒)を削除;
+				//msg_dateの値をsbに代入し、不要な値(年とミリ秒)を削除
 				sb.append(rs.getString("msg_date"));
 				sb.delete(0, 5);
 				sb.replace(2, 3, "/");
@@ -229,10 +221,9 @@ public class DmDao extends BaseDao {
 
 		try {
 
-			Class.forName(DbConst.DRIVER_NAME);
-
-			//conにDB情報を入れる
-			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+			InitialContext ic = new InitialContext();
+			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/datasource");
+			con = ds.getConnection();
 
 			//オートコミットをオフにする（トランザクション開始）
 			con.setAutoCommit(false);
