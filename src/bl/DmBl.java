@@ -6,7 +6,7 @@ import java.util.List;
 import bean.DmBean;
 import dao.DmDao;
 
-public class DmBl {
+public class DmBl extends BaseBl {
 
 
 	/**

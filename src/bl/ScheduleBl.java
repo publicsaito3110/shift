@@ -6,7 +6,7 @@ import java.util.List;
 import bean.ScheduleBean;
 import dao.ScheduleDao;
 
-public class ScheduleBl {
+public class ScheduleBl extends BaseBl {
 
 	/**
 	 * カレンダーに1ヵ月分のスケジュールを表示するメソッド

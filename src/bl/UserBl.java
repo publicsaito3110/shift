@@ -8,7 +8,7 @@ import common.Const;
 import dao.UserDao;
 
 
-public class UserBl {
+public class UserBl extends BaseBl {
 
 	/**
 	 * 初回ログイン時、1人のユーザの名前を取得するメソッド

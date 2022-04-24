@@ -6,7 +6,7 @@ import java.util.List;
 import bean.NewsBean;
 import dao.NewsDao;
 
-public class NewsBl {
+public class NewsBl extends BaseBl {
 
 
 	/**
