@@ -12,7 +12,7 @@ import bean.ScheduleBean;
 import common.Const;
 import common.DbConst;
 
-public class ScheduleDao {
+public class ScheduleDao extends BaseDao {
 
 
 	/**

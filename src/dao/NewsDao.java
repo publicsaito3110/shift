@@ -12,7 +12,7 @@ import bean.NewsBean;
 import common.Const;
 import common.DbConst;
 
-public class NewsDao{
+public class NewsDao extends BaseDao {
 
 
 	/**

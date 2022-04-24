@@ -8,17 +8,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 import bean.DmBean;
 import common.DbConst;
 
-public class DmDao {
+public class DmDao extends BaseDao {
 
 
 
 	/**
-	 *ログインしているユーザの最後のメッセージを他のユーザごとに取得する
-	 *@param String loginUser, Got id by session
-	 *@return List<DmBean>, Get finsl message per user
+	 * 最後のデータ取得処理
+	 * <br>
+	 * ログインしているユーザの最後のメッセージを他のユーザごとに取得する<br>
+	 *
+	 *@param loginUser ログインユーザー
+	 *@param
+	 *@return List<DmBean>
 	 */
 	public List<DmBean> selectLastMsgByLoginId(String loginUser) {
 
@@ -32,10 +39,13 @@ public class DmDao {
 
 		try {
 
-			Class.forName(DbConst.DRIVER_NAME);
+//			Class.forName(DbConst.DRIVER_NAME);
+			InitialContext ic = new InitialContext();
+			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/datasource");
+			con = ds.getConnection();
 
-			//conにDB情報を入れる
-			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
+//			//conにDB情報を入れ
+//			con = DriverManager.getConnection(DbConst.JDBC_URL, DbConst.USER_ID, DbConst.USER_PASS);
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();

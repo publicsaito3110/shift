@@ -13,7 +13,7 @@ import common.Const;
 import common.DbConst;
 
 
-public class UserDao {
+public class UserDao extends BaseDao {
 
 
 	/**
