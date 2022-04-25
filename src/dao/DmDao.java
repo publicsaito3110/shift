@@ -11,6 +11,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import bean.DmBean;
+import common.Const;
 
 /**
  * @author saito
@@ -77,7 +78,19 @@ public class DmDao extends BaseDao {
 				DmBean bean = new DmBean();
 
 				bean.setMsgDate(rs.getString("msg_date"));
-				bean.setMsg(rs.getString("msg"));
+				String msg = rs.getString("msg");
+
+				//メッセージが20文字より大きいのとき
+				if (Const.DISPLAY_LAST_MSG_LIMIT_LENGTH < msg.length()) {
+
+					//メッセージの21文字目から最後の文字までを削除し、"..."を代入する
+					StringBuffer sb = new  StringBuffer();
+					sb.append(msg);
+					sb = sb.replace(Const.DISPLAY_LAST_MSG_LIMIT_LENGTH, sb.length(), "...");
+					msg = sb.toString();
+				}
+
+				bean.setMsg(msg);
 				bean.setSendUser(rs.getString("send_user"));
 				bean.setReceiveUser(rs.getString("receive_user"));
 				bean.setMsgToName(rs.getString("msg_to_name"));
@@ -177,7 +190,12 @@ public class DmDao extends BaseDao {
 				sb.delete(11, 16);
 
 				bean.setMsgDate(sb.toString());
-				bean.setMsg(rs.getString("msg"));
+
+				//msgが改行されているとき、<br>を代入する
+				String msg = rs.getString("msg");
+				msg = msg.replaceAll("\n", "<br>");
+
+				bean.setMsg(msg);
 				bean.setSendUser(rs.getString("send_user"));
 				beanList.add(bean);
 			}

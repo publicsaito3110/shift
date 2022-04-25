@@ -44,8 +44,6 @@ public class DmSendServlet extends BaseLoginServlet {
 		//入力値(msg)をエスケープ処理
 		msg = CommonUtil.replaceEscapeChar(msg);
 
-		msg = msg.replaceAll("\n", "<br>");
-
 
 		//-----------
 		//SQLの実行

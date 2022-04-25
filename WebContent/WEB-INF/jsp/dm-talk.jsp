@@ -4,7 +4,7 @@
 <!DOCTYPE HTML>
 <html>
 <body>
-	<h2 class="chat-header">名前</h2>
+	<h2 class="chat-header">${msgToName}</h2>
 	<div class="talk-list">
 		<c:forEach var="i" items="${talkList}">
 			<div class="${i.sendUser} chat-wrap">
@@ -20,7 +20,7 @@
 	</div>
 
 	<div class="send-form">
-		<textarea id="msg-text" name="msg" maxlength="200"></textarea>
+		<textarea id="msg-text" name="msg" cols="60" rows="10" maxlength="200"></textarea>
 		<button type="submit" id="msg-send-btn" value="${msgToId}" disabled>送信</button>
 		</div>
 </body>

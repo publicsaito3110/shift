@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import bean.DmBean;
 import bean.UserBean;
 import bl.DmBl;
+import bl.UserBl;
 
 /**
  * @author saito
@@ -45,15 +46,25 @@ public class DmTalkServlet extends BaseLoginServlet {
 		//SQLの実行
 		//-----------
 
-		//戻り値をtalkListで受け取る
-		List<DmBean> talkList = new ArrayList<>();
-		DmBl bl = new DmBl();
+		//送信相手の情報をuserBeanで受け取る
+		UserBean userBean = new UserBean();
+		UserBl bl = new UserBl();
 
-		talkList = bl.selectTalkByUser(id, receiveUser);
+		userBean = bl.selectUserOneById(receiveUser);
+
+		//送信相手の名前を取得する
+		String receiveUserName = userBean.getName();
+
+		//メッセージ履歴をtalkListで受け取る
+		List<DmBean> talkList = new ArrayList<>();
+		DmBl bl2 = new DmBl();
+
+		talkList = bl2.selectTalkByUser(id, receiveUser);
 
 		//返す値を設定
 		request.setAttribute("talkList", talkList);
 		request.setAttribute("msgToId", receiveUser);
+		request.setAttribute("msgToName", receiveUserName);
 
 		//画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/dm-talk.jsp").forward(request, response);
