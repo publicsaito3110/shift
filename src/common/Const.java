@@ -33,6 +33,8 @@ public class Const {
 	public static final String PAGE_LIMIT = "5";   //SQL5件分を取得
 	public static final String PERCENT = "%";   //%(SQL用)
 
+	public static final int DISPLAY_LAST_MSG_LIMIT_LENGTH = 20;   //最終メッセージ履歴に表示する最大文字数
+
 
 	public static final int NEWS_ADD_MAX_MONTH = 3;   //お知らせを登録できる日付の範囲(3ヵ月)
 
