@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,18 +18,16 @@ import common.CommonLogic;
 import common.Const;
 
 /**
- * Servlet implementation class HomeServlet
+ * @author saito
+ *
  */
 @WebServlet("/HomeServlet")
 public class HomeServlet extends BaseLoginServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public HomeServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 
@@ -57,7 +54,7 @@ public class HomeServlet extends BaseLoginServlet {
 		//現在日までのお知らせをdbListで受け取る
 		NewsBl bl = new NewsBl();
 		List<NewsBean> dbList = new ArrayList<>();
-		dbList = bl.selectNews(nowYmd);
+		dbList = bl.selectNewsBeforeNowByNowYmd(nowYmd);
 
 
 		//-----------------------------

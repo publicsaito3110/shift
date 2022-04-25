@@ -14,13 +14,20 @@ import bean.UserBean;
 import common.Const;
 
 
+/**
+ * @author saito
+ *
+ */
 public class UserDao extends BaseDao {
 
 
 	/**
-	 *delFlgがないユーザ名,idを取得するメソッド
-	 *@param void
-	 *@return List<UserBean>, User in no delFlag
+	 * 未退職ユーザ取得処理
+	 *
+	 * <p>delFlgがないユーザ全員を取得する</p>
+	 *
+	 * @param void
+	 * @return List<UserBean> ユーザID(id), ユーザ名(name)
 	 */
 	public List<UserBean> selectAllUserIdNameNotDelFlag() {
 
@@ -95,9 +102,12 @@ public class UserDao extends BaseDao {
 
 
 	/**
-	 *delFlgがないユーザ名,id(ログインしているユーザ以外)を取得する
-	 *@param String loginUser, Got id by session
-	 *@return List<UserBean>, User in no delFlag
+	 * 未退職非ログインユーザ取得処理
+	 *
+	 * <p>delFlgがないユーザかつログインユーザ以外のユーザ全員を取得する</p>
+	 *
+	 * @param loginUser ログインユーザのID
+	 * @return List<UserBean> ユーザID(id), ユーザ名(name)
 	 */
 	public List<UserBean> selectUserIdNameNotDelFlagLoginUser(String loginUser) {
 
@@ -175,9 +185,13 @@ public class UserDao extends BaseDao {
 
 
 	/**
-	 *1人のユーザを取得するメソッド
-	 *@param UserBean userBean, Id and Password in login
-	 *@return UserBean, User info of Id, Name and AdmFlg
+	 * ログイン情報検索処理
+	 *
+	 * <p>IDとパスワードから登録済みのユーザか検索する<br>
+	 * ただし、IDとパスワードが一致したユーザがいなければ取得しない</p>
+	 *
+	 * @param userBean ユーザID(id), パスワード(password)
+	 * @return UserBean ユーザID(id), 名前(name), 管理者フラグ(adminFlag)
 	 */
 	public UserBean selectUserIdNameAdmFlgLogin(UserBean userBean) {
 
@@ -255,95 +269,15 @@ public class UserDao extends BaseDao {
 
 
 	/**
-	 * 登録済みのユーザ全員を取得する
-	 * @param int offset, ?????checkTODO
-	 * @return List<UserBean>, All user in recording
-	 */
-	public List<UserBean> selectUserAll(int offset) {
-
-
-		//JDBCの接続に使用するオブジェクトを宣言
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		List<UserBean> beanList = new ArrayList<UserBean>();
-
-		try {
-
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/datasource");
-			con = ds.getConnection();
-
-			//SQL発行
-			StringBuffer buf = new StringBuffer();
-			buf.append("SELECT ID, NAME, NAME_KANA, GENDER, (SELECT COUNT(ID) FROM USER) AS COUNT ");
-			buf.append(" FROM USER ");
-			buf.append(" ORDER BY ID ");
-			buf.append(" LIMIT ");
-			buf.append( Const.PAGE_LIMIT );
-			buf.append(" OFFSET  ? ");
-			buf.append(" ; ");
-
-			//SQLをセット
-			ps = con.prepareStatement(buf.toString());
-
-			// ? にパラメータをセット
-			ps.setInt(1, offset);
-
-			//SQLの結果を取得
-			rs = ps.executeQuery();
-
-			//結果をさらに抽出
-			while (rs.next()) {
-				UserBean bean = new UserBean();
-
-				bean.setId(rs.getString("id"));
-				bean.setName(rs.getString("name"));
-				bean.setNameKana(rs.getString("name_kana"));
-				bean.setGender(rs.getString("gender"));
-				bean.setCountAll(rs.getString("count"));
-
-				beanList.add(bean);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		} finally {
-
-			//DBの接続解除
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (ps != null) {
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return beanList;
-	}
-
-
-	/**
-	 *キーワードに該当するユーザ全員を取得する
-	 *@param String keyWord, keyword of user id, name and Katakana
-	 *@return  List<UserBean>, All user of muching keyword
+	 * 該当ユーザ取得処理
+	 *
+	 * <p>キーワードに該当するユーザ全員を取得する<br>
+	 * ただし、offsetの件数目から5件分を取得する<br>
+	 * 該当結果がなければ取得しない</p>
+	 *
+	 * @param offset 表示する件目
+	 * @param keyWord ユーザID,名前,フリガナにを対象にしたキーワード
+	 * @return List<UserBean> ユーザID(id), 名前(name), フリガナ(kana), 性別(gender), 検索結果の一致件数(countAll)
 	 */
 	public List<UserBean> selectUserByKeyWord(int offset, String keyWord) {
 
@@ -437,9 +371,12 @@ public class UserDao extends BaseDao {
 
 
 	/**
-	 *idと一致する1人のユーザを取得する
-	 *@param String id, A user id
-	 *@return UserBean, a user of muching id
+	 * ID一致ユーザ取得処理
+	 *
+	 * <p>idと一致する1人のユーザを取得する</p>
+	 *
+	 * @param String id, A user id
+	 * @return UserBean, a user of muching id
 	 */
 	public UserBean selectUserOneById(String id) {
 
@@ -514,11 +451,13 @@ public class UserDao extends BaseDao {
 	}
 
 
-
 	/**
-	 *ユーザを新規登録する
-	 *@param UserBean userBean, user info that you want to signup
-	 *@return boolean, Return true in insert user
+	 * ユーザ新規登録処理
+	 *
+	 * <p>ユーザを新規登録する</p>
+	 *
+	 * @param userBean ユーザの新規追加情報(ID, NAME, NAME_KANA, GENDER, PASSWORD, ADDRESS, TEL, EMAIL, ADMIN_FLG, NOTE)
+	 * @return boolean true:ユーザの新規登録が成功したとき false:ユーザの新規登録が失敗したとき
 	 */
 	public boolean insertUserSignup(UserBean userBean){
 
@@ -610,9 +549,12 @@ public class UserDao extends BaseDao {
 
 
 	/**
-	 *ユーザ情報を更新する
-	 *@param UserBean userBean, user info that you want to modify
-	 *@return  boolean, Return true in update user
+	 * ユーザ更新処理
+	 *
+	 * <p>登録済みのユーザを更新する</p>
+	 *
+	 * @param userBean ユーザの更新情報(ID, NAME, NAME_KANA, GENDER, ADMIN_FLG, DEL_FLAG)
+	 * @return boolean true:ユーザの更新が成功したとき false:ユーザの更新が失敗したとき
 	 */
 	public boolean updateUserDB(UserBean userBean){
 

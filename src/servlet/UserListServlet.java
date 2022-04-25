@@ -18,16 +18,15 @@ import common.CommonUtil;
 import common.Const;
 
 /**
- * Servlet implementation class UserListServlet
+ * @author saito
+ *
  */
-
 @WebServlet("/UserListServlet")
 public class UserListServlet extends BaseLoginServlet {
 	private static final long serialVersionUID = 1L;
 
     public UserListServlet() {
         super();
-        //  Auto-generated constructor stub
     }
 
 
@@ -99,9 +98,12 @@ public class UserListServlet extends BaseLoginServlet {
 
 
 	/**
-	 *SQLの該当件数から最大ページ数(lastPage)を返す
-	 *@param List<UserBean> userList, getting UserList
-	 *@return int, calc last page
+	 * 最大ページ計算処理
+	 *
+	 * <p>SQLの該当件数から最大ページを計算する</p>
+	 *
+	 *@param userList SQLの該当件数(countAll)
+	 *@return int 該当件数から計算した最大ページ
 	 */
 	private int toIntReturnLastPageByUserList(List<UserBean> userList) {
 
@@ -123,9 +125,13 @@ public class UserListServlet extends BaseLoginServlet {
 
 
 	/**
-	 *最終ページ数(lastPage)からjspに表示するページを返す
-	 *@param String page, int lastPage, Got page and calced last page
-	 *@return List<String>, Return calced page List for display
+	 * 画面表示のページ処理
+	 *
+	 * <p>現在のページと最終ページから画面に表示するページを計算する</p>
+	 *
+	 * @param page 現在のページ
+	 * @param lastPage 最終ページ
+	 * @return List<String> 画面に表示するページ
 	 */
 	private List<String> toListDisplayPageNoByMaxPage(String page, int lastPage) {
 
@@ -191,5 +197,4 @@ public class UserListServlet extends BaseLoginServlet {
 
 		return pageList;
 	}
-
 }

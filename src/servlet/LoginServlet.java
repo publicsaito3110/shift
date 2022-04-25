@@ -14,7 +14,8 @@ import common.Const;
 
 
 /**
- * Servlet implementation class LoginServlet
+ * @author saito
+ *
  */
 @WebServlet("/LoginServlet")
 public class LoginServlet extends BaseServlet {
@@ -22,7 +23,6 @@ public class LoginServlet extends BaseServlet {
 
     public LoginServlet(){
         super();
-        //Auto-generated constructor stub
     }
 
 

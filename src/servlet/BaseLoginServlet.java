@@ -12,7 +12,8 @@ import javax.servlet.http.HttpSession;
 import bean.UserBean;
 
 /**
- * Servlet implementation class BaseLoginServlet
+ * @author saito
+ *
  */
 @WebServlet("/BaseLoginServlet")
 public abstract class BaseLoginServlet extends BaseServlet {
@@ -23,9 +24,9 @@ public abstract class BaseLoginServlet extends BaseServlet {
      */
     public BaseLoginServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
+    @Override
 	protected void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 

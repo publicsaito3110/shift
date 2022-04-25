@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class BaseServlet
+ * @author saito
+ *
  */
 @WebServlet("/BaseServlet")
 public abstract class BaseServlet extends HttpServlet {

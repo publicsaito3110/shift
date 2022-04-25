@@ -11,9 +11,22 @@ import bean.UserBean;
 import bl.ScheduleBl;
 import bl.UserBl;
 
+/**
+ * @author saito
+ *
+ */
 public class ScheduleDayLogic {
 
 
+	/**
+	 * 登録済みユーザとスケジュール取得処理
+	 *
+	 * <p>日付からスケジュールを取得しユーザIDが登録されていれば、ユーザ名に変換する<br>
+	 * ただし、スケジュールにユーザID</p>
+	 *
+	 * @param ymd
+	 * @return List<ScheduleDayBean>
+	 */
 	public List<ScheduleDayBean> toListScheduleDayOptionByYmd(String ymd){
 
 
@@ -126,8 +139,12 @@ public class ScheduleDayLogic {
 
 
 	/**
-	 *scheduleDayListからuser,memoの値を判別し、sqlTypeを返す
-	 *@param List<ScheduleDayBean> scheduleDayList,
+	 * SQLタイプ判別処理
+	 *
+	 * <p>スケジュールからuser,memoの値を判別し、sqlTypeを判別する</p>
+	 *
+	 * @param scheduleDayList スケジュールに登録するユーザID(user), メモ(memo)
+	 * @return String
 	 */
 	public String checkSqlType(List<ScheduleDayBean> scheduleDayList) {
 

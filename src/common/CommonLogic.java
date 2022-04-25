@@ -1,12 +1,21 @@
 package common;
 
+/**
+ * @author saito
+ *
+ */
 public class CommonLogic {
 
 
 	/**
-	 * year, month, day をymd(String8文字)で返す
-	 * @param String year, String month, String day, Date of year, month, day
-	 * @return String, Change state to YYYYMMDD
+	 * String日付変換処理
+	 *
+	 * <p>String型の8文字の日付(YYYYMMDD)に変換する<p>
+	 *
+	 * @param year 日付(年)
+	 * @param month 日付(月)
+	 * @param day 日付(日)
+	 * @return String 日付(YYYYMMDD)
 	 */
 	public String ymdFormatEightByString(String year, String month, String day) {
 
@@ -27,9 +36,14 @@ public class CommonLogic {
 
 
     /**
-     * year, month, day(int) をymd(String8桁)で返す
-     * @param int year, int month, int day, Date of Received LocalDate
-     * @return String, Change date of state to YYYYMMDD
+	 * int日付変換処理
+	 *
+	 * <p>String型の8文字の日付(YYYYMMDD)に変換する<p>
+	 *
+	 * @param year 日付(年)
+	 * @param month 日付(月)
+	 * @param day 日付(日)
+	 * @return String 日付(YYYYMMDD)
      */
 	public String toStringYmdFormatEightByIntYMD(int year, int month, int day) {
 
@@ -40,9 +54,12 @@ public class CommonLogic {
 
 
     /**
-     * ymdを画面に表示用の日付(YYYY/MM/DD)で返す
-     * @param int year, int month, int day, Date of Received LocalDate
-     * @return String, Change date of state to YYYYMMDD
+	 * String日付変換処理
+	 *
+	 * <p>String型の8文字の日付(YYYYMMDD)に変換する<p>
+	 *
+	 * @param ymd 日付(YYYYMMDD)
+	 * @return String 表示用の日付(YYYY/MM/DD)
      */
 	public String changeDisplayYmdByYMD(String ymd) {
 

@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class LogoutServlet
+ * @author saito
+ *
  */
 @WebServlet("/LogoutServlet")
 public class LogoutServlet extends BaseLoginServlet {
@@ -17,7 +18,6 @@ public class LogoutServlet extends BaseLoginServlet {
 
     public LogoutServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 

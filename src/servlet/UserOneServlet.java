@@ -12,7 +12,8 @@ import bl.UserBl;
 import common.Const;
 
 /**
- * Servlet implementation class UserOneServlet
+ * @author saito
+ *
  */
 @WebServlet("/UserOneServlet")
 public class UserOneServlet extends BaseAdministratorServlet {
@@ -74,5 +75,4 @@ public class UserOneServlet extends BaseAdministratorServlet {
 		// 画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/user-modify.jsp").forward(request, response);
 	}
-
 }

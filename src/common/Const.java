@@ -1,5 +1,9 @@
 package common;
 
+/**
+ * @author saito
+ *
+ */
 public class Const {
 
 	private Const() {

@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,23 +15,20 @@ import bean.UserBean;
 import bl.DmBl;
 
 /**
- * Servlet implementation class DmTalkServlet
+ * @author saito
+ *
  */
 @WebServlet("/DmTalkServlet")
 public class DmTalkServlet extends BaseLoginServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public DmTalkServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
+    @Override
 	protected void existSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 

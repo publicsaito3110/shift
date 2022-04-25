@@ -15,7 +15,8 @@ import common.Const;
 import common.ScheduleDayLogic;
 
 /**
- * Servlet implementation class CalendarServlet
+ * @author saito
+ *
  */
 @WebServlet("/ScheduleDayServlet")
 public class ScheduleDayServlet extends BaseLoginServlet {

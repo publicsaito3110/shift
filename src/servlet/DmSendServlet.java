@@ -16,7 +16,8 @@ import bl.DmBl;
 import common.CommonUtil;
 
 /**
- * Servlet implementation class DmSendServlet
+ * @author saito
+ *
  */
 @WebServlet("/DmSendServlet")
 public class DmSendServlet extends BaseLoginServlet {
@@ -24,7 +25,6 @@ public class DmSendServlet extends BaseLoginServlet {
 
     public DmSendServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 
@@ -44,12 +44,14 @@ public class DmSendServlet extends BaseLoginServlet {
 		//入力値(msg)をエスケープ処理
 		msg = CommonUtil.replaceEscapeChar(msg);
 
+		msg = msg.replaceAll("\n", "<br>");
+
 
 		//-----------
 		//SQLの実行
 		//-----------
 
-		//dmBeanに受け取った値を格納する
+		//msgBeanに受け取った値を格納する
 		DmBean msgBean = new DmBean();
 
 		msgBean.setSendUser(id);

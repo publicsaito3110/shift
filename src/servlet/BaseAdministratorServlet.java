@@ -13,7 +13,8 @@ import bean.UserBean;
 import common.Const;
 
 /**
- * Servlet implementation class BaseAdministratorServlet
+ * @author saito
+ *
  */
 @WebServlet("/BaseAdministratorServlet")
 public abstract class BaseAdministratorServlet extends BaseLoginServlet {
@@ -24,12 +25,10 @@ public abstract class BaseAdministratorServlet extends BaseLoginServlet {
      */
     public BaseAdministratorServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
+    @Override
     protected void existSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	isAdministoratorMain(request, response);
     }

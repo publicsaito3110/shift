@@ -3,12 +3,22 @@ package common;
 import bean.UserBean;
 import bean.ValidationBean;
 
+/**
+ * @author saito
+ *
+ */
 public class ValidationLogic {
 
 
 	/**
-	 * userListの要素を判別し、バリデーションチェックに引き渡す
-	 * バリデーションチェックの結果とエラーを返すメソッド
+	 * バリデーションチェック処理
+	 *
+	 * <p>userListの要素を判別し、バリデーションチェックに引き渡す<br>
+	 * バリデーションチェックの結果とエラーをセットする<br>
+	 * ただし、1つでもバリデーションチェックがアウトだとisValidationAllをfalse</p>
+	 *
+	 * @param userBean ユーザの入力情報(ID, NAME, NAME_KANA, GENDER, PASSWORD, ADDRESS, TEL, EMAIL, ADMIN_FLG, NOTE)
+	 * @return ValidationBean それぞれの入力値が1つでもバリデーションチェックに引っかったらfalseとエラーメッセージを代入
 	 */
 	public ValidationBean validInputAllStatus(UserBean userBean) {
 

@@ -1,5 +1,9 @@
 package bean;
 
+/**
+ * @author saito
+ *
+ */
 public class DmBean {
 
 

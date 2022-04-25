@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,23 +16,19 @@ import common.CommonLogic;
 import common.Const;
 
 /**
- * Servlet implementation class NewsEditServlet
+ * @author saito
+ *
  */
 @WebServlet("/NewsEditServlet")
 public class NewsEditServlet extends BaseAdministratorServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public NewsEditServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
     @Override
 	protected void isAdministorator(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -67,12 +62,12 @@ public class NewsEditServlet extends BaseAdministratorServlet {
 		NewsBl bl = new NewsBl();
 		List<NewsBean> recordNewsDbList = new ArrayList<>();
 
-		recordNewsDbList = bl.selectAllNews(nowYmd);
+		recordNewsDbList = bl.selectAllNewsAfterNowByNowYmd(nowYmd);
 
 		//現在日までに表示されているお知らせをdisplayNewsListで受け取る
 		List<NewsBean> displayNewsDbList = new ArrayList<>();
 
-		displayNewsDbList = bl.selectNews(nowYmd);
+		displayNewsDbList = bl.selectNewsBeforeNowByNowYmd(nowYmd);
 
 
 		//-----------------

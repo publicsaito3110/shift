@@ -6,10 +6,20 @@ import java.util.List;
 import bean.ScheduleBean;
 import dao.ScheduleDao;
 
+/**
+ * @author saito
+ *
+ */
 public class ScheduleBl extends BaseBl {
 
 	/**
-	 * カレンダーに1ヵ月分のスケジュールを表示するメソッド
+	 * 1ヵ月スケジュール取得処理
+	 *
+	 * <p>指定した年月から1ヵ月分のスケジュールを取得する<br>
+	 * ただし、スケジュールがないときは取得しない</p>
+	 *
+	 * @param ym 年月(YYYYMM)
+	 * @return List<ScheduleBean> 登録されているスケジュールの日付(day), スケジュールに登録されているユーザ(user), メモ(memo)
 	 */
 	public List<ScheduleBean> selectScheduleMonth(String ym){
 
@@ -23,7 +33,13 @@ public class ScheduleBl extends BaseBl {
 
 
 	/**
-	 * 指定された日付のスケジュールを取得するメソッド
+	 * 1日スケジュール取得処理
+	 *
+	 * <p>指定した年月から1日分のスケジュールを取得する<br>
+	 * ただし、スケジュールがないときは取得しない</p>
+	 *
+	 * @param ymd 日付(YYYYMMDD)
+	 * @return ScheduleBean スケジュールに登録されているユーザ(user), メモ(memo)
 	 */
 	public ScheduleBean selectScheduleDay(String ymd) {
 
@@ -37,7 +53,12 @@ public class ScheduleBl extends BaseBl {
 
 
 	/**
-	 * 指定した日付のスケジュールを新規登録するメソッド
+	 * スケジュール新規登録処理
+	 *
+	 * <p>登録されていない日付にスケジュールを新規で追加する</p>
+	 *
+	 * @param scheduleBean 登録したいスケジュールの日付(day), スケジュールに登録されているユーザ(user), メモ(memo)
+	 * @return boolean true:スケジュールの登録が成功したとき false:スケジュールの登録が失敗したとき
 	 */
 	public boolean insertScheduleDay(ScheduleBean scheduleBean) {
 
@@ -50,7 +71,12 @@ public class ScheduleBl extends BaseBl {
 
 
 	/**
-	 * 指定した日付のスケジュールを更新するメソッド
+	 * スケジュール修正処理
+	 *
+	 * <p>登録されている日付にスケジュールを更新する</p>
+	 *
+	 * @param scheduleBean 修正したいスケジュールの日付(day), スケジュールに登録されているユーザ(user), メモ(memo)
+	 * @return boolean true:スケジュールの修正が成功したとき false:スケジュールの修正が失敗したとき
 	 */
 	public boolean updateScheduleDay(ScheduleBean scheduleBean) {
 
@@ -63,7 +89,12 @@ public class ScheduleBl extends BaseBl {
 
 
 	/**
-	 * 指定した日付のスケジュールを削除するメソッド
+	 * スケジュール削除処理
+	 *
+	 * <p>登録されている日付のスケジュールを削除する</p>
+	 *
+	 * @param scheduleBean 削除したいスケジュールの日付(day), スケジュールに登録されているユーザ(user), メモ(memo)
+	 * @return boolean true:スケジュールの修正が成功したとき false:スケジュールの修正が失敗したとき
 	 */
 	public boolean deleteScheduleDay(ScheduleBean scheduleBean) {
 

@@ -15,7 +15,8 @@ import bean.ScheduleBean;
 import bl.ScheduleBl;
 
 /**
- * Servlet implementation class CalendarServlet
+ * @author saito
+ *
  */
 @WebServlet("/CalendarServlet")
 public class CalendarServlet extends BaseLoginServlet {
@@ -179,9 +180,13 @@ public class CalendarServlet extends BaseLoginServlet {
 
 
 	/**
-	 * year, month(int) をym(String6文字)で返す
-	 * @param int year, int month, Got LocalDate of year and month
-	 * @return String, Return ym state to YYYYMM
+	 * 年月に変換処理
+	 *
+	 * <p>year(int), month(int)をym(YYYYMM)に変換して返す</p>
+	 *
+	 * @param year LocalDateから取得したint型の年
+	 * @param month LocalDateから取得したint型の月
+	 * @return String 年月(YYYYMM)
 	 */
 	private String toStringYmFormatSixByIntYm(int year, int month) {
 

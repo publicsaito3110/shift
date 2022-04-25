@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,23 +12,19 @@ import bl.NewsBl;
 import common.CommonUtil;
 
 /**
- * Servlet implementation class NewsModifyServlet
+ * @author saito
+ *
  */
 @WebServlet("/NewsModifyServlet")
 public class NewsModifyServlet extends BaseAdministratorServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public NewsModifyServlet() {
         super();
-        // Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
     @Override
 	protected void isAdministorator(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,18 +19,16 @@ import common.Const;
 import common.ScheduleDayLogic;
 
 /**
- * Servlet implementation class ScheduleDayModifyServlet
+ * @author saito
+ *
  */
 @WebServlet("/ScheduleDayModifyServlet")
 public class ScheduleDayModifyServlet extends BaseLoginServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
+
 	public ScheduleDayModifyServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 
@@ -246,11 +243,13 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 	}
 
 
-
 	/**
-	 * sqlTypeが INSERT,UPDATE,DELETE のときtrueを返す
-	 * @param String sqlType, Get form that it is sql type
-	 * @return boolean, Return true in sqlType is INSERT or UPDATE or DELETE
+	 * sqlTypeバリデーション処理
+	 *
+	 * <p>sqlTypeがINSERT, UPDATE, DELETEのいずれかどうかを判別する</p>
+	 *
+	 * @param sqlType formから受けとった値
+	 * @return boolean true:sqlTypeがINSERT, UPDATE, DELETEのいずれかのとき false:sqlTypeがINSERT, UPDATE, DELETEのどれでもないとき
 	 */
 	private boolean isBtnSqlTypeIUD(String sqlType) {
 
@@ -264,9 +263,14 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 
 
 	/**
-	 * sqlTypeがDELETE以外でuserとmemoが全て""でないときtrueを返す
-	 * @param String,
-	 * @return boolean, Return true in schedule is not Empty or sqlType is DELETE
+	 * 入力値バリデーション処理
+	 *
+	 * <p>sqlTypeがDELETEのときtrueを返す<br>
+	 * また、sqlTypeがDELETE以外かつ入力値が全て""でないときもtrueを返す</p>
+	 *
+	 * @param user ユーザID
+	 * @param memo メモ
+	 * @return boolean true:sqlTypeがDELETEのときまたはsqlTypeがDELETE以外で全てが空文字でないとき false:sqlTypeがDELETE以外で全てが空文字のとき
 	 */
 	private boolean isNotEmptyAllOrDelete(String user1, String user2, String user3, String memo1, String memo2, String memo3,String sqlType) {
 

@@ -13,15 +13,22 @@ import javax.sql.DataSource;
 import bean.NewsBean;
 import common.Const;
 
+/**
+ * @author saito
+ *
+ */
 public class NewsDao extends BaseDao {
 
 
 	/**
-	 *指定された日付の範囲内のお知らせを取得する
-	 *@param String nowYmd, Date of today is state of YYYYMMDD
-	 *@return List<NewsBean>, Get news until today
+	 * 現在日までお知らせ取得処理
+	 *
+	 * <p>現在までの日付のお知らせを最大5件まで現在日に近い順で取得する</p>
+	 *
+	 * @param nowYmd 現在の日付(YYYYMMDD)
+	 * @return List<NewsBean> お知らせの日付(ymd), お知らせのタイトル(title), お知らせの詳細(content)
 	 */
-	public List<NewsBean> selectNews(String nowYmd) {
+	public List<NewsBean> selectNewsBeforeNowByNowYmd(String nowYmd) {
 
 
 		//JDBCの接続に使用するオブジェクトを宣言
@@ -101,11 +108,14 @@ public class NewsDao extends BaseDao {
 
 
 	/**
-	 *登録されているお知らせを全て取得する
-	 *@param String nowYmd, Date of today is state of YYYYMMDD
-	 *@return List<NewsBean>, Get news until today
+	 * 登録済みお知らせ取得処理
+	 *
+	 * <p>現在日以降に登録されているお知らせを全て日付順で取得する</p>
+	 *
+	 * @param nowYmd 現在の日付(YYYYMMDD)
+	 * @return List<NewsBean> お知らせの日付(ymd), お知らせのタイトル(title), お知らせの詳細(content)
 	 */
-	public List<NewsBean> selectAllNews(String nowYmd) {
+	public List<NewsBean> selectAllNewsAfterNowByNowYmd(String nowYmd) {
 
 
 		//JDBCの接続に使用するオブジェクトを宣言
@@ -183,11 +193,14 @@ public class NewsDao extends BaseDao {
 
 
 	/**
-	 *指定された日付のお知らせを新規登録する
-	 * @param NewsBean newsBean, you wont to add news of date, title and content
-	 * @return boolean, Return true in insert news
+	 * お知らせ新規登録処理
+	 *
+	 * <p>指定された日付に表示するお知らせを新規登録する</p>
+	 *
+	 * @param newsBean お知らせの日付(ymd), お知らせのタイトル(title), お知らせの詳細(content)
+	 * @return boolean true:お知らせの追加が成功したとき false:お知らせの追加が失敗したとき
 	 */
-	public boolean insertNews(NewsBean newsBean){
+	public boolean insertNewNews(NewsBean newsBean){
 
 		//実行結果を取得
 		boolean isResult = false;
@@ -271,9 +284,12 @@ public class NewsDao extends BaseDao {
 
 
 	/**
-	 *指定された日付のお知らせを更新する
-	 * @param NewsBean newsBean, you wont to modify news of date and content
-	 * @return boolean, Return true in insert news
+	 * お知らせ修正処理
+	 *
+	 * <p>指定された日付のお知らせを修正する</p>
+	 *
+	 * @param newsBean お知らせの日付(ymd), お知らせのタイトル(title), お知らせの詳細(content)
+	 * @return boolean true:お知らせの修正が成功したとき false:お知らせの修正が失敗したとき
 	 */
 	public boolean updateNews(NewsBean newsBean){
 

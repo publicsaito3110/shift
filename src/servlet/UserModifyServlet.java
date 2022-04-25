@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,18 +14,16 @@ import common.Const;
 import common.ValidationLogic;
 
 /**
- * Servlet implementation class UserModifyServlet
+ * @author saito
+ *
  */
 @WebServlet("/UserModifyServlet")
 public class UserModifyServlet extends BaseAdministratorServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public UserModifyServlet() {
         super();
-        //  Auto-generated constructor stub
     }
 
 
