@@ -75,6 +75,9 @@
 
 </body>
 <style>
+body {
+	margin: auto;
+}
 
 .parents{
 	position: absolute;

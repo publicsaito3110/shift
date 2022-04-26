@@ -153,6 +153,10 @@ $(function(){
 </script>
 
 <style>
+body {
+	margin: auto;
+}
+
 /*タブ*/
 .tab-wrap {
 	background: White;

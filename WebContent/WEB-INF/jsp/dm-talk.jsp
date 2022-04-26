@@ -64,6 +64,9 @@ $(function(){
 });
 </script>
 <style>
+body {
+	margin: auto;
+}
 
 .chat-header {
 	transform: scale(0.99,0.99);

@@ -69,6 +69,9 @@
 	</div>
 </body>
 <style>
+body {
+	margin: auto;
+}
 .parents{
 	position: absolute;
 	width: 100%;

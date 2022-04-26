@@ -88,6 +88,10 @@
 	<jsp:include page="common/pop-window.jsp" flush="true" />
 
 </body>
-
+<style>
+body {
+	margin: auto;
+}
+</style>
 
 </html>

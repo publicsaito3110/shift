@@ -59,3 +59,9 @@
 
 
 </body>
+<style>
+body {
+	margin: auto;
+}
+</style>
+</html>

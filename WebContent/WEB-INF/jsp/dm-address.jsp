@@ -94,6 +94,9 @@ $(function() {
 });
 </script>
 <style>
+body {
+	margin: auto;
+}
 
 .chat-msg-box {
 	position: absolute;
