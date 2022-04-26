@@ -4,17 +4,16 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/header.css">
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/calendar.css">
+	<link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath}/css/calendar.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<jsp:include page="common/header.jsp" flush="true" />
 
 	<div class="parents">
-		<div class="before-month"><a class="month-btn" href="CalendarServlet?ym=${beforeYm}">前の月へ</a></div>
-		<div class="after-month"><a class="month-btn" href="CalendarServlet?ym=${afterYm}">次の月へ</a></div>
-
-		<div>
+		<div class="c-wrap">
+			<div class="before-month"><a class="month-btn" href="CalendarServlet?ym=${beforeYm}">前の月へ</a></div>
+			<div class="after-month"><a class="month-btn" href="CalendarServlet?ym=${afterYm}">次の月へ</a></div>
 		    <h1>${year}年${month}月</h1>
 		    <table class="calendar-table" border="1" cellspacing="0" class="calendar">
 		      <tr>
@@ -78,21 +77,21 @@ body {
 	height: 85%;
 }
 .calendar-table{
-	position: relative;
+	position: absolute;
 	bottom: 7%;
 	width: 100%;
 }
 
 .before-month{
-	position: relative;
-	top: 16%;
+	position: absolute;
+	top: 5%;
 	left: 2%;
 }
 
 .after-month{
-	position: relative;
-	left: 88%;
-	top: 9%;
+	position: absolute;
+	right: 2%;
+	top: 5%;
 }
 
 .month-btn{

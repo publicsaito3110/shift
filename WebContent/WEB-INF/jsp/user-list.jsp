@@ -82,7 +82,8 @@ body {
 .parents{
 	position: absolute;
 	width: 100%;
-	height: 85%
+	height: 85%;
+	overflow-x: hidden;
 }
 h1{
 	position: relative;

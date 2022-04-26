@@ -1,8 +1,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" session="false" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<!DOCTYPE html>
+<html>
+<body>
 <div class="demobox-header">
-	<span class="demobox-sitename">SiteName</span>
+	<span class="demobox-site-name"><a href="HomeServlet">シフトアプリ</a></span>
 	<%--ハンバーガーメニュー --%>
 	<div class="hamburger-demo-menubox">
 		<input id="hamburger-demo4" type="checkbox" class="input-hidden">
@@ -25,3 +28,20 @@
 	</div>
 
 </div>
+</body>
+<style>
+.demobox-site-name {
+	position: absolute;
+	top: 7px;
+	font-weight: 700;
+    font-size: 30px;
+    padding: 15px;
+}
+
+.demobox-site-name a {
+    padding: 15px;
+    text-decoration: none;
+    color: black;
+}
+</style>
+</html>
