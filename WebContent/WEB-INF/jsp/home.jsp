@@ -30,7 +30,13 @@
 	    <ul class="info-detail">
 	    	<c:forEach var="i" items="${newsList}" varStatus="status">
 	        <li class="news-list-btn">
-	            <span class="date-text">${i.ymd}</span><span class="label">${b.labelNew}</span>
+	            <span class="date-text">${i.ymd}</span>
+	            <span class="label">
+	            <c:if test="${i.labelNew != null}">
+	            	<img class="icon-img" alt="new" src="./png/new-icon.png">
+	            </c:if>
+	            </span>
+	            <span><img class="icon-img" alt="new" src="./png/news-ctg-icon1.png"></span>
 	            <a class="content-text">${i.title}</a>
 	            <input type="hidden" value="${i.content}">
 	        </li>
@@ -102,22 +108,20 @@ body {
 }
 
 .label{
-	position: absolute;
-	left: 20%;
-	background-color:#ffbf1f;
-	border-radius:3px;
-	color:#fff;
-	display:inline-block;
-	margin-right:20px;
-	font-size: 18px;
+
 }
 
 .content-text{
 	position: absolute;
 	left: 30%;
-	top: 11px;
+	top: 19%;
 	font-size: 25px;
 	color: black;
+}
+
+.icon-img {
+	position: relative;
+    width: 2.5%;
 }
 /* モーダル */
 .modalArea {

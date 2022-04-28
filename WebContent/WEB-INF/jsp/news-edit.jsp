@@ -23,12 +23,12 @@
 	</div>
     <input id="TAB-03" type="radio" name="TAB" class="tab-switch" /><label class="tab-label" for="TAB-03">お知らせを追加+</label>
     <div class="tab-content">
-		<p>日付: <input type="date" id="news-add-date" value="${nowDate}" min="${nowDate}" max="${maxDate}"></p>
-		<p>タイトル</p>
-		<textarea id="news-add-title"></textarea>
-		<p>本文</p>
-		<textarea id="news-add-content"></textarea>
-		<button id="news-add-btn" disabled>新規登録</button>
+		<h3>日付: <input type="date" id="news-add-date" value="${nowDate}" min="${nowDate}" max="${maxDate}"></h3>
+		<h3>タイトル</h3>
+		<textarea id="news-add-title" maxlength="20"></textarea>
+		<h3>本文</h3>
+		<textarea id="news-add-content" maxlength="200"></textarea>
+		<p><button id="news-add-btn" disabled>新規登録</button></p>
 	</div>
 </div>
 
@@ -52,10 +52,10 @@
   <div class="modalWrapper">
     <div class="modalContents">
       <h2 class="modal-title">タイトル</h2>
-      <textarea id="modify-title"></textarea>
+      <textarea id="modify-title" maxlength="20"></textarea>
       <h3 id="modify-subtitle">日付</h3>
       <h3 class="modal-content">内容</h3>
-      <textarea id="modify-content"></textarea>
+      <textarea id="modify-content" maxlength="200"></textarea>
       <button id="news-modify-btn" disabled>修正する</button>
     </div>
     <div id="closeModal-modify" class="closeModal">
@@ -248,6 +248,23 @@ body {
 	display: none;
 }
 
+#news-add-title {
+	resize: none;
+    height: 27px;
+    width: 60%;
+    font-size: 25px;
+}
+
+#news-add-content {
+	resize: none;
+    height: 185px;
+    width: 90%;
+    font-size: 18px;
+}
+
+h3 {
+	margin: 10px;
+}
 
 /*リスト*/
 .info-detail li{
@@ -316,6 +333,7 @@ body {
   top: 0.5rem;
   right: 1rem;
   cursor: pointer;
+  padding: 3px;
 }
 
 button {
@@ -330,6 +348,21 @@ button {
 	text-align: center;
 	border-bottom: double 5px #ffbf1f;
 }
+
+#modify-title {
+	resize: none;
+    width: 477px;
+    height: 25px;
+    font-size: 22px;
+}
+
+#modify-content {
+	resize: none;
+    width: 477px;
+    height: 140px;
+    font-size: 15px;
+}
+
 #openModal {
   position: absolute;
   top: 50%;

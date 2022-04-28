@@ -98,6 +98,10 @@ body {
 	margin: auto;
 }
 
+html {
+	overflow: hidden;
+}
+
 .chat-msg-box {
 	position: absolute;
 	width: 30%;

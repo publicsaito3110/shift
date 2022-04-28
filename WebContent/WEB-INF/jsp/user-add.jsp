@@ -13,23 +13,23 @@
 	<h1>ユーザー登録</h1>
 
 	<form action="UserAddServlet" method="post">
-		<table border="1" cellspacing="0">
+		<table border="1">
 			<tr>
 				<th><span>ID</span> <span class="text-red">※</span></th>
 				<td>
-					<input type="text" name="id" value="${id}" placeholder="A123"><span>${valiBean.erId}</span>
+					<input type="text" class="text-form" name="id" value="${id}" placeholder="A123"><span>${valiBean.erId}</span>
 				</td>
 			</tr>
 			<tr>
 				<th><span>名前</span> <span class="text-red">※</span></th>
 				<td>
-					<input type="text" name="name" value="${name}" placeholder="田中太郎"><span>${valiBean.erName}</span>
+					<input type="text" class="text-form" name="name" value="${name}" placeholder="田中太郎"><span>${valiBean.erName}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>フリガナ(任意)</th>
 				<td>
-					<input type="text" name="nameKana" value="${nameKana}" placeholder="タナカタロウ"><span>${valiBean.erNameKana}</span>
+					<input type="text" class="text-form" name="nameKana" value="${nameKana}" placeholder="タナカタロウ"><span>${valiBean.erNameKana}</span>
 				</td>
 			</tr>
 			<tr>
@@ -43,25 +43,25 @@
 			<tr>
 				<th>パスワード</th>
 				<td>
-					<input type="password" name="password" value="${password}"><span>${valiBean.erPassword}</span>
+					<input type="password" class="text-form" name="password" value="${password}"><span>${valiBean.erPassword}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>住所</th>
 				<td>
-					<input type="text" name="address" value="${address}" placeholder="東京都新宿区○○町1-1"><span>${valiBean.erAddress}</span>
+					<input type="text" class="text-form" name="address" value="${address}" placeholder="東京都新宿区○○町1-1"><span>${valiBean.erAddress}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>TEL</th>
 				<td>
-					<input type="tel" name="tel" value="${tel}" placeholder="01234567890"><span>${valiBean.erTel}</span>
+					<input type="tel" name="tel" class="text-form" value="${tel}" placeholder="01234567890"><span>${valiBean.erTel}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>メール</th>
 				<td>
-					<input type="email" name="email" value="${email}"><span>${valiBean.erEmail}</span>
+					<input type="email" class="text-form" name="email" value="${email}"><span>${valiBean.erEmail}</span>
 				</td>
 			</tr>
 			<tr>
@@ -73,12 +73,12 @@
 			<tr>
 				<th>備考</th>
 				<td>
-					<input type="text" name="note" value="${note}"><span>${valiBean.erNote}</span>
+					<textarea class="textarea-form" name="note" rows="" cols="">${note}</textarea><span>${valiBean.erNote}</span>
 				</td>
 			</tr>
 		</table>
 		<br>
-		<input type="submit" value="登録">
+		<input class="add-btn" type="submit" value="登録">
 	</form>
 	<br>
 	<a href="UserListServlet">ユーザー一覧へ</a>
@@ -92,6 +92,44 @@
 body {
 	margin: auto;
 }
+
+table {
+	width: 100%;
+	border: none;
+}
+
+th {
+	width: 15%;
+}
+
+td {
+	background-color: #f1ecec;
+}
+.text-form {
+	transform: scale(1,1.5);
+    border: none;
+}
+.text-form:focus {
+  outline:none;
+}
+
+.textarea-form {
+	width: -webkit-fill-available;
+    height: 95px;
+}
+
+.add-btn {
+position: absolute;
+    right: 40%;
+    left: 40%;
+    margin: auto;
+    border: none;
+    height: 6%;
+    font-size: 21px;
+    color: white;
+    background-color: #97cdf3;
+}
+
 </style>
 
 </html>

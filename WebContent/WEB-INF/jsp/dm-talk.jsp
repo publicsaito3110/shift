@@ -17,6 +17,7 @@
 				<span class="send-date">${i.msgDate}</span>
 			</div>
 		</c:forEach>
+		<br>
 	</div>
 
 	<div class="send-form">
@@ -85,7 +86,7 @@ body {
 	overflow: auto;
 	overflow-x: hidden;
 	width: 100%;
-	height: 100%;
+	height: 75%;
 }
 
 .chat-wrap {

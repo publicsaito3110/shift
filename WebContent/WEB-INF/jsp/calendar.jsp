@@ -31,8 +31,17 @@
 						<tr>
 					</c:if>
 					<td>
-						<a style="width:100%; height:100%; display:block;" href="ScheduleDayServlet?year=${year}&month=${month}&day=${b.day}">
-
+						<c:choose>
+							<c:when test="${b.day == null && status.count <= 7}">
+								<a style="width:100%; height:100%; display:block;" href="CalendarServlet?ym=${beforeYm}">
+							</c:when>
+							<c:when test="${b.day == null && 7 < status.count}">
+								<a style="width:100%; height:100%; display:block;" href="CalendarServlet?ym=${afterYm}">
+							</c:when>
+							<c:otherwise>
+								<a style="width:100%; height:100%; display:block;" href="ScheduleDayServlet?year=${year}&month=${month}&day=${b.day}">
+							</c:otherwise>
+						</c:choose>
 						<%--カレンダーの日付に (土)->青, (日)->赤 (平日)->黒 をつける --%>
 						<c:choose>
 	    					<c:when test="${status.count % 7 == 1}">
