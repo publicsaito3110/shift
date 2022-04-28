@@ -115,7 +115,7 @@ public class HomeServlet extends BaseLoginServlet {
 			bean.setYmd(displayYmd);
 			bean.setTitle(title);
 			bean.setContent(content);
-			bean.setLabelNew("");
+			bean.setLabelNew(null);
 			newsList.add(bean);
 		}
 

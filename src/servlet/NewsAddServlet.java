@@ -122,7 +122,7 @@ public class NewsAddServlet extends BaseAdministratorServlet {
     	//引き渡す値を設定
     	request.setAttribute("afterFormFlag", true);
     	request.setAttribute("popTitle", "新規登録結果");
-    	request.setAttribute("resultText", "[エラー] 新規登録に失敗しました");
+    	request.setAttribute("resultText", "新規登録に成功しました");
     	request.setAttribute("result", true);
 
     	//画面遷移
