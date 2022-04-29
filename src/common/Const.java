@@ -13,6 +13,8 @@ public class Const {
 	public static final String DO_GET = "GET";   //doGet
 	public static final String DO_POST = "POST";   //doPost
 
+	public static final String[] NEWS_CTG_ARRAY = {"お知らせ", "重要", "シフト"};   //お知らせの区分
+	public static final String PATTERN_NWS_CTG = "1|2|3";   //[正規表現]お知らせのカテゴリー(1または2または3)
 	public static final int NEWS_LIMIT_DAY_BEFORE_NOW = 14;   //お知らせに表示する現在～日までの日数
 
 	public static final String GENDER_MAN = "1";   //性別が男
@@ -46,7 +48,7 @@ public class Const {
 	public static final String PATTERN_ALPHA = "a-zA-Z"; //半角英字
 	public static final String PATTERN_KIGOU_NOT＿VER = "!-,./:-@\\[-~";  //長音の全ての記号
 	public static final String PATTERN_KANA = "ァ-ヶー";  //全角カタカナ
-	public static final String PATTERN_GENDER = "1|2";  //1または2
+	public static final String PATTERN_GENDER = "1|2";  //性別(1または2)
 	public static final String PATTERN_KIGOU_VER = "-";  //記号(長音のみ)
 	public static final String PATTERN_EMAIL = "^(([0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+(.[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+)*)|(\"[^\"]*\"))@[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+(.[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+)*$";  //メールの正規表現
 	public static final String PATTERN_ADMIN_FLAG = "1";  //adminFlag 1
