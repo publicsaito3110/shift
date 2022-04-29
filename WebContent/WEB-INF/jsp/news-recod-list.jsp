@@ -8,6 +8,7 @@
 		<c:forEach var="i" items="${recordNewsList}" varStatus="status">
 			<li class="news-list-btn">
 				<span class="date-text">${i.ymd}</span>
+				<span><img class="icon-img" alt="new" src="./png/news-ctg-icon${i.category}.png"></span>
 				<a class="content-text">${i.title}</a>
 				<input type="hidden" value="${i.content}">
 			</li>

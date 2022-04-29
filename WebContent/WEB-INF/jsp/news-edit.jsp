@@ -26,6 +26,12 @@
 		<h3>日付: <input type="date" id="news-add-date" value="${nowDate}" min="${nowDate}" max="${maxDate}"></h3>
 		<h3>タイトル</h3>
 		<textarea id="news-add-title" maxlength="20"></textarea>
+		<h3>カテゴリー</h3>
+		<select id="news-add-category">
+			<c:forEach var="i" items="${newsCtgArray}" varStatus="status">
+				<option value="${status.count}">${i}</option>
+			</c:forEach>
+		</select>
 		<h3>本文</h3>
 		<textarea id="news-add-content" maxlength="200"></textarea>
 		<p><button id="news-add-btn" disabled>新規登録</button></p>
@@ -37,7 +43,7 @@
   <div class="modalWrapper">
     <div class="modalContents">
       <h1 id="modal-title-text">(タイトル)</h1>
-      <h3 id="modal-subtitle-text">(日付)</h3>
+      <h3 id="modal-subtitle-text">(日付)</h3><span><img id="modal-ctg-icon" class="icon-img" alt="category" src=""></span>
       <p id="modal-content-text">(内容)</p>
       <button id="check-news-modify-btn">お知らせを修正する</button>
     </div>
@@ -48,20 +54,25 @@
 </section>
 
 <section id="modalArea-modify" class="modalArea">
-  <div class="modalBg"></div>
-  <div class="modalWrapper">
-    <div class="modalContents">
-      <h2 class="modal-title">タイトル</h2>
-      <textarea id="modify-title" maxlength="20"></textarea>
-      <h3 id="modify-subtitle">日付</h3>
-      <h3 class="modal-content">内容</h3>
-      <textarea id="modify-content" maxlength="200"></textarea>
-      <button id="news-modify-btn" disabled>修正する</button>
-    </div>
-    <div id="closeModal-modify" class="closeModal">
-      ×
-    </div>
-  </div>
+	<div class="modalBg"></div>
+		<div class="modalWrapper">
+			<div class="modalContents">
+      			<h2 class="modal-title">タイトル</h2>
+				<textarea id="modify-title" maxlength="20"></textarea>
+				<h3 id="modify-subtitle">日付</h3>
+				<span>
+      				<select id="modify-category">
+	      				<c:forEach var="i" items="${newsCtgArray}" varStatus="status">
+							<option value="${status.count}">${i}</option>
+						</c:forEach>
+					</select>
+				</span>
+				<h3 class="modal-content">内容</h3>
+				<textarea id="modify-content" maxlength="200"></textarea>
+				<button id="news-modify-btn" disabled>修正する</button>
+			</div>
+			<div id="closeModal-modify" class="closeModal">×</div>
+		</div>
 </section>
 </body>
 
@@ -75,6 +86,8 @@ $(function(){
 		$("#modal-subtitle-text").text($(this).children("span").text());
 		$("#modal-title-text").text($(this).children("a").text());
 		$("#modal-content-text").text($(this).children("input").val());
+		var src = $(this).children("span").children("img").attr("src");
+		$("#modal-ctg-icon").attr("src", src);
 
 	});
 
@@ -110,7 +123,7 @@ $(function(){
 		$.ajax({
 		url: "NewsModifyServlet",
 		type: "POST",
-		data: {date : $("#modify-subtitle").val(), title : $("#modify-title").val(), content : $("#modify-content").val()}
+		data: {date : $("#modify-subtitle").text(), category : $("#modify-category").val(), title : $("#modify-title").val(), content : $("#modify-content").val()}
 		}).done(function (result) {
 			// 通信成功時のコールバック
 			$("#pop-window-wrap").html(result);
@@ -138,7 +151,7 @@ $(function(){
 		$.ajax({
 		url: "NewsAddServlet",
 		type: "POST",
-		data: {date : $("#news-add-date").val(), title : $("#news-add-title").text(), content : $("#news-add-content").text()}
+		data: {date : $("#news-add-date").val(), category : $("#news-add-category").val(), title : $("#news-add-title").val(), content : $("#news-add-content").val()}
 		}).done(function (result) {
 			// 通信成功時のコールバック
 			$("#pop-window-wrap").html(result);
@@ -274,6 +287,10 @@ h3 {
 	position: relative;
 }
 
+.info-detail li:hover{
+	background-color: #f6f6f6;
+}
+
 .date-text{
 	position: relative;
 	right: 1%;
@@ -281,25 +298,18 @@ h3 {
 	font-size: 25px;
 }
 
-.label{
-	position: absolute;
-	left: 20%;
-	background-color:#ffbf1f;
-	border-radius:3px;
-	color:#fff;
-	display:inline-block;
-	margin-right:20px;
-	font-size: 18px;
-}
-
 .content-text{
 	position: absolute;
 	left: 30%;
-	top: 11px;
+	top: 19%;
 	font-size: 25px;
 	color: black;
 }
 
+.icon-img {
+	position: relative;
+    width: 2.5%;
+}
 /* モーダル */
 .modalArea {
   display: none;
@@ -349,11 +359,22 @@ button {
 	border-bottom: double 5px #ffbf1f;
 }
 
+#modal-subtitle-text {
+	display: inline-flex;
+}
+
 #modify-title {
 	resize: none;
     width: 477px;
     height: 25px;
     font-size: 22px;
+}
+
+#modal-ctg-icon {
+	width: 6%;
+    position: relative;
+    left: 3%;
+    vertical-align: text-bottom;
 }
 
 #modify-content {

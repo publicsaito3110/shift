@@ -31,6 +31,7 @@ public class NewsModifyServlet extends BaseAdministratorServlet {
 
 		//news-edit.jspから値を受け取る
 		String date = request.getParameter("date");
+		String category = request.getParameter("category");
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 
@@ -49,7 +50,8 @@ public class NewsModifyServlet extends BaseAdministratorServlet {
 		NewsBean newsBean = new NewsBean();
 
 		newsBean.setYmd(ymd);
-		newsBean.setContent(title);
+		newsBean.setCategory(category);
+		newsBean.setTitle(title);
 		newsBean.setContent(content);
 
 		NewsBl bl = new NewsBl();

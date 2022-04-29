@@ -8,6 +8,7 @@ public class NewsBean {
 
 
 	private String ymd;
+	private String category;
 	private String title;
 	private String content;
 	private String labelNew;
@@ -19,6 +20,12 @@ public class NewsBean {
 	}
 	public void setYmd(String ymd) {
 		this.ymd = ymd;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
 	}
 	public String getTitle() {
 		return title;

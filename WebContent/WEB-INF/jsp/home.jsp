@@ -31,12 +31,14 @@
 	    	<c:forEach var="i" items="${newsList}" varStatus="status">
 	        <li class="news-list-btn">
 	            <span class="date-text">${i.ymd}</span>
-	            <span class="label">
+	            <span>
 	            <c:if test="${i.labelNew != null}">
 	            	<img class="icon-img" alt="new" src="./png/new-icon.png">
 	            </c:if>
 	            </span>
-	            <span><img class="icon-img" alt="new" src="./png/news-ctg-icon1.png"></span>
+	            <span class="ctg-icon-wrap">
+	            	<img class="icon-img" alt="category" src="./png/news-ctg-icon${i.category}.png">
+	            </span>
 	            <a class="content-text">${i.title}</a>
 	            <input type="hidden" value="${i.content}">
 	        </li>
@@ -49,7 +51,7 @@
 	  <div class="modalWrapper">
 	    <div class="modalContents">
 	      <h1 id="modal-title-text">(タイトル)</h1>
-	      <h3 id="modal-subtitle-text">(日付)</h3>
+	      	<h3 id="modal-subtitle-text">(日付)</h3><span><img id="modal-ctg-icon" class="icon-img" alt="category" src=""></span>
 	      <p id="modal-content-text">(内容)</p>
 	    </div>
 	    <div id="closeModal" class="closeModal">
@@ -69,6 +71,8 @@ $(function(){
 		$("#modal-subtitle-text").text($(this).children("span").text());
 		$("#modal-title-text").text($(this).children("a").text());
 		$("#modal-content-text").text($(this).children("input").val());
+		var src = $(this).children(".ctg-icon-wrap").children("img").attr("src");
+		$("#modal-ctg-icon").attr("src", src);
 
 	});
 
@@ -100,15 +104,15 @@ body {
 	position: relative;
 }
 
+.info-detail li:hover{
+	background-color: #f6f6f6;
+}
+
 .date-text{
 	position: relative;
 	right: 1%;
 	bottom: 4px;
 	font-size: 25px;
-}
-
-.label{
-
 }
 
 .content-text{
@@ -170,6 +174,18 @@ button {
 	text-align: center;
 	border-bottom: double 5px #ffbf1f;
 }
+
+#modal-subtitle-text {
+	display: inline-flex;
+}
+
+#modal-ctg-icon {
+	width: 6%;
+    position: relative;
+    left: 3%;
+    vertical-align: text-bottom;
+}
+
 #openModal {
   position: absolute;
   top: 50%;

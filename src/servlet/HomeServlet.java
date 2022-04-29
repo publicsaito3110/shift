@@ -88,9 +88,10 @@ public class HomeServlet extends BaseLoginServlet {
 		//dbListの要素数の回数だけdbListから結果を抽出し、newsListにセットする
 		for (int i = 0; i < dbList.size(); i++) {
 
-			//beanを初期化し、dbListからymdとcontentを取得
+			//beanを初期化し、dbListからymd, category, title, contentを取得
 			bean = new NewsBean();
 			String ymd = dbList.get(i).getYmd();
+			String category = dbList.get(i).getCategory();
 			String title = dbList.get(i).getTitle();
 			String content = dbList.get(i).getContent();
 
@@ -105,6 +106,7 @@ public class HomeServlet extends BaseLoginServlet {
 			if (dbDate.isAfter(limitDate)) {
 
 				bean.setYmd(displayYmd);
+				bean.setCategory(category);
 				bean.setTitle(title);
 				bean.setContent(content);
 				bean.setLabelNew("NEW");
@@ -113,6 +115,7 @@ public class HomeServlet extends BaseLoginServlet {
 			}
 
 			bean.setYmd(displayYmd);
+			bean.setCategory(category);
 			bean.setTitle(title);
 			bean.setContent(content);
 			bean.setLabelNew(null);

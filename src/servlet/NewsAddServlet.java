@@ -33,6 +33,7 @@ public class NewsAddServlet extends BaseAdministratorServlet {
 
     	//news-add.jspから値を受け取る
     	String date = request.getParameter("date");
+    	String category = request.getParameter("category");
     	String title = request.getParameter("title");
     	String content = request.getParameter("content");
 
@@ -78,6 +79,20 @@ public class NewsAddServlet extends BaseAdministratorServlet {
     		return;
     	}
 
+    	//categoryがパターン(1または2または3)と一致していなかったとき
+    	if (!category.matches(Const.PATTERN_NWS_CTG)) {
+
+    		//引き渡す値を設定
+    		request.setAttribute("afterFormFlag", true);
+    		request.setAttribute("popTitle", "新規登録結果");
+    		request.setAttribute("resultText", "[エラー] 不正な値を検知しました");
+    		request.setAttribute("result", false);
+
+    		//画面遷移
+    		request.getRequestDispatcher("/WEB-INF/jsp/common/pop-window.jsp").forward(request, response);
+    		return;
+    	}
+
     	//dateをymd(YYYYMMDD)に変換
     	String ymd = date.replaceAll("-", "");
 
@@ -93,6 +108,7 @@ public class NewsAddServlet extends BaseAdministratorServlet {
     	NewsBean newsBean = new NewsBean();
 
     	newsBean.setYmd(ymd);
+    	newsBean.setCategory(category);
     	newsBean.setTitle(title);
     	newsBean.setContent(content);
 

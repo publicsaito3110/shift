@@ -48,7 +48,7 @@ public class NewsDao extends BaseDao {
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
-			buf.append("SELECT YMD, TITLE, CONTENT ");
+			buf.append("SELECT YMD, CATEGORY, TITLE, CONTENT ");
 			buf.append(" FROM NEWS ");
 			buf.append(" WHERE YMD <= ? ");
 			buf.append(" ORDER BY YMD DESC ");
@@ -70,8 +70,14 @@ public class NewsDao extends BaseDao {
 				NewsBean bean = new NewsBean();
 
 				bean.setYmd(rs.getString("ymd"));
+				bean.setCategory(rs.getString("category"));
 				bean.setTitle(rs.getString("title"));
-				bean.setContent(rs.getString("content"));
+
+				//contentが改行されているとき、<br>を代入する
+				String content = rs.getString("content");
+//				content = CommonUtil.changeToBrByBreakLine(content);
+
+				bean.setContent(content);
 				newsList.add(bean);
 			}
 
@@ -135,9 +141,9 @@ public class NewsDao extends BaseDao {
 
 			//SQL発行
 			StringBuffer buf = new StringBuffer();
-			buf.append("SELECT YMD, TITLE, CONTENT ");
+			buf.append("SELECT YMD, CATEGORY, TITLE, CONTENT ");
 			buf.append(" FROM NEWS ");
-			buf.append(" WHERE ? <= YMD ");
+			buf.append(" WHERE ? < YMD ");
 			buf.append(" ORDER BY YMD ");
 			buf.append(" ; ");
 
@@ -155,8 +161,14 @@ public class NewsDao extends BaseDao {
 				NewsBean bean = new NewsBean();
 
 				bean.setYmd(rs.getString("ymd"));
+				bean.setCategory(rs.getString("category"));
 				bean.setTitle(rs.getString("title"));
-				bean.setContent(rs.getString("content"));
+
+				//contentが改行されているとき、<br>を代入する
+				String content = rs.getString("content");
+//				content = CommonUtil.changeToBrByBreakLine(content);
+
+				bean.setContent(content);
 				newsList.add(bean);
 			}
 
@@ -223,9 +235,9 @@ public class NewsDao extends BaseDao {
 
 			buf.append("INSERT INTO ");
 			buf.append(" NEWS ");
-			buf.append(" (YMD, TITLE, CONTENT) ");
+			buf.append(" (YMD, CATEGORY, TITLE, CONTENT) ");
 			buf.append(" VALUES ");
-			buf.append(" (?, ?, ?) ");
+			buf.append(" (?, ?, ?, ?) ");
 			buf.append(" ; ");
 
 			//SQLをセット
@@ -233,8 +245,9 @@ public class NewsDao extends BaseDao {
 
 			// ?にパラメーターをセット
 			ps.setString(1, newsBean.getYmd());
-			ps.setString(2, newsBean.getTitle());
-			ps.setString(3, newsBean.getContent());
+			ps.setString(2, newsBean.getCategory());
+			ps.setString(3, newsBean.getTitle());
+			ps.setString(4, newsBean.getContent());
 
 			//SQLを実行
 			ps.executeUpdate();
@@ -314,6 +327,8 @@ public class NewsDao extends BaseDao {
 
 			buf.append("UPDATE NEWS ");
 			buf.append(" SET ");
+			buf.append(" CATEGORY = ?, ");
+			buf.append(" TITLE = ?, ");
 			buf.append(" CONTENT = ? ");
 			buf.append(" WHERE YMD = ? ");
 			buf.append(" ; ");
@@ -322,8 +337,10 @@ public class NewsDao extends BaseDao {
 			ps = con.prepareStatement(buf.toString());
 
 			// ?にパラメーターをセット
-			ps.setString(1, newsBean.getContent());
-			ps.setString(2, newsBean.getYmd());
+			ps.setString(1, newsBean.getCategory());
+			ps.setString(2, newsBean.getTitle());
+			ps.setString(3, newsBean.getContent());
+			ps.setString(4, newsBean.getYmd());
 
 			//SQLを実行
 			ps.executeUpdate();

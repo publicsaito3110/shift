@@ -89,6 +89,7 @@ public class NewsEditServlet extends BaseAdministratorServlet {
 
 			//displayNewsDbListの値と変換したymdをdisplayNewsListに格納
 			bean.setYmd(ymd);
+			bean.setCategory(recordNewsDbList.get(i).getCategory());
 			bean.setTitle(recordNewsDbList.get(i).getTitle());
 			bean.setContent(recordNewsDbList.get(i).getContent());
 			recordNewsList.add(bean);
@@ -105,10 +106,11 @@ public class NewsEditServlet extends BaseAdministratorServlet {
 
 			//displayNewsListからymdを取得し変換
 			String ymd = displayNewsDbList.get(i).getYmd();
-			ymd = logic.changeDisplayYmdByYMD(ymd);
+			String displayYmd = logic.changeDisplayYmdByYMD(ymd);
 
 			//displayNewsDbListの値と変換したymdをdisplayNewsListに格納
-			bean.setYmd(ymd);
+			bean.setYmd(displayYmd);
+			bean.setCategory(displayNewsDbList.get(i).getCategory());
 			bean.setTitle(displayNewsDbList.get(i).getTitle());
 			bean.setContent(displayNewsDbList.get(i).getContent());
 			displayNewsList.add(bean);
@@ -117,6 +119,7 @@ public class NewsEditServlet extends BaseAdministratorServlet {
 		//引き渡す値を設定
 		request.setAttribute("recordNewsList", recordNewsList);
 		request.setAttribute("displayNewsList", displayNewsList);
+		request.setAttribute("newsCtgArray", Const.NEWS_CTG_ARRAY);
 		request.setAttribute("nowDate", nowDate);
 		request.setAttribute("maxDate", maxDate);
 
