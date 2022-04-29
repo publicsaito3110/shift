@@ -70,7 +70,7 @@ $(function(){
 
 		$("#modal-subtitle-text").text($(this).children("span").text());
 		$("#modal-title-text").text($(this).children("a").text());
-		$("#modal-content-text").text($(this).children("input").val());
+		$("#modal-content-text").html($(this).children("input").val());
 		var src = $(this).children(".ctg-icon-wrap").children("img").attr("src");
 		$("#modal-ctg-icon").attr("src", src);
 

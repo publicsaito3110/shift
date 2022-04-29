@@ -11,6 +11,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import bean.NewsBean;
+import common.CommonUtil;
 import common.Const;
 
 /**
@@ -75,7 +76,7 @@ public class NewsDao extends BaseDao {
 
 				//contentが改行されているとき、<br>を代入する
 				String content = rs.getString("content");
-//				content = CommonUtil.changeToBrByBreakLine(content);
+				content = CommonUtil.changeToBrByBreakLine(content);
 
 				bean.setContent(content);
 				newsList.add(bean);
@@ -166,7 +167,7 @@ public class NewsDao extends BaseDao {
 
 				//contentが改行されているとき、<br>を代入する
 				String content = rs.getString("content");
-//				content = CommonUtil.changeToBrByBreakLine(content);
+				content = CommonUtil.changeToBrByBreakLine(content);
 
 				bean.setContent(content);
 				newsList.add(bean);
