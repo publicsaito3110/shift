@@ -11,6 +11,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import bean.DmBean;
+import common.CommonUtil;
 import common.Const;
 
 /**
@@ -193,7 +194,7 @@ public class DmDao extends BaseDao {
 
 				//msgが改行されているとき、<br>を代入する
 				String msg = rs.getString("msg");
-				msg = msg.replaceAll("\n", "<br>");
+				msg = CommonUtil.changeToBrByBreakLine(msg);
 
 				bean.setMsg(msg);
 				bean.setSendUser(rs.getString("send_user"));
