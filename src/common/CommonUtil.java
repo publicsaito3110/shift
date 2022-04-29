@@ -58,9 +58,6 @@ public class CommonUtil {
 	 */
 	public static String changeToBrByBreakLine(String value) {
 
-		if (value.contains("")) {
-
-		}
 		value = value.replaceAll("\n", "<br>");
 
 		return value;
