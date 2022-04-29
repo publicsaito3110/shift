@@ -49,6 +49,25 @@ public class CommonUtil {
 
 
 	/**
+	 * 改行変換処理
+	 *
+	 * <p>改行が含まれているとき<br>に変換する</p>
+	 *
+	 * @param value nullを除く全てのString型の変数
+	 * @return String 改行があるとき<br>に変換して返す
+	 */
+	public static String changeToBrByBreakLine(String value) {
+
+		if (value.contains("")) {
+
+		}
+		value = value.replaceAll("\n", "<br>");
+
+		return value;
+	}
+
+
+	/**
 	 * エスケープ処理
 	 *
 	 * <p>記号やURLのときエスケープする</p>
