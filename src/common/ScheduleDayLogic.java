@@ -98,7 +98,6 @@ public class ScheduleDayLogic {
 
 			//beanとcheckUserをリセット
 			bean = new ScheduleDayBean();
-
 			checkUser1 = "";
 			checkUser2 = "";
 			checkUser3 = "";
@@ -109,19 +108,16 @@ public class ScheduleDayLogic {
 
 			//登録ユーザ(id)とスケジュールに登録されているユーザid(user1)が一致したときselectedをつける
 			if (id.equals(user1)) {
-
 				checkUser1 = Const.OPTION_SELECTED;
 			}
 
 			//登録ユーザ(id)とスケジュールに登録されているユーザid(user1)が一致したときselectedをつける
 			if (id.equals(user2)) {
-
 				checkUser2 = Const.OPTION_SELECTED;
 			}
 
 			//登録ユーザ(id)とスケジュールに登録されているユーザid(user1)が一致したときselectedをつける
 			if (id.equals(user3)) {
-
 				checkUser3 = Const.OPTION_SELECTED;
 			}
 

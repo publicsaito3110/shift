@@ -47,9 +47,11 @@ public class UserAddServlet extends BaseAdministratorServlet {
 			String adminFlag = request.getParameter("adminFlag");
 			String note = request.getParameter("note");
 
+			//エスケープ処理
+			note = CommonUtil.replaceEscapeChar(note);
+
 			//入力された値をuserBeanに値を格納する
 			UserBean userBean = new UserBean();
-
 			userBean.setId(id);
 			userBean.setName(name);
 			userBean.setNameKana(nameKana);
@@ -79,7 +81,6 @@ public class UserAddServlet extends BaseAdministratorServlet {
 			//userInfoを引き渡し、結果とエラーテキストを受け取る
 			ValidationBean valiBean = new ValidationBean();
 			ValidationLogic validationLogic = new ValidationLogic();
-
 			valiBean = validationLogic.validInputAllStatus(userBean);
 
 			//バリデーションチェックの結果を返す
@@ -125,9 +126,6 @@ public class UserAddServlet extends BaseAdministratorServlet {
 			//------------
 			//SQLの実行
 			//------------
-
-			//エスケープ処理
-			note = CommonUtil.replaceEscapeChar(note);
 
 			//userInfoListをBLに引き渡し、実行結果を受け取る
 			UserBl bl = new UserBl();

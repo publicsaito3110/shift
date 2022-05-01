@@ -50,7 +50,6 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 
 		//month,dayが2桁でないとき"0"をつける
 		CommonLogic commonLogic = new CommonLogic();
-
 		String ymd = commonLogic.ymdFormatEightByString(year, month, day);
 
 		//指定した日付から値(登録済みのidとユーザ名, スケジュールに登録しているuser,memo)を取得する
@@ -145,7 +144,6 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 
 		//受け取った値をscheduleBeanに格納
 		ScheduleBean scheduleBean = new ScheduleBean();
-
 		scheduleBean.setYmd(ymd);
 		scheduleBean.setUser1(inputUser1);
 		scheduleBean.setMemo1(inputMemo1);
@@ -159,26 +157,26 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		//UPDATE,DELETE,INSERTを判別し、SQL実行
 		//---------------------------------------
 
-		//結果をbooleanで受け取る
-		boolean isRecordResult = false;
-
 		ScheduleBl bl = new ScheduleBl();
+
+		//結果をbooleanで受け取る
+		boolean isResult = false;
 
 		switch (btnSqlType){
 
 		case Const.SQLTYPE_UPDATE:    //修正ボタンが押されたとき
 
-			isRecordResult = bl.updateScheduleDay(scheduleBean);
+			isResult = bl.updateScheduleDay(scheduleBean);
 			break;
 
 		case Const.SQLTYPE_DELETE:    //削除ボタンが押されたとき
 
-			isRecordResult = bl.deleteScheduleDay(scheduleBean);
+			isResult = bl.deleteScheduleDay(scheduleBean);
 			break;
 
 		case Const.SQLTYPE_INSERT:    //登録ボタンが押されたとき
 
-			isRecordResult = bl.insertScheduleDay(scheduleBean);
+			isResult = bl.insertScheduleDay(scheduleBean);
 			break;
 		}
 
@@ -188,7 +186,7 @@ public class ScheduleDayModifyServlet extends BaseLoginServlet {
 		//-----------
 
 		//SQLが失敗したとき
-		if (!isRecordResult) {
+		if (!isResult) {
 
 			// schedule-day.jspに返す値
 			request.setAttribute("resultText", "[エラー] 修正に失敗しました");

@@ -38,7 +38,6 @@ public class UserOneServlet extends BaseAdministratorServlet {
 
 		//idと一致するユーザを取得するuserBeanで受け取る
 		UserBl bl = new UserBl();
-
 		UserBean userBean = new UserBean();
 		userBean = bl.selectUserOneById(id);
 

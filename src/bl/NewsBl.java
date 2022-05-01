@@ -26,7 +26,6 @@ public class NewsBl extends BaseBl {
 		//DAOの戻り値をnewsListで受け取る
 		NewsDao dao = new NewsDao();
 		List<NewsBean> newsList = new ArrayList<>();
-
 		newsList = dao.selectNewsBeforeNowByNowYmd(nowYmd);
 
 		return newsList;
@@ -46,7 +45,6 @@ public class NewsBl extends BaseBl {
 		//DAOの戻り値をnewsListで受け取る
 		NewsDao dao = new NewsDao();
 		List<NewsBean> newsList = new ArrayList<>();
-
 		newsList = dao.selectAllNewsAfterNowByNowYmd(nowYmd);
 
 		return newsList;
@@ -65,7 +63,6 @@ public class NewsBl extends BaseBl {
 
 		//DAOの戻り値をbooleanで受け取る
 		NewsDao dao = new NewsDao();
-
 		boolean isResult = dao.insertNewNews(newsBean);
 
 		return isResult;
@@ -84,7 +81,6 @@ public class NewsBl extends BaseBl {
 
 		//DAOの戻り値をbooleanで受け取る
 		NewsDao dao = new NewsDao();
-
 		boolean isResult = dao.updateNews(newsBean);
 
 		return isResult;

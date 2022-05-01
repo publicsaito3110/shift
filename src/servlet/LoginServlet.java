@@ -44,8 +44,11 @@ public class LoginServlet extends BaseServlet {
 			//idまたはpasswordが未入力のとき
 			if (inputId.isEmpty() || inputPassword.isEmpty()) {
 
+				//引き渡す値を設定
 				request.setAttribute("userId", inputId);
 				request.setAttribute("err", "IDまたはパスワードが未入力です");
+
+				//画面遷移
 				request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
 				return;
 			}

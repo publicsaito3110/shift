@@ -61,9 +61,8 @@ public class UserListServlet extends BaseLoginServlet {
 		//------------
 
 		//keyWordをBLに引き渡し、AllayListを戻り値として受け取る
-		UserBl bl = new UserBl();
-
 		List<UserBean> userList = new ArrayList<>();
+		UserBl bl = new UserBl();
 		userList = bl.selectUserByKeyWord(page, keyWord);
 
 
@@ -75,6 +74,8 @@ public class UserListServlet extends BaseLoginServlet {
 
 		//ログイン済みのユーザが管理者のとき
 		if (isAdministrator) {
+
+			//<button>のボタンを表示させる
 			request.setAttribute("inputDisabled", "");
 			request.setAttribute("isAdministrater", true);
 		}
@@ -82,7 +83,6 @@ public class UserListServlet extends BaseLoginServlet {
 		//jspに表示するページを取得する
 		int lastPage = this.toIntReturnLastPageByUserList(userList);
 		List<String> pageList = this.toListDisplayPageNoByMaxPage(page, lastPage);
-
 		request.setAttribute("pageList", pageList);
 
 		//keyWordが空文字のとき
@@ -113,7 +113,6 @@ public class UserListServlet extends BaseLoginServlet {
 		//SQLの結果(COUNT) ÷ 1ページあたりの表示件数 = 最終ページ数(切り上げ) とする
 		BigDecimal sqlCountBd = new BigDecimal(sqlCount);
 		BigDecimal pageLimitBd = new BigDecimal(Const.PAGE_LIMIT);
-
 		BigDecimal calc = sqlCountBd.divide(pageLimitBd);
 		calc = calc.setScale(0, RoundingMode.UP);
 
@@ -146,7 +145,6 @@ public class UserListServlet extends BaseLoginServlet {
 		//全体のページ数が1しかないときpageListをなにもせず返す
 		//------------------------------------------------------
 		if (lastPage == 1) {
-
 			return pageList;
 		}
 

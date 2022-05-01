@@ -62,8 +62,10 @@ public class CalendarServlet extends BaseLoginServlet {
 
 		//[カレンダー]日曜日～初日の曜日の直前までnullを代入し揃える
 		if (firstWeek != 7) {
-			for (int i = 1; i <= firstWeek; i ++) {      //曜日の取得 7 1 2 3 4 5 6 なので
-				dayList.add(null);                     //初日が日曜を除く取得した曜日の回数分代入する
+
+			//曜日の取得 7 1 2 3 4 5 6 なので、初日が日曜を除く取得した曜日の回数分代入する
+			for (int i = 1; i <= firstWeek; i ++) {
+				dayList.add(null);
 			}
 		}
 
@@ -98,14 +100,12 @@ public class CalendarServlet extends BaseLoginServlet {
 
 			//指定したカレンダーに登録されたスケジュール(dbList)が1つもないとき
 			if (dbList.isEmpty()) {
-
 				dayList.add(bean);
 				continue;
 			}
 
 			//yousoがdbListの要素数を超えたとき
 			if (dbList.size() <= youso) {
-
 				dayList.add(bean);
 				continue;
 			}
@@ -120,10 +120,10 @@ public class CalendarServlet extends BaseLoginServlet {
 				bean.setMemo1(dbList.get(youso).getMemo1());
 				bean.setMemo2(dbList.get(youso).getMemo2());
 				bean.setMemo3(dbList.get(youso).getMemo3());
-
-				youso++;
-
 				dayList.add(bean);
+
+				//dbListを参照するyouso(要素)に+1する
+				youso++;
 				continue;
 			}
 
@@ -141,8 +141,9 @@ public class CalendarServlet extends BaseLoginServlet {
 		// weekAmariが7(最終日が土曜日)以外のとき
 		if (weekAmari != 7) {
 
-			for (int i = 1; i <= weekAmari; i ++) {         //曜日の取得 7 1 2 3 4 5 6 なので
-				dayList.add(null);                          //dayListの要素数÷7のあまりの回数分代入する
+			//曜日の取得 7 1 2 3 4 5 6 なので、//dayListの要素数÷7のあまりの回数分代入する
+			for (int i = 1; i <= weekAmari; i ++) {
+				dayList.add(null);
 			}
 		}
 

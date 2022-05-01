@@ -38,7 +38,6 @@ public class ScheduleDayServlet extends BaseLoginServlet {
 
 		//指定した日付から値(登録済みのidとユーザ名, スケジュールに登録しているuser,memo)を取得する
 		ScheduleDayLogic scheduleDayLogic = new ScheduleDayLogic();
-
 		List<ScheduleDayBean> scheduleDayList = scheduleDayLogic.toListScheduleDayOptionByYmd(ymd);
 
 		//scheduleDayListからmemoのみを抽出する

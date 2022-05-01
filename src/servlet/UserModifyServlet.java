@@ -64,10 +64,8 @@ public class UserModifyServlet extends BaseAdministratorServlet {
 			request.setAttribute("checkDelFlag", Const.CHECKBOX_CHECKED);
 		}
 
-
 		//userBeanに入力された値を詰める
 		UserBean userBean = new UserBean();
-
 		userBean.setId(id);
 		userBean.setName(name);
 		userBean.setNameKana(nameKana);
@@ -80,9 +78,8 @@ public class UserModifyServlet extends BaseAdministratorServlet {
 		//-------------------------
 
 		//userInfoListを引き渡し、結果とエラーテキストを受け取る
-		ValidationLogic validationLogic = new ValidationLogic();
-
 		ValidationBean valiBean = new ValidationBean();
+		ValidationLogic validationLogic = new ValidationLogic();
 		valiBean = validationLogic.validInputAllStatus(userBean);
 
 		//バリデーションチェックの結果を返す
