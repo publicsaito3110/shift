@@ -11,7 +11,6 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import bean.NewsBean;
-import common.CommonUtil;
 import common.Const;
 
 /**
@@ -73,12 +72,7 @@ public class NewsDao extends BaseDao {
 				bean.setYmd(rs.getString("ymd"));
 				bean.setCategory(rs.getString("category"));
 				bean.setTitle(rs.getString("title"));
-
-				//contentが改行されているとき、<br>を代入する
-				String content = rs.getString("content");
-				content = CommonUtil.changeToBrByBreakLine(content);
-
-				bean.setContent(content);
+				bean.setContent(rs.getString("content"));
 				newsList.add(bean);
 			}
 
@@ -164,12 +158,7 @@ public class NewsDao extends BaseDao {
 				bean.setYmd(rs.getString("ymd"));
 				bean.setCategory(rs.getString("category"));
 				bean.setTitle(rs.getString("title"));
-
-				//contentが改行されているとき、<br>を代入する
-				String content = rs.getString("content");
-				content = CommonUtil.changeToBrByBreakLine(content);
-
-				bean.setContent(content);
+				bean.setContent(rs.getString("content"));
 				newsList.add(bean);
 			}
 

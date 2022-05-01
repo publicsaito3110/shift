@@ -11,7 +11,6 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import bean.DmBean;
-import common.CommonUtil;
 import common.Const;
 
 /**
@@ -182,21 +181,8 @@ public class DmDao extends BaseDao {
 			//結果をさらに抽出
 			while (rs.next()) {
 				DmBean bean = new DmBean();
-				StringBuffer sb = new StringBuffer();
-
-				//msg_dateの値をsbに代入し、不要な値(年とミリ秒)を削除
-				sb.append(rs.getString("msg_date"));
-				sb.delete(0, 5);
-				sb.replace(2, 3, "/");
-				sb.delete(11, 16);
-
-				bean.setMsgDate(sb.toString());
-
-				//msgが改行されているとき、<br>を代入する
-				String msg = rs.getString("msg");
-				msg = CommonUtil.changeToBrByBreakLine(msg);
-
-				bean.setMsg(msg);
+				bean.setMsgDate(rs.getString("msg_date"));
+				bean.setMsg(rs.getString("msg"));
 				bean.setSendUser(rs.getString("send_user"));
 				beanList.add(bean);
 			}
