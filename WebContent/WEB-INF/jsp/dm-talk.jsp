@@ -12,16 +12,17 @@
 					<div class="profile-icon"></div>
 				</div>
 				<div class="chatting">
-					<span class="talk-text">${i.msg}</span>
+					<span class="talk-text">${i.msgAfterBreakLine}</span>
 				</div>
-				<span class="send-date">${i.msgDate}</span>
+				<span class="send-date">${i.msgDateFormatTlakDate}</span>
 			</div>
 		</c:forEach>
+		<br>
 		<br>
 	</div>
 
 	<div class="send-form">
-		<textarea id="msg-text" name="msg" cols="60" rows="10" maxlength="200"></textarea>
+		<textarea id="msg-text" name="msg" cols="50" maxlength="200"></textarea>
 		<button type="submit" id="msg-send-btn" value="${msgToId}" disabled>送信</button>
 		</div>
 </body>
@@ -117,6 +118,7 @@ padding: 10px 13px;
 background: #ccffcc;
 text-align: left;
 border-radius: 12px;
+max-width: 67%;
 }
 
 /* 吹き出しの三角部分の作成 */
@@ -186,11 +188,17 @@ right: -15px;
 
 .send-form {
 	position: fixed;
-    bottom: 0%
+    width: -webkit-fill-available;
+    left: 30%;
+    bottom: 0%;
+    background-color: black;
 }
 
 #msg-text {
 	resize: none;
+	width: 40%;
+	vertical-align: bottom;
+	overflow-y: hidden;
 }
 
 </style>
