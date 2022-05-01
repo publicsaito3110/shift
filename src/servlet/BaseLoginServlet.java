@@ -41,9 +41,8 @@ public abstract class BaseLoginServlet extends BaseServlet {
 		//セッションが存在していないとき
 		if(sessionUserBean == null) {
 
-
 			//引き渡す値を設定
-			request.setAttribute("er", "");
+			request.setAttribute("err", "ログインしてください");
 
 			//画面遷移(ログイン画面)
 			request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
@@ -55,7 +54,7 @@ public abstract class BaseLoginServlet extends BaseServlet {
 		//管理者の判定
 		//--------------
 
-		//
+		//管理者の情報を取得
 		boolean isAdministrator = sessionUserBean.isAdministrator();
 
 		//引き渡す値を設定
