@@ -49,7 +49,6 @@ public class DmTalkServlet extends BaseLoginServlet {
 		//送信相手の情報をuserBeanで受け取る
 		UserBean userBean = new UserBean();
 		UserBl bl = new UserBl();
-
 		userBean = bl.selectUserOneById(receiveUser);
 
 		//送信相手の名前を取得する
@@ -58,7 +57,6 @@ public class DmTalkServlet extends BaseLoginServlet {
 		//メッセージ履歴をtalkListで受け取る
 		List<DmBean> talkList = new ArrayList<>();
 		DmBl bl2 = new DmBl();
-
 		talkList = bl2.selectTalkByUser(id, receiveUser);
 
 		//返す値を設定

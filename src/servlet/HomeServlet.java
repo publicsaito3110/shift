@@ -43,7 +43,6 @@ public class HomeServlet extends BaseLoginServlet {
 
 		//ymd(String8桁)へ変換
 		CommonLogic logic = new CommonLogic();
-
 		String nowYmd = logic.toStringYmdFormatEightByIntYMD(nowYear, nowMonth, nowDay);
 
 
@@ -82,7 +81,7 @@ public class HomeServlet extends BaseLoginServlet {
 		}
 
 
-		//現在の日付からお知らせに表示する下限の日付を取得
+		//現在の日付からお知らせに表示する下限の日付(14日前)を取得
 		LocalDate limitDate = now.minusDays(Const.NEWS_LIMIT_DAY_BEFORE_NOW);
 
 		//dbListの要素数の回数だけdbListから結果を抽出し、newsListにセットする
@@ -99,13 +98,10 @@ public class HomeServlet extends BaseLoginServlet {
 			String dateYmd = ymd.substring(0, 4) + "-" + ymd.substring(4, 6) + "-" + ymd.substring(6, 8);
 			LocalDate dbDate = LocalDate.parse(dateYmd);
 
-			//ymdをjsp表示用(yyyy/mm/dd)に変換する
-			String displayYmd = logic.changeDisplayYmdByYMD(ymd);
-
 			//登録されている日付(dbDate)がのお知らせに表示する下限の日付(limitDate)より後のとき
 			if (dbDate.isAfter(limitDate)) {
 
-				bean.setYmd(displayYmd);
+				bean.setYmd(ymd);
 				bean.setCategory(category);
 				bean.setTitle(title);
 				bean.setContent(content);
@@ -114,7 +110,7 @@ public class HomeServlet extends BaseLoginServlet {
 				continue;
 			}
 
-			bean.setYmd(displayYmd);
+			bean.setYmd(ymd);
 			bean.setCategory(category);
 			bean.setTitle(title);
 			bean.setContent(content);

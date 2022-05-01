@@ -54,8 +54,8 @@ public class NewsModifyServlet extends BaseAdministratorServlet {
 		newsBean.setTitle(title);
 		newsBean.setContent(content);
 
+		//SQLの結果をbooleanで取得
 		NewsBl bl = new NewsBl();
-
 		boolean isResult = bl.updateNews(newsBean);
 
 
@@ -76,6 +76,7 @@ public class NewsModifyServlet extends BaseAdministratorServlet {
 			request.getRequestDispatcher("/WEB-INF/jsp/common/pop-window.jsp").forward(request, response);
 			return;
 		}
+
 
 		//引き渡す値を設定
 		request.setAttribute("afterFormFlag", true);

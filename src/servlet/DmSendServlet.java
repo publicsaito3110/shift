@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import bean.DmBean;
 import bean.UserBean;
 import bl.DmBl;
+import bl.UserBl;
 import common.CommonUtil;
 
 /**
@@ -49,17 +50,23 @@ public class DmSendServlet extends BaseLoginServlet {
 		//SQLの実行
 		//-----------
 
+		//送信相手の情報をuserBeanで受け取る
+		UserBean userBean = new UserBean();
+		UserBl bl = new UserBl();
+		userBean = bl.selectUserOneById(receiveUser);
+
+		//送信相手の名前を取得する
+		String receiveUserName = userBean.getName();
+
 		//msgBeanに受け取った値を格納する
 		DmBean msgBean = new DmBean();
-
 		msgBean.setSendUser(id);
 		msgBean.setReceiveUser(receiveUser);
 		msgBean.setMsg(msg);
 
-		//戻り値をtalkListで受け取る
-		DmBl bl = new DmBl();
-
-		boolean isResult = bl.insertSendMsgByMsgBean(msgBean);
+		//戻り値をbooleanで受け取る
+		DmBl bl2 = new DmBl();
+		boolean isResult = bl2.insertSendMsgByMsgBean(msgBean);
 
 		//SQL失敗
 		if (!isResult) {
@@ -71,12 +78,12 @@ public class DmSendServlet extends BaseLoginServlet {
 
 		//戻り値をtalkListで受け取る
 		List<DmBean> talkList = new ArrayList<>();
-
-		talkList = bl.selectTalkByUser(id, receiveUser);
+		talkList = bl2.selectTalkByUser(id, receiveUser);
 
 		//返す値を設定
 		request.setAttribute("talkList", talkList);
 		request.setAttribute("msgToId", receiveUser);
+		request.setAttribute("msgToName", receiveUserName);
 
 		//画面遷移
 		request.getRequestDispatcher("/WEB-INF/jsp/dm-talk.jsp").forward(request, response);

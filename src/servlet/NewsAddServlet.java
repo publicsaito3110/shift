@@ -106,14 +106,13 @@ public class NewsAddServlet extends BaseAdministratorServlet {
 
     	//newsBeanに受け取った値を格納する
     	NewsBean newsBean = new NewsBean();
-
     	newsBean.setYmd(ymd);
     	newsBean.setCategory(category);
     	newsBean.setTitle(title);
     	newsBean.setContent(content);
 
+    	//SQLの結果をbooleanで取得
     	NewsBl bl = new NewsBl();
-
     	boolean isResult = bl.insertNewNews(newsBean);
 
 

@@ -46,28 +46,23 @@ public class DmAddressServlet extends BaseLoginServlet {
 		//退職していないユーザ(id,name)をuserListで取得
 		List<UserBean> userList = new ArrayList<>();
 		UserBl bl = new UserBl();
-
 		userList = bl.selectUserIdNameNotDelFlagLoginUser(id);
 
 		//ログインしているユーザの最後のメッセージををdbListで取得する
-		List<DmBean> dbList = new ArrayList<>();
+		List<DmBean> chatList = new ArrayList<>();
 		DmBl bl2 = new DmBl();
-
-		dbList = bl2.selectLastMsgByLoginId(id);
+		chatList = bl2.selectLastMsgByLoginId(id);
 
 
 		//-------------------------
 		//最後のメッセージを判別
 		//-------------------------
 
-		//dbListから必要な値を抽出し、chatListに格納する
-		List<DmBean> chatList = new ArrayList<>();
-		DmBean bean = new DmBean();
-
 		//ログインしているユーザがメッセージを一度も送受信していないとき
-		if (dbList.isEmpty()) {
+		if (chatList.isEmpty()) {
 
 			//chatListに結果を代入
+			DmBean bean = new DmBean();
 			bean.setMsg("メッセージはありません");
 			chatList.add(bean);
 
@@ -79,9 +74,6 @@ public class DmAddressServlet extends BaseLoginServlet {
 			request.getRequestDispatcher("/WEB-INF/jsp/dm-address.jsp").forward(request, response);
 			return;
 		}
-
-		//dbListをchatListに移し変える
-		chatList = dbList;
 
 		//引き渡す値を設定
 		request.setAttribute("userList", userList);
