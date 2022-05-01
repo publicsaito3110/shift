@@ -17,19 +17,19 @@
 			<tr>
 				<th><span>ID</span> <span class="text-red">※</span></th>
 				<td>
-					<input type="text" class="text-form" name="id" value="${id}" placeholder="A123"><span>${valiBean.erId}</span>
+					<input type="text" class="text-form" name="id" value="${id}" placeholder="A123"><span class="text-red">${valiBean.erId}</span>
 				</td>
 			</tr>
 			<tr>
 				<th><span>名前</span> <span class="text-red">※</span></th>
 				<td>
-					<input type="text" class="text-form" name="name" value="${name}" placeholder="田中太郎"><span>${valiBean.erName}</span>
+					<input type="text" class="text-form" name="name" value="${name}" placeholder="田中太郎"><span class="text-red">${valiBean.erName}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>フリガナ(任意)</th>
 				<td>
-					<input type="text" class="text-form" name="nameKana" value="${nameKana}" placeholder="タナカタロウ"><span>${valiBean.erNameKana}</span>
+					<input type="text" class="text-form" name="nameKana" value="${nameKana}" placeholder="タナカタロウ"><span class="text-red">${valiBean.erNameKana}</span>
 				</td>
 			</tr>
 			<tr>
@@ -37,43 +37,43 @@
 				<td>
 					<input type="radio" name="gender" value="1" checked>男
 					<input type="radio" name="gender" value="2" ${checkGender2}>女
-					<span>${valiBean.erGender}</span>
+					<span class="text-red">${valiBean.erGender}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>パスワード</th>
 				<td>
-					<input type="password" class="text-form" name="password" value="${password}"><span>${valiBean.erPassword}</span>
+					<input type="password" class="text-form" name="password" value="${password}"><span class="text-red">${valiBean.erPassword}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>住所</th>
 				<td>
-					<input type="text" class="text-form" name="address" value="${address}" placeholder="東京都新宿区○○町1-1"><span>${valiBean.erAddress}</span>
+					<input type="text" class="text-form" name="address" value="${address}" placeholder="東京都新宿区○○町1-1"><span class="text-red">${valiBean.erAddress}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>TEL</th>
 				<td>
-					<input type="tel" name="tel" class="text-form" value="${tel}" placeholder="01234567890"><span>${valiBean.erTel}</span>
+					<input type="tel" name="tel" class="text-form" value="${tel}" placeholder="01234567890"><span class="text-red">${valiBean.erTel}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>メール</th>
 				<td>
-					<input type="email" class="text-form" name="email" value="${email}"><span>${valiBean.erEmail}</span>
+					<input type="email" class="text-form" name="email" value="${email}"><span class="text-red">${valiBean.erEmail}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>管理者</th>
 				<td>
-					役職1<input type="checkbox" name="adminFlag" value="1" ${checkAdminFlag}><span>${valiBean.erAdminFlag}</span>
+					役職1<input type="checkbox" name="adminFlag" value="1" ${checkAdminFlag}><span class="text-red">${valiBean.erAdminFlag}</span>
 				</td>
 			</tr>
 			<tr>
 				<th>備考</th>
 				<td>
-					<textarea class="textarea-form" name="note" rows="" cols="">${note}</textarea><span>${valiBean.erNote}</span>
+					<textarea class="textarea-form" name="note" rows="" cols="">${note}</textarea><span class="text-red">${valiBean.erNote}</span>
 				</td>
 			</tr>
 		</table>
@@ -130,6 +130,9 @@ position: absolute;
     background-color: #97cdf3;
 }
 
+.add-btn:hover {
+	background-color: #7dc6f9;
+}
 </style>
 
 </html>
