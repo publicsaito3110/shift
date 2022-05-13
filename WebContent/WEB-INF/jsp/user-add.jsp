@@ -4,8 +4,9 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/header.css">
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/mordal.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/common/header.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/common/mordal.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/user-add.css">
 </head>
 <body>
 	<jsp:include page="common/header.jsp" flush="true" />
@@ -88,51 +89,4 @@
 	<jsp:include page="common/pop-window.jsp" flush="true" />
 
 </body>
-<style>
-body {
-	margin: auto;
-}
-
-table {
-	width: 100%;
-	border: none;
-}
-
-th {
-	width: 15%;
-}
-
-td {
-	background-color: #f1ecec;
-}
-.text-form {
-	transform: scale(1,1.5);
-    border: none;
-}
-.text-form:focus {
-  outline:none;
-}
-
-.textarea-form {
-	width: -webkit-fill-available;
-    height: 95px;
-}
-
-.add-btn {
-position: absolute;
-    right: 40%;
-    left: 40%;
-    margin: auto;
-    border: none;
-    height: 6%;
-    font-size: 21px;
-    color: white;
-    background-color: #97cdf3;
-}
-
-.add-btn:hover {
-	background-color: #7dc6f9;
-}
-</style>
-
 </html>

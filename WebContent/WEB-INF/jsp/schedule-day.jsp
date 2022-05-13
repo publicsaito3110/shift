@@ -6,8 +6,8 @@
 
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/header.css">
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/mordal.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/common/header.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/common/mordal.css">
 </head>
 <body>
 

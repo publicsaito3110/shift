@@ -4,7 +4,8 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/header.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/common/header.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/user-list.css">
 </head>
 <body>
 	<jsp:include page="common/header.jsp" flush="true" />
@@ -72,79 +73,5 @@
 		</tbody>
 		</table>
 	</div>
-
 </body>
-<style>
-body {
-	margin: auto;
-}
-
-.parents{
-	position: absolute;
-	width: 100%;
-	height: 85%;
-	overflow-x: hidden;
-}
-h1{
-	position: relative;
-	   left: 5%;
-}
-
-.search-user{
-	position: relative;
-	left: 30%;
-   }
-
-.user-list{
-	position: relative;
-	bottom: 2%;
-	margin: auto;
-	table-layout: fixed;
-	width: 100%;
-}
-
-td{
-	text-align: center;
-}
-
-.upd-btn{
-	width: 100%;
-}
-
-.signup-btn{
-	position: relative;
-	top: 48%;
-	left: 13%;
-	font-weight: bold;
-	padding: 10px 12px 15px 12px;
-	text-decoration: none;
-	color: darkslategray;
-	background: #b3d0d7;
-}
-
-.signup-btn > span {
-  border-bottom: solid 2px darkslategray;
-}
-
-.page-nation{
-	position: relative;
-	top: 63%;
-	left: 13%;
-	display:inline-flex;
-}
-
-.pages{
-	display: block;
-	text-decoration: none;
-	color: #333;
-	padding: 20px;
-}
-
-.pages:hover{
-    background-color: #333;
-    color: aliceblue;
-}
-
-</style>
-
 </html>

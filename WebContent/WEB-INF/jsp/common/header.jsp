@@ -41,7 +41,7 @@
 .demobox-site-name a {
     padding: 15px;
     text-decoration: none;
-    color: black;
+    color: #5f5f5f;
 }
 </style>
 </html>

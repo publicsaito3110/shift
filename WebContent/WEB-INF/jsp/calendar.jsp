@@ -4,7 +4,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath}/css/common/header.css" rel="stylesheet" type="text/css" />
 	<link href="${pageContext.request.contextPath}/css/calendar.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
