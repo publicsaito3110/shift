@@ -65,12 +65,17 @@ public class UserListServlet extends BaseLoginServlet {
 		UserBl bl = new UserBl();
 		userList = bl.selectUserByKeyWord(page, keyWord);
 
-
 		// 引き渡す値を設定
 		request.setAttribute("afterFormFlag", true);
 		request.setAttribute("keyWord", keyWord);
 		request.setAttribute("userList", userList);
 		request.setAttribute("inputDisabled", Const.INPUT_DISABLED);
+		request.setAttribute("isExitSqlData", true);
+
+		//SQLの該当件数が0件のとき
+		if (userList.isEmpty()) {
+			request.setAttribute("isExitSqlData", false);
+		}
 
 		//ログイン済みのユーザが管理者のとき
 		if (isAdministrator) {
@@ -106,6 +111,11 @@ public class UserListServlet extends BaseLoginServlet {
 	 *@return int 該当件数から計算した最大ページ
 	 */
 	private int toIntReturnLastPageByUserList(List<UserBean> userList) {
+
+		//SQLの該当件数が0件とき
+		if (userList.isEmpty()) {
+			return 0;
+		}
 
 		//SQLの結果(COUNT)を取得
 		String sqlCount = userList.get(0).getCountAll();

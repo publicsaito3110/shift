@@ -38,40 +38,42 @@
 			</c:forEach>
 		</div>
 
-		<table class="user-list" border="1" cellspacing="0">
-		<thead><tr>
-			<th>ID</th>
-			<th>ユーザー名</th>
-			<th>カナ</th>
-			<th>性別</th>
-			<th>更新</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="b" items="${userList}" varStatus="status">
-				<tr>
-					<td>${b.id}</td>
-					<td>${b.name}</td>
-					<td>${b.nameKana}</td>
-					<td>
-						<c:choose>
-							<c:when test="${b.gender == 1}">   <%--genderが 1:男  2:女 と表示する--%>
-		    					男
-		    				</c:when>
-							<c:otherwise>
-	       						女
-	    					</c:otherwise>
-						</c:choose>
-					</td>
-					<td>
-						<form action="UserOneServlet" method="post">
-							<button class="upd-btn" type="submit" name="id" value="${b.id}" ${inputDisabled}>更新</button>
-						</form>
-					</td>
+		<c:if test="${isExitSqlData}">
+			<table class="user-list" border="1" cellspacing="0">
+			<thead><tr>
+				<th>ID</th>
+				<th>ユーザー名</th>
+				<th>カナ</th>
+				<th>性別</th>
+				<th>更新</th>
 				</tr>
-			</c:forEach>
-		</tbody>
-		</table>
+			</thead>
+			<tbody>
+				<c:forEach var="b" items="${userList}" varStatus="status">
+					<tr>
+						<td>${b.id}</td>
+						<td>${b.name}</td>
+						<td>${b.nameKana}</td>
+						<td>
+							<c:choose>
+								<c:when test="${b.gender == 1}">   <%--genderが 1:男  2:女 と表示する--%>
+			    					男
+			    				</c:when>
+								<c:otherwise>
+		       						女
+		    					</c:otherwise>
+							</c:choose>
+						</td>
+						<td>
+							<form action="UserOneServlet" method="post">
+								<button class="upd-btn" type="submit" name="id" value="${b.id}" ${inputDisabled}>更新</button>
+							</form>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+			</table>
+		</c:if>
 	</div>
 </body>
 </html>
