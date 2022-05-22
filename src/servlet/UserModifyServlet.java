@@ -31,7 +31,7 @@ public class UserModifyServlet extends BaseAdministratorServlet {
 	protected void isAdministorator(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
-		//user-info-change.jspからの値を受け取る
+		//user-modify.jspからの値を受け取る
 		String id = request.getParameter("id");
 		String name = request.getParameter("name");
 		String nameKana = request.getParameter("nameKana");
